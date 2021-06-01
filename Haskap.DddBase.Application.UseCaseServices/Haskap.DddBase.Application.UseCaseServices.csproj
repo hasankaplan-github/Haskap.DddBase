@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Haskap.DddBase.Application.UseCaseServices.Contracts\Haskap.DddBase.Application.UseCaseServices.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
