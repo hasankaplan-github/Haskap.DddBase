@@ -2,7 +2,7 @@
 using System;
 using Utilities.ExtensionMethods;
 
-namespace Haskap.DddBase.Infrastructure.DataAccess.EfCoreDbContexts.NpgsqlDbContext
+namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.NpgsqlDbContext
 {
     public class BaseEfCoreNpgsqlDbContext : DbContext
     {

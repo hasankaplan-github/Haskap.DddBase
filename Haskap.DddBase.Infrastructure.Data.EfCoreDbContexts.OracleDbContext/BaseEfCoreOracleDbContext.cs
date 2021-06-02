@@ -2,7 +2,7 @@
 using System;
 using Utilities.ExtensionMethods;
 
-namespace Haskap.DddBase.Infrastructure.DataAccess.EfCoreDbContexts.OracleDbContext
+namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.OracleDbContext
 {
     public class BaseEfCoreOracleDbContext : DbContext
     {
