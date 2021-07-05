@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.MsSqlDbContext
 {

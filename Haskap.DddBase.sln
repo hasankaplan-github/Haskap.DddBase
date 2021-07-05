@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Core.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations", "Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations\Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations.csproj", "{53F2FEA7-E9D2-4E17-A52A-84B04A152D39}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mediator", "Mediator", "{9EE1327E-0C4E-48A2-BAF8-2967B41118F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haskap.DddBase.Infrastructure.Mediator", "Haskap.DddBase.Infrastructure.Mediator\Haskap.DddBase.Infrastructure.Mediator.csproj", "{063F16FD-1903-49C7-857E-323D3377A822}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,10 @@ Global
 		{53F2FEA7-E9D2-4E17-A52A-84B04A152D39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53F2FEA7-E9D2-4E17-A52A-84B04A152D39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53F2FEA7-E9D2-4E17-A52A-84B04A152D39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{063F16FD-1903-49C7-857E-323D3377A822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{063F16FD-1903-49C7-857E-323D3377A822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{063F16FD-1903-49C7-857E-323D3377A822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{063F16FD-1903-49C7-857E-323D3377A822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +106,8 @@ Global
 		{CB2AE414-C05E-47D2-BF0F-DD450FC31E71} = {95644666-8E8C-483C-B8F5-0599C8859CDC}
 		{F624ED4F-3E64-402B-B334-44341F36D1D5} = {38CC997A-234F-4A90-95D3-7EC5E5C0E262}
 		{53F2FEA7-E9D2-4E17-A52A-84B04A152D39} = {1C90FEA2-2B8C-485B-A189-EFF13A787361}
+		{9EE1327E-0C4E-48A2-BAF8-2967B41118F4} = {95644666-8E8C-483C-B8F5-0599C8859CDC}
+		{063F16FD-1903-49C7-857E-323D3377A822} = {9EE1327E-0C4E-48A2-BAF8-2967B41118F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3538C37D-B52B-4EBE-90E4-A1C3295DF29A}
