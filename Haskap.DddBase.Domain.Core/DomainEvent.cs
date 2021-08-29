@@ -1,12 +1,3 @@
-using MediatR;
-using System;
-
-public class DomainEvent : INotification
+public record DomainEvent : Event
 {
-    public DateTime CreationDate { get; }
-
-    public DomainEvent()
-    {
-        CreationDate = DateTime.Now;
-    }
 }

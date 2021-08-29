@@ -1,0 +1,3 @@
+public record IntegrationEvent : Event
+{
+}
