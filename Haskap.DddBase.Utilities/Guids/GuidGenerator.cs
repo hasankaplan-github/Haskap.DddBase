@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Utilities.Guids
+namespace Haskap.DddBase.Utilities.Guids
 {
     public static class GuidGenerator
     {

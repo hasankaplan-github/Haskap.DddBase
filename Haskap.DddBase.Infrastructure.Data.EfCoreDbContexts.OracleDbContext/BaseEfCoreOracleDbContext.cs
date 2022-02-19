@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using Utilities.ExtensionMethods;
+using Haskap.DddBase.Utilities.ExtensionMethods;
 
 namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.OracleDbContext
 {

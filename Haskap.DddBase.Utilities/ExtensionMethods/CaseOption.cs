@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Utilities.ExtensionMethods
+namespace Haskap.DddBase.Utilities.ExtensionMethods
 {
     public enum CaseOption
     {

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Utilities.ExtensionMethods
+namespace Haskap.DddBase.Utilities.ExtensionMethods
 {
     public static class StringExtensionMethods
     {

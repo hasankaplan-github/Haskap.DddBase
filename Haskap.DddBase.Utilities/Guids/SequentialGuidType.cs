@@ -1,4 +1,4 @@
-﻿namespace Utilities.Guids
+﻿namespace Haskap.DddBase.Utilities.Guids
 {
     /// <summary>
     /// Describes the type of a sequential GUID value.

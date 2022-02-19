@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Utilities
+namespace Haskap.DddBase.Utilities
 {
     public class PagedList<TEntity> : List<TEntity>
     {
