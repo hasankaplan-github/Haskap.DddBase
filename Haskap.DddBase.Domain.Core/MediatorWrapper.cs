@@ -5,7 +5,7 @@ using MediatR;
 
 public static class MediatorWrapper
 {
-    [ThreadStatic] // ensure separate func per thread to support parallel invocation
+    //[ThreadStatic] // ensure separate func per thread to support parallel invocation
     public static Func<IMediator> MediatorFunc;
     public static async Task Publish<TEvent>(TEvent @event, CancellationToken cancellationToken = default) 
         where TEvent : INotification
