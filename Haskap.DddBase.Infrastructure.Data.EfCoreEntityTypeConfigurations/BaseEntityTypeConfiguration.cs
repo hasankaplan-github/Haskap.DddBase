@@ -13,6 +13,7 @@ namespace Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations
         {
             if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
             {
+                builder.Property(x => (x as ISoftDeletable).IsDeleted).IsRequired();
                 builder.HasQueryFilter(x => (x as ISoftDeletable).IsDeleted == false);
             }
         }
