@@ -8,9 +8,9 @@ namespace Haskap.DddBase.Domain.Core
 {
     public interface IAuditable<TId>
     {
-        TId? CreatedUserId { get; set; }
-        DateTime CreatedAt { get; set; }
-        TId? ModifiedUserId { get; set; }
-        DateTime ModifiedAt { get; set; }
+        TId CreatedUserId { get; set; }
+        DateTime? CreatedAt { get; set; }
+        TId ModifiedUserId { get; set; }
+        DateTime? ModifiedAt { get; set; }
     }
 }
