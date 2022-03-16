@@ -19,33 +19,48 @@ public class AuditInterceptor<TUserId> : SaveChangesInterceptor
         this.loggedInUserProvider = loggedInUserProvider;
     }
 
-    private void SetAuditProperties(DbContext dbContext)
+    private void SetAddedAuditProperties(DbContext dbContext)
     {
-        var addedOrModifiedEntities = dbContext.ChangeTracker
+        var addedAuditableEntities = dbContext.ChangeTracker
                                         .Entries()
                                         .Where(x => x.Entity is IAuditable<TUserId>  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
-                                                && (x.State == EntityState.Added || x.State == EntityState.Modified))
+                                                && x.State == EntityState.Added)
+                                        .Select(x => x.Entity as IAuditable<TUserId>)
                                         .ToList();
 
-        foreach (var entityEntry in addedOrModifiedEntities)
+        foreach (var addedAuditableEntity in addedAuditableEntities)
         {
-            var auditableEntity = entityEntry.Entity as IAuditable<TUserId>;
-            //var auditableEntity = (IAuditable<TUserId>)Convert.ChangeType(entityEntry.Entity, typeof(IAuditable<TUserId>));
+            dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedUserId).IsModified = false;
+            dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedAt).IsModified = false;
 
-            if (entityEntry.State == EntityState.Added)
-            {
-                auditableEntity.CreatedAt = DateTime.UtcNow;
-                auditableEntity.CreatedUserId = loggedInUserProvider.UserId;
-            }
-            else if (entityEntry.State == EntityState.Modified)
-            {
-                dbContext.Entry(auditableEntity).Property(x => x.CreatedUserId).IsModified = false;
-                dbContext.Entry(auditableEntity).Property(x => x.CreatedAt).IsModified = false;
-
-                auditableEntity.ModifiedAt = DateTime.UtcNow;
-                auditableEntity.ModifiedUserId = loggedInUserProvider.UserId;
-            }
+            addedAuditableEntity.CreatedAt = DateTime.UtcNow;
+            addedAuditableEntity.CreatedUserId = loggedInUserProvider.UserId;
         }
+    }
+
+    private void SetModifiedAuditProperties(DbContext dbContext)
+    {
+        var modifiedAuditableEntities = dbContext.ChangeTracker
+                                        .Entries()
+                                        .Where(x => x.Entity is IAuditable<TUserId>  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
+                                                && x.State == EntityState.Modified)
+                                        .Select(x => x.Entity as IAuditable<TUserId>)
+                                        .ToList();
+
+        foreach (var modifiedAuditableEntity in modifiedAuditableEntities)
+        {
+            dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedUserId).IsModified = false;
+            dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedAt).IsModified = false;
+
+            modifiedAuditableEntity.ModifiedAt = DateTime.UtcNow;
+            modifiedAuditableEntity.ModifiedUserId = loggedInUserProvider.UserId;
+        }
+    }
+
+    private void SetAuditProperties(DbContext dbContext)
+    {
+        SetAddedAuditProperties(dbContext);
+        SetModifiedAuditProperties(dbContext);
     }
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
