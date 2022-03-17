@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Domain.Core.Attributes.AuditHistoryLogAttributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property)]
-    public class AddAuditHistoryLog : Attribute
+    public class AddAuditHistoryLogAttribute : Attribute
     {
     }
 }

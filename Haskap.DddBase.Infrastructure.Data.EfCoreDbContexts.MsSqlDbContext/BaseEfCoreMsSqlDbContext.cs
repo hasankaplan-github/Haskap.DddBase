@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Haskap.DddBase.Domain.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.MsSqlDbContext
 {
     public class BaseEfCoreMsSqlDbContext : DbContext
     {
+        public DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
+
         public BaseEfCoreMsSqlDbContext(DbContextOptions<BaseEfCoreMsSqlDbContext> options) : base(options)
         {
         }

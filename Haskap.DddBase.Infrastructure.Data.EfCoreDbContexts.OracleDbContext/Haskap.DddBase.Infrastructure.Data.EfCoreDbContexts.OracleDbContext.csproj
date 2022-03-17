@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Haskap.DddBase.Domain.Core\Haskap.DddBase.Domain.Core.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
   </ItemGroup>
 

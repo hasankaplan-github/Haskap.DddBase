@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Tesmer.PaymentSystem.Infrastructure.Data.Interceptors;
 
-public class AuditInterceptor<TUserId> : SaveChangesInterceptor
+public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
     private readonly LoggedInUserProvider<TUserId> loggedInUserProvider;
 
-    public AuditInterceptor(LoggedInUserProvider<TUserId> loggedInUserProvider)
+    public AuditSaveChangesInterceptor(LoggedInUserProvider<TUserId> loggedInUserProvider)
     {
         this.loggedInUserProvider = loggedInUserProvider;
     }
