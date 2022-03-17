@@ -7,7 +7,7 @@ namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.OracleDbContext
 {
     public class BaseEfCoreOracleDbContext : DbContext
     {
-        public DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
+        //public DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
 
         public BaseEfCoreOracleDbContext(DbContextOptions<BaseEfCoreOracleDbContext> options) : base(options)
         {

@@ -5,7 +5,7 @@ namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.MsSqlDbContext
 {
     public class BaseEfCoreMsSqlDbContext : DbContext
     {
-        public DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
+        //public DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
 
         public BaseEfCoreMsSqlDbContext(DbContextOptions<BaseEfCoreMsSqlDbContext> options) : base(options)
         {

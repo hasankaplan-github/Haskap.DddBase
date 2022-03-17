@@ -95,7 +95,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
             }
 
             var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
-            auditHistoryLog.ModificationType = DetectModificationType(deletedAuditHistoryLogEntityEntry);
+            auditHistoryLog.ModificationType = AuditHistoryLogModificationType.Delete;
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
             auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId?.ToString();
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
@@ -178,7 +178,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
             }
 
             var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
-            auditHistoryLog.ModificationType = DetectModificationType(addedAuditHistoryLogEntityEntry);
+            auditHistoryLog.ModificationType = AuditHistoryLogModificationType.Add;
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
             auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId?.ToString();
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
@@ -276,41 +276,21 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
     private AuditHistoryLogModificationType DetectModificationType(EntityEntry entry)
     {
-        AuditHistoryLogModificationType modificationType;
-        var entryState = entry.State;
-        if (entryState == EntityState.Added)
+        AuditHistoryLogModificationType modificationType = AuditHistoryLogModificationType.Update;
+        if (entry.Entity is ISoftDeletable)
         {
-            modificationType = AuditHistoryLogModificationType.Add;
-        }
-        else if (entryState == EntityState.Modified)
-        {
-            if (entry.Entity is ISoftDeletable)
+            PropertyEntry isDeletedPropertyEntry = entry.Property("IsDeleted");
+            if (isDeletedPropertyEntry.IsModified)
             {
-                PropertyEntry isDeletedPropertyEntry = entry.Property("IsDeleted");
-                if (isDeletedPropertyEntry.IsModified)
+                if (bool.Parse(isDeletedPropertyEntry.CurrentValue.ToString()) == true)
                 {
-                    if (bool.Parse(isDeletedPropertyEntry.CurrentValue.ToString()) == true)
-                    {
-                        modificationType = AuditHistoryLogModificationType.SoftDelete;
-                    }
-                    else
-                    {
-                        modificationType = AuditHistoryLogModificationType.Undelete;
-                    }
+                    modificationType = AuditHistoryLogModificationType.SoftDelete;
                 }
                 else
                 {
-                    modificationType = AuditHistoryLogModificationType.Update;
+                    modificationType = AuditHistoryLogModificationType.Undelete;
                 }
             }
-            else
-            {
-                modificationType = AuditHistoryLogModificationType.Update;
-            }
-        }
-        else
-        {
-            modificationType = AuditHistoryLogModificationType.Delete;
         }
 
         return modificationType;

@@ -11,7 +11,7 @@ namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.NpgsqlDbContext
 {
     public class BaseEfCoreNpgsqlDbContext : DbContext
     {
-        public DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
+        ///public DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
 
         public BaseEfCoreNpgsqlDbContext(DbContextOptions<BaseEfCoreNpgsqlDbContext> options) : base(options)
         {
