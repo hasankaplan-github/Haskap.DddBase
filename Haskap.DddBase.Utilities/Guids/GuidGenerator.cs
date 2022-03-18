@@ -5,7 +5,7 @@ namespace Haskap.DddBase.Utilities.Guids
 {
     public static class GuidGenerator
     {
-        public static Guid CreateSequentialGuid(SequentialGuidType guidType)
+        public static Guid CreateSequentialGuid(SequentialGuidType guidType = SequentialGuidType.SequentialAsString)
         {
             // We start with 16 bytes of cryptographically strong random data.
             var randomBytes = new byte[10];
