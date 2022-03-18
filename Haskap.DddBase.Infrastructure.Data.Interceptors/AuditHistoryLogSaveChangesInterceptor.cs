@@ -43,9 +43,9 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
         foreach (var deletedAuditHistoryLogEntityEntry in deletedAuditHistoryLogEntityEntries)
         {
-            Dictionary<string, object> keyValues = new Dictionary<string, object>();
-            Dictionary<string, object> originalValues = new Dictionary<string, object>();
-            Dictionary<string, object> newValues = new Dictionary<string, object>();
+            var keyValues = new Dictionary<string, object>();
+            var originalValues = new Dictionary<string, object?>();
+            var newValues = new Dictionary<string, object?>();
 
             var propertyEntries = deletedAuditHistoryLogEntityEntry.Properties;
 
@@ -59,7 +59,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
                     if (propertyEntry.Metadata.IsPrimaryKey())
                     {
-                        keyValues[propertyName] = propertyEntry.CurrentValue;
+                        keyValues[propertyName] = propertyEntry.CurrentValue!;
                         continue;
                     }
 
@@ -83,7 +83,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
                     if (propertyEntry.Metadata.IsPrimaryKey())
                     {
-                        keyValues[propertyName] = propertyEntry.CurrentValue;
+                        keyValues[propertyName] = propertyEntry.CurrentValue!;
                         continue;
                     }
 
@@ -99,7 +99,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
             var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = AuditHistoryLogModificationType.Delete;
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId?.ToString();
+            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId!.ToString()!;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = deletedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
@@ -127,9 +127,9 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
         foreach (var addedAuditHistoryLogEntityEntry in addedAuditHistoryLogEntityEntries)
         {
-            Dictionary<string, object> keyValues = new Dictionary<string, object>();
-            Dictionary<string, object> originalValues = new Dictionary<string, object>();
-            Dictionary<string, object> newValues = new Dictionary<string, object>();
+            var keyValues = new Dictionary<string, object>();
+            var originalValues = new Dictionary<string, object?>();
+            var newValues = new Dictionary<string, object?>();
 
             var propertyEntries = addedAuditHistoryLogEntityEntry.Properties;
 
@@ -143,7 +143,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
                     if (propertyEntry.Metadata.IsPrimaryKey())
                     {
-                        keyValues[propertyName] = propertyEntry.CurrentValue;
+                        keyValues[propertyName] = propertyEntry.CurrentValue!;
                         continue;
                     }
 
@@ -167,7 +167,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
                     if (propertyEntry.Metadata.IsPrimaryKey())
                     {
-                        keyValues[propertyName] = propertyEntry.CurrentValue;
+                        keyValues[propertyName] = propertyEntry.CurrentValue!;
                         continue;
                     }
 
@@ -183,7 +183,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
             var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = AuditHistoryLogModificationType.Add;
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId?.ToString();
+            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId!.ToString()!;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = addedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
@@ -211,9 +211,9 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
         foreach (var modifiedAuditHistoryLogEntityEntry in modifiedAuditHistoryLogEntityEntries)
         {
-            Dictionary<string, object> keyValues = new Dictionary<string, object>();
-            Dictionary<string, object> originalValues = new Dictionary<string, object>();
-            Dictionary<string, object> newValues = new Dictionary<string, object>();
+            var keyValues = new Dictionary<string, object>();
+            var originalValues = new Dictionary<string, object?>();
+            var newValues = new Dictionary<string, object?>();
 
             var propertyEntries = modifiedAuditHistoryLogEntityEntry.Properties;
 
@@ -227,7 +227,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
                     if (propertyEntry.Metadata.IsPrimaryKey())
                     {
-                        keyValues[propertyName] = propertyEntry.CurrentValue;
+                        keyValues[propertyName] = propertyEntry.CurrentValue!;
                         continue;
                     }
 
@@ -251,7 +251,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
 
                     if (propertyEntry.Metadata.IsPrimaryKey())
                     {
-                        keyValues[propertyName] = propertyEntry.CurrentValue;
+                        keyValues[propertyName] = propertyEntry.CurrentValue!;
                         continue;
                     }
 
@@ -267,7 +267,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
             var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = DetectModificationType(modifiedAuditHistoryLogEntityEntry);
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId?.ToString();
+            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId!.ToString()!;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = modifiedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
