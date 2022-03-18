@@ -286,7 +286,8 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
             PropertyEntry isDeletedPropertyEntry = entry.Property("IsDeleted");
             if (isDeletedPropertyEntry.IsModified)
             {
-                if (bool.Parse(isDeletedPropertyEntry.CurrentValue.ToString()) == true)
+                //if (bool.Parse(isDeletedPropertyEntry.CurrentValue.ToString()) == true)
+                if ((bool)isDeletedPropertyEntry.CurrentValue! == true)
                 {
                     modificationType = AuditHistoryLogModificationType.SoftDelete;
                 }
