@@ -33,7 +33,8 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
                                         .Where(x => !(x.Entity is AuditHistoryLog)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.State == EntityState.Deleted
                                                 && (Attribute.IsDefined(x.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))
-                                                    || x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
+                                                    //|| x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
+                                                    || x.Entity.GetType().GetProperties().Any(y => y.GetCustomAttributes(true).Any(z => z is AddAuditHistoryLogAttribute))
                                                     ))
                                         //.Select(x => x.Entity)
                                         .ToList();
@@ -116,7 +117,8 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
                                         .Where(x => !(x.Entity is AuditHistoryLog)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.State == EntityState.Added
                                                 && (Attribute.IsDefined(x.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))
-                                                    || x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
+                                                    //|| x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
+                                                    || x.Entity.GetType().GetProperties().Any(y => y.GetCustomAttributes(true).Any(z => z is AddAuditHistoryLogAttribute))
                                                     ))
                                         //.Select(x => x.Entity)
                                         .ToList();
@@ -199,7 +201,8 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
                                         .Where(x => !(x.Entity is AuditHistoryLog)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.State == EntityState.Modified
                                                 && (Attribute.IsDefined(x.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))
-                                                    || x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
+                                                    //|| x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
+                                                    || x.Entity.GetType().GetProperties().Any(y => y.GetCustomAttributes(true).Any(z => z is AddAuditHistoryLogAttribute))
                                                     ))
                                         //.Select(x => x.Entity)
                                         .ToList();
