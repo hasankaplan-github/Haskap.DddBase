@@ -1,4 +1,7 @@
+using Haskap.DddBase.Utilities.Guids;
 using System;
+
+namespace Haskap.DddBase.Domain.Core;
 
 public record IntegrationEvent : Event
 {
@@ -7,7 +10,7 @@ public record IntegrationEvent : Event
         
     }
 
-    public IntegrationEvent() : base(Guid.NewGuid())
+    public IntegrationEvent() : base(GuidGenerator.CreateSimpleGuid())
     {
         
     }

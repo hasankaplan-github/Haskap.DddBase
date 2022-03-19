@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 
 namespace Tesmer.PaymentSystem.Infrastructure.Data.Interceptors;
 
-public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInterceptor
+public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
-    private readonly LoggedInUserProvider<TObjectId> loggedInUserProvider;
+    private readonly LoggedInUserProvider<TUserId> loggedInUserProvider;
     private readonly VisitIdProvider visitIdProvider;
 
-    public AuditHistoryLogSaveChangesInterceptor(LoggedInUserProvider<TObjectId> loggedInUserProvider, VisitIdProvider visitIdProvider)
+    public AuditHistoryLogSaveChangesInterceptor(LoggedInUserProvider<TUserId> loggedInUserProvider, VisitIdProvider visitIdProvider)
     {
         this.loggedInUserProvider = loggedInUserProvider;
         this.visitIdProvider = visitIdProvider;
@@ -30,7 +30,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
     {
         var deletedAuditHistoryLogEntityEntries = dbContext.ChangeTracker
                                         .Entries()
-                                        .Where(x => !(x.Entity is AuditHistoryLog)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
+                                        .Where(x => !(x.Entity is AuditHistoryLog<TUserId>)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.State == EntityState.Deleted
                                                 && (Attribute.IsDefined(x.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))
                                                     //|| x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
@@ -45,7 +45,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
         {
             var keyValues = new Dictionary<string, object>();
             var originalValues = new Dictionary<string, object?>();
-            var newValues = new Dictionary<string, object?>();
+            //var newValues = new Dictionary<string, object?>();
 
             var propertyEntries = deletedAuditHistoryLogEntityEntry.Properties;
 
@@ -96,15 +96,15 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
                 }
             }
 
-            var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
+            var auditHistoryLog = new AuditHistoryLog<TUserId>(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = AuditHistoryLogModificationType.Delete;
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId!.ToString()!;
+            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = deletedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
             auditHistoryLog.ObjectOriginalValues = originalValues.Count == 0 ? null : JsonSerializer.Serialize(originalValues);
-            auditHistoryLog.ObjectNewValues = newValues.Count == 0 ? null : JsonSerializer.Serialize(newValues);
+            auditHistoryLog.ObjectNewValues = null;
 
             dbContext.Add(auditHistoryLog);
         }
@@ -114,7 +114,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
     {
         var addedAuditHistoryLogEntityEntries = dbContext.ChangeTracker
                                         .Entries()
-                                        .Where(x => !(x.Entity is AuditHistoryLog)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
+                                        .Where(x => !(x.Entity is AuditHistoryLog<TUserId>)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.State == EntityState.Added
                                                 && (Attribute.IsDefined(x.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))
                                                     //|| x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
@@ -128,7 +128,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
         foreach (var addedAuditHistoryLogEntityEntry in addedAuditHistoryLogEntityEntries)
         {
             var keyValues = new Dictionary<string, object>();
-            var originalValues = new Dictionary<string, object?>();
+            //var originalValues = new Dictionary<string, object?>();
             var newValues = new Dictionary<string, object?>();
 
             var propertyEntries = addedAuditHistoryLogEntityEntry.Properties;
@@ -180,14 +180,14 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
                 }
             }
 
-            var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
+            var auditHistoryLog = new AuditHistoryLog<TUserId>(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = AuditHistoryLogModificationType.Add;
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId!.ToString()!;
+            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = addedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
-            auditHistoryLog.ObjectOriginalValues = originalValues.Count == 0 ? null : JsonSerializer.Serialize(originalValues);
+            auditHistoryLog.ObjectOriginalValues = null;
             auditHistoryLog.ObjectNewValues = newValues.Count == 0 ? null : JsonSerializer.Serialize(newValues);
 
             dbContext.Add(auditHistoryLog);
@@ -198,7 +198,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
     {
         var modifiedAuditHistoryLogEntityEntries = dbContext.ChangeTracker
                                         .Entries()
-                                        .Where(x => !(x.Entity is AuditHistoryLog)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
+                                        .Where(x => !(x.Entity is AuditHistoryLog<TUserId>)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.State == EntityState.Modified
                                                 && (Attribute.IsDefined(x.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))
                                                     //|| x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
@@ -264,10 +264,10 @@ public class AuditHistoryLogSaveChangesInterceptor<TObjectId> : SaveChangesInter
                 }
             }
 
-            var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
+            var auditHistoryLog = new AuditHistoryLog<TUserId>(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = DetectModificationType(modifiedAuditHistoryLogEntityEntry);
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId!.ToString()!;
+            auditHistoryLog.ModifiedUserId = loggedInUserProvider.UserId;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = modifiedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);

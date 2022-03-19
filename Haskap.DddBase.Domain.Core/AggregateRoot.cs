@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Core
+namespace Haskap.DddBase.Domain.Core;
+
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
 {
-    public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
+    protected AggregateRoot()
     {
-        protected AggregateRoot()
-        {
 
-        }
+    }
 
-        protected AggregateRoot(TId id)
-            : base(id)
-        {
+    protected AggregateRoot(TId id)
+        : base(id)
+    {
 
-        }
     }
 }

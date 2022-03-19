@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.Core.AuditHistoryLogAggregate;
 
-public class AuditHistoryLog : AggregateRoot<Guid>
+public class AuditHistoryLog<TUserId> : AggregateRoot<Guid>
 {
     public Guid VisitId { get; set; }
     public DateTime ModificationDate { get; set; }
-    public string ModifiedUserId { get; set; }
+    public TUserId ModifiedUserId { get; set; }
     public AuditHistoryLogModificationType ModificationType { get; set; }
     public string ObjectFullType { get; set; }
     public string? ObjectIds { get; set; } //value objectler için nullable

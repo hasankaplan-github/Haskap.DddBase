@@ -1,6 +1,6 @@
 ﻿namespace Haskap.DddBase.Infrastructure.Providers;
 
-public class LoggedInUserProvider<TId>
+public class LoggedInUserProvider<TUserId>
 {
-    public TId UserId { get; set; }
+    public TUserId UserId { get; set; }
 }

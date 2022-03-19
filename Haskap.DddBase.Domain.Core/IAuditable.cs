@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.Core
 {
-    public interface IAuditable<TId>
+    public interface IAuditable<TUserId>
     {
-        TId CreatedUserId { get; set; }
+        TUserId CreatedUserId { get; set; }
         DateTime? CreatedAt { get; set; }
-        TId ModifiedUserId { get; set; }
+        TUserId ModifiedUserId { get; set; }
         DateTime? ModifiedAt { get; set; }
     }
 }
