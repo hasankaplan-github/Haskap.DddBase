@@ -14,8 +14,9 @@ public class Tenant : AggregateRoot<Guid>
     private Tenant()
     {
     }
-
-    public Tenant(string code)
+    
+    public Tenant(Guid id, string code)
+        : base(id)
     {
         Code = Guard.Against.NullOrWhiteSpace(code);
     }
