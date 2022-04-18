@@ -12,6 +12,13 @@ namespace Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
+            if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
+            {
+                builder.Property(x => (x as ISoftDeletable).IsDeleted).IsRequired();
+                builder.HasQueryFilter(x => (x as ISoftDeletable).IsDeleted == false);
+            }
+            
+            /*
             var isSoftDeletable = false;
             if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
             {
@@ -34,6 +41,7 @@ namespace Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations
                 // CurrentTenant middleware içinde set edilmesi gerekiyor.
                 // https://github.com/hikalkan/presentations/blob/master/2018-04-06-Multi-Tenancy/src/MultiTenancyDraft/Infrastructure/MultiTenancyMiddleware.cs
             }
+            */
         }
     }
 }
