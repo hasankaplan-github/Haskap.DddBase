@@ -1,7 +1,7 @@
 ﻿using Haskap.DddBase.Domain.Core;
 using Haskap.DddBase.Domain.Core.Attributes.AuditHistoryLogAttributes;
 using Haskap.DddBase.Domain.Core.AuditHistoryLogAggregate;
-using Haskap.DddBase.Infrastructure.Providers;
+using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

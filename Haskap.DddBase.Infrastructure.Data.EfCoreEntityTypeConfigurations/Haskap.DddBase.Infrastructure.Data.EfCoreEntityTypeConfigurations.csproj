@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Haskap.DddBase.Domain.Core\Haskap.DddBase.Domain.Core.csproj" />
-    <ProjectReference Include="..\Haskap.DddBase.Infrastructure.Providers\Haskap.DddBase.Infrastructure.Providers.csproj" />
   </ItemGroup>
 
 </Project>

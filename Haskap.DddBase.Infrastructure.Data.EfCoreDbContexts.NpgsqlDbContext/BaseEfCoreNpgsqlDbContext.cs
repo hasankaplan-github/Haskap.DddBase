@@ -3,7 +3,6 @@ using System;
 using Haskap.DddBase.Utilities.ExtensionMethods;
 using System.Linq;
 using Haskap.DddBase.Domain.Core;
-using Haskap.DddBase.Infrastructure.Providers;
 using System.Threading.Tasks;
 using System.Threading;
 

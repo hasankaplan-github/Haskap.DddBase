@@ -1,5 +1,4 @@
 ﻿using Haskap.DddBase.Domain.Core;
-using Haskap.DddBase.Infrastructure.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
