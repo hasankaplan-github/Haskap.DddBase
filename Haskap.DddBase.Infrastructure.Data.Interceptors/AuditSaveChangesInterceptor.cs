@@ -8,16 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tesmer.PaymentSystem.Infrastructure.Data.Interceptors;
+namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
 
 public class AuditSaveChangesInterceptor<TUser, TUserId> : SaveChangesInterceptor
     where TUser : class, IEntity<TUserId>
 {
-    private readonly CurrentUserProvider<TUser, TUserId> _currentUserProvider;
+    private readonly CurrentUserProvider<TUser, TUserId> currentUserProvider;
 
     public AuditSaveChangesInterceptor(CurrentUserProvider<TUser, TUserId> currentUserProvider)
     {
-        _currentUserProvider = currentUserProvider;
+        this.currentUserProvider = currentUserProvider;
     }
 
     private void SetAddedAuditProperties(DbContext dbContext)
@@ -35,7 +35,7 @@ public class AuditSaveChangesInterceptor<TUser, TUserId> : SaveChangesIntercepto
             dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedAt).IsModified = false;
 
             addedAuditableEntity.CreatedAt = DateTime.UtcNow;
-            addedAuditableEntity.CreatedUserId = _currentUserProvider.CurrentUser.Id;
+            addedAuditableEntity.CreatedUserId = currentUserProvider.CurrentUser.Id;
         }
     }
 
@@ -54,7 +54,7 @@ public class AuditSaveChangesInterceptor<TUser, TUserId> : SaveChangesIntercepto
             dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedAt).IsModified = false;
 
             modifiedAuditableEntity.ModifiedAt = DateTime.UtcNow;
-            modifiedAuditableEntity.ModifiedUserId = _currentUserProvider.CurrentUser.Id;
+            modifiedAuditableEntity.ModifiedUserId = currentUserProvider.CurrentUser.Id;
         }
     }
 

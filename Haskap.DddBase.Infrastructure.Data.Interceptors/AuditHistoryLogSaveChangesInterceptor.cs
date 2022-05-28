@@ -13,17 +13,17 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Tesmer.PaymentSystem.Infrastructure.Data.Interceptors;
+namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
 
 public class AuditHistoryLogSaveChangesInterceptor<TUser, TUserId> : SaveChangesInterceptor
     where TUser : class, IEntity<TUserId>
 {
-    private readonly CurrentUserProvider<TUser, TUserId> _currentUserProvider;
+    private readonly CurrentUserProvider<TUser, TUserId> currentUserProvider;
     private readonly VisitIdProvider visitIdProvider;
 
     public AuditHistoryLogSaveChangesInterceptor(CurrentUserProvider<TUser, TUserId> currentUserProvider, VisitIdProvider visitIdProvider)
     {
-        this._currentUserProvider = currentUserProvider;
+        this.currentUserProvider = currentUserProvider;
         this.visitIdProvider = visitIdProvider;
     }
 
@@ -100,7 +100,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUser, TUserId> : SaveChanges
             var auditHistoryLog = new AuditHistoryLog<TUserId>(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = AuditHistoryLogModificationType.Delete;
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = _currentUserProvider.CurrentUser.Id;
+            auditHistoryLog.ModifiedUserId = currentUserProvider.CurrentUser.Id;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = deletedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
@@ -184,7 +184,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUser, TUserId> : SaveChanges
             var auditHistoryLog = new AuditHistoryLog<TUserId>(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = AuditHistoryLogModificationType.Add;
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = _currentUserProvider.CurrentUser.Id;
+            auditHistoryLog.ModifiedUserId = currentUserProvider.CurrentUser.Id;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = addedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
@@ -268,7 +268,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUser, TUserId> : SaveChanges
             var auditHistoryLog = new AuditHistoryLog<TUserId>(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
             auditHistoryLog.ModificationType = DetectModificationType(modifiedAuditHistoryLogEntityEntry);
             auditHistoryLog.ModificationDate = DateTime.UtcNow;
-            auditHistoryLog.ModifiedUserId = _currentUserProvider.CurrentUser.Id;
+            auditHistoryLog.ModifiedUserId = currentUserProvider.CurrentUser.Id;
             auditHistoryLog.VisitId = visitIdProvider.VisitId;
             auditHistoryLog.ObjectFullType = modifiedAuditHistoryLogEntityEntry.Entity.GetType().ToString();
             auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
