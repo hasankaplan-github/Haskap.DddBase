@@ -1,4 +1,4 @@
-﻿using Haskap.DddBase.Application.UseCaseServices.Contracts;
+﻿using Haskap.DddBase.Application.Contracts;
 using System;
 
 namespace Haskap.DddBase.Application.UseCaseServices

@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application.UseCaseServices", "Haskap.DddBase.Application.UseCaseServices\Haskap.DddBase.Application.UseCaseServices.csproj", "{608E91C9-5FC5-42A4-A45B-1D0EF617E486}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application.UseCaseServices.Contracts", "Haskap.DddBase.Application.UseCaseServices.Contracts\Haskap.DddBase.Application.UseCaseServices.Contracts.csproj", "{05D90F0C-E40C-4455-A91B-3602615508EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application.Contracts", "Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj", "{05D90F0C-E40C-4455-A91B-3602615508EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Core.Specifications", "Haskap.DddBase.Domain.Core.Specifications\Haskap.DddBase.Domain.Core.Specifications.csproj", "{F624ED4F-3E64-402B-B334-44341F36D1D5}"
 EndProject
