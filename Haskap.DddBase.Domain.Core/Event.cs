@@ -1,6 +1,8 @@
 using MediatR;
 using System;
 
+namespace Haskap.DddBase.Domain.Core;
+
 public record Event : INotification
 {
     public DateTime CreationDate { get; protected set; }
