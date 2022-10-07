@@ -133,6 +133,11 @@ public class AuditHistoryLogSaveChangesInterceptor<TUser, TUserId> : SaveChanges
             var collectionValueObjects = entityEntry.Collections;
             foreach (var vos in collectionValueObjects)
             {
+                if (vos.CurrentValue is null)
+                {
+                    continue;
+                }
+
                 foreach (var objectInstance in vos.CurrentValue)
                 {
                     var vo = vos.FindEntry(objectInstance);
