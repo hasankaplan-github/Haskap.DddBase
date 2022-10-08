@@ -10,14 +10,18 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
 
-public class AuditSaveChangesInterceptor<TUser, TUserId> : SaveChangesInterceptor
-    where TUser : class, IEntity<TUserId>
-{
-    private readonly CurrentUserProvider<TUser, TUserId> currentUserProvider;
 
-    public AuditSaveChangesInterceptor(CurrentUserProvider<TUser, TUserId> currentUserProvider)
+/*
+    Buradaki TUserId Guid? şeklinde nullable  olarak verilecek.
+    Entity' de de IAuditable<Guid?> olarak verilecek ve user id ler nullable olmuş olacak.
+ */
+public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
+{
+    private readonly CurrentUserProvider<TUserId>? _currentUserProvider;
+
+    public AuditSaveChangesInterceptor(CurrentUserProvider<TUserId>? currentUserProvider)
     {
-        this.currentUserProvider = currentUserProvider;
+        _currentUserProvider = currentUserProvider;
     }
 
     private void SetAddedAuditProperties(DbContext dbContext)
@@ -35,7 +39,7 @@ public class AuditSaveChangesInterceptor<TUser, TUserId> : SaveChangesIntercepto
             dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedAt).IsModified = false;
 
             addedAuditableEntity.CreatedAt = DateTime.UtcNow;
-            addedAuditableEntity.CreatedUserId = currentUserProvider.CurrentUser.Id;
+            addedAuditableEntity.CreatedUserId = _currentUserProvider is null ? default(TUserId?) : _currentUserProvider.CurrentUserId;
         }
     }
 
@@ -54,7 +58,7 @@ public class AuditSaveChangesInterceptor<TUser, TUserId> : SaveChangesIntercepto
             dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedAt).IsModified = false;
 
             modifiedAuditableEntity.ModifiedAt = DateTime.UtcNow;
-            modifiedAuditableEntity.ModifiedUserId = currentUserProvider.CurrentUser.Id;
+            modifiedAuditableEntity.ModifiedUserId = _currentUserProvider is null ? default(TUserId?) : _currentUserProvider.CurrentUserId;
         }
     }
 
@@ -70,9 +74,9 @@ public class AuditSaveChangesInterceptor<TUser, TUserId> : SaveChangesIntercepto
         return base.SavingChanges(eventData, result);
     }
 
-    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
+    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
         SetAuditProperties(eventData.Context);
-        return base.SavingChangesAsync(eventData, result, cancellationToken);
+        return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 }

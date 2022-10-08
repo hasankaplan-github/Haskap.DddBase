@@ -8,9 +8,9 @@ namespace Haskap.DddBase.Domain.Core.AuditHistoryLogAggregate;
 
 public class AuditHistoryLog<TUserId> : AggregateRoot<Guid>
 {
-    public Guid VisitId { get; set; }
+    public Guid? VisitId { get; set; }
     public DateTime ModificationDate { get; set; }
-    public TUserId ModifiedUserId { get; set; }
+    public TUserId? ModifiedUserId { get; set; }
     public AuditHistoryLogModificationType ModificationType { get; set; }
     public string ObjectFullType { get; set; }
     public string? OwnerIds { get; set; } // zaten owner olanlar için nullable

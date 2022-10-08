@@ -15,13 +15,12 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
 
-public class AuditHistoryLogSaveChangesInterceptor<TUser, TUserId> : SaveChangesInterceptor
-    where TUser : class, IEntity<TUserId>
+public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
-    private readonly CurrentUserProvider<TUser, TUserId> _currentUserProvider;
-    private readonly VisitIdProvider _visitIdProvider;
+    private readonly CurrentUserProvider<TUserId>? _currentUserProvider;
+    private readonly VisitIdProvider? _visitIdProvider;
 
-    public AuditHistoryLogSaveChangesInterceptor(CurrentUserProvider<TUser, TUserId> currentUserProvider, VisitIdProvider visitIdProvider)
+    public AuditHistoryLogSaveChangesInterceptor(CurrentUserProvider<TUserId>? currentUserProvider, VisitIdProvider? visitIdProvider)
     {
         _currentUserProvider = currentUserProvider;
         _visitIdProvider = visitIdProvider;
@@ -87,8 +86,8 @@ public class AuditHistoryLogSaveChangesInterceptor<TUser, TUserId> : SaveChanges
         var modificationType = DetectModificationType(entityEntry);
         auditHistoryLog.ModificationType = modificationType;
         auditHistoryLog.ModificationDate = DateTime.UtcNow;
-        auditHistoryLog.ModifiedUserId = _currentUserProvider.CurrentUser.Id;
-        auditHistoryLog.VisitId = _visitIdProvider.VisitId;
+        auditHistoryLog.ModifiedUserId = _currentUserProvider is null ? default(TUserId?) : _currentUserProvider.CurrentUserId;
+        auditHistoryLog.VisitId = _visitIdProvider?.VisitId;
         auditHistoryLog.ObjectFullType = entityEntry.Entity.GetType().ToString();
         auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
         auditHistoryLog.ObjectOriginalValues = modificationType == AuditHistoryLogModificationType.Add ? null : (originalValues.Count == 0 ? null : JsonSerializer.Serialize(originalValues));

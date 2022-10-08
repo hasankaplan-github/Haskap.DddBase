@@ -2,8 +2,7 @@
 
 namespace Haskap.DddBase.Domain.Providers;
 
-public class CurrentUserProvider<TUser, TUserId>
-    where TUser : class, IEntity<TUserId>
+public class CurrentUserProvider<TUserId>
 {
-    public TUser CurrentUser { get; set; }
+    public TUserId CurrentUserId { get; set; }
 }
