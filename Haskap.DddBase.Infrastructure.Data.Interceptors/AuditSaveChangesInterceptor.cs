@@ -39,7 +39,7 @@ public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
             dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedAt).IsModified = false;
 
             addedAuditableEntity.CreatedAt = DateTime.UtcNow;
-            addedAuditableEntity.CreatedUserId = _currentUserProvider is null ? default(TUserId?) : _currentUserProvider.CurrentUserId;
+            addedAuditableEntity.CreatedUserId = _currentUserProvider is null ? default(TUserId) : _currentUserProvider.CurrentUserId;
         }
     }
 
@@ -58,7 +58,7 @@ public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
             dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedAt).IsModified = false;
 
             modifiedAuditableEntity.ModifiedAt = DateTime.UtcNow;
-            modifiedAuditableEntity.ModifiedUserId = _currentUserProvider is null ? default(TUserId?) : _currentUserProvider.CurrentUserId;
+            modifiedAuditableEntity.ModifiedUserId = _currentUserProvider is null ? default(TUserId) : _currentUserProvider.CurrentUserId;
         }
     }
 

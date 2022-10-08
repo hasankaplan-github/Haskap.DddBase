@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
 
+// burada da TUserId nullable olan Guid? olarak verilecek.
 public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
     private readonly CurrentUserProvider<TUserId>? _currentUserProvider;
@@ -86,7 +87,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
         var modificationType = DetectModificationType(entityEntry);
         auditHistoryLog.ModificationType = modificationType;
         auditHistoryLog.ModificationDate = DateTime.UtcNow;
-        auditHistoryLog.ModifiedUserId = _currentUserProvider is null ? default(TUserId?) : _currentUserProvider.CurrentUserId;
+        auditHistoryLog.ModifiedUserId = _currentUserProvider is null ? default(TUserId) : _currentUserProvider.CurrentUserId;
         auditHistoryLog.VisitId = _visitIdProvider?.VisitId;
         auditHistoryLog.ObjectFullType = entityEntry.Entity.GetType().ToString();
         auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
@@ -126,6 +127,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
             {
                 var auditHistoryLogForOwnedEntry = GetAuditHistoryLogForEntry(vo);
                 auditHistoryLogForOwnedEntry.OwnerIds = auditHistoryLog.ObjectIds;
+                auditHistoryLogForOwnedEntry.OwnedObjectType = OwnedObjectType.One;
                 dbContext.Add(auditHistoryLogForOwnedEntry);
             }
 
@@ -142,6 +144,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
                     var vo = vos.FindEntry(objectInstance);
                     var auditHistoryLogForOwnedEntry = GetAuditHistoryLogForEntry(vo);
                     auditHistoryLogForOwnedEntry.OwnerIds = auditHistoryLog.ObjectIds;
+                    auditHistoryLogForOwnedEntry.OwnedObjectType = OwnedObjectType.Many;
                     dbContext.Add(auditHistoryLogForOwnedEntry);
                 }
             }
