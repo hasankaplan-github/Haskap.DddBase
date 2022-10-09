@@ -9,6 +9,11 @@ namespace Haskap.DddBase.Domain.Providers
 {
     public class VisitIdProvider
     {
-        public Guid VisitId { get; private set; } = GuidGenerator.CreateSimpleGuid();
+        public Guid? VisitId { get; set; } = null;
+
+        public void Generate()
+        {
+            VisitId = GuidGenerator.CreateSimpleGuid();
+        }
     }
 }
