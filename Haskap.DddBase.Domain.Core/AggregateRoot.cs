@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Domain.Core;
 
 public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
+    where TId : notnull
 {
     protected AggregateRoot()
     {
