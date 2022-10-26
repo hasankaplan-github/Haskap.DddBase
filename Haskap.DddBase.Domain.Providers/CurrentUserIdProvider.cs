@@ -2,7 +2,7 @@
 
 namespace Haskap.DddBase.Domain.Providers;
 
-public class CurrentUserProvider<TUserId>
+public class CurrentUserIdProvider<TUserId>
 {
     public TUserId CurrentUserId { get; set; }
 }

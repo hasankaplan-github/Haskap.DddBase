@@ -17,11 +17,11 @@ namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
  */
 public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
-    private readonly CurrentUserProvider<TUserId>? _currentUserProvider;
+    private readonly CurrentUserIdProvider<TUserId>? _currentUserIdProvider;
 
-    public AuditSaveChangesInterceptor(CurrentUserProvider<TUserId>? currentUserProvider)
+    public AuditSaveChangesInterceptor(CurrentUserIdProvider<TUserId>? currentUserIdProvider)
     {
-        _currentUserProvider = currentUserProvider;
+        _currentUserIdProvider = currentUserIdProvider;
     }
 
     private void SetAddedAuditProperties(DbContext dbContext)
@@ -39,7 +39,7 @@ public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
             dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedAt).IsModified = false;
 
             addedAuditableEntity.CreatedAt = DateTime.UtcNow;
-            addedAuditableEntity.CreatedUserId = _currentUserProvider is null ? default(TUserId) : _currentUserProvider.CurrentUserId;
+            addedAuditableEntity.CreatedUserId = _currentUserIdProvider is null ? default(TUserId) : _currentUserIdProvider.CurrentUserId;
         }
     }
 
@@ -58,7 +58,7 @@ public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
             dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedAt).IsModified = false;
 
             modifiedAuditableEntity.ModifiedAt = DateTime.UtcNow;
-            modifiedAuditableEntity.ModifiedUserId = _currentUserProvider is null ? default(TUserId) : _currentUserProvider.CurrentUserId;
+            modifiedAuditableEntity.ModifiedUserId = _currentUserIdProvider is null ? default(TUserId) : _currentUserIdProvider.CurrentUserId;
         }
     }
 

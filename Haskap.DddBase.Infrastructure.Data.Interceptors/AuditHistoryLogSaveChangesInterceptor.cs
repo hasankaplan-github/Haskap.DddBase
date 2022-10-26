@@ -18,12 +18,12 @@ namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
 // burada da TUserId nullable olan Guid? olarak verilecek.
 public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
-    private readonly CurrentUserProvider<TUserId>? _currentUserProvider;
+    private readonly CurrentUserIdProvider<TUserId>? _currentUserIdProvider;
     private readonly VisitIdProvider? _visitIdProvider;
 
-    public AuditHistoryLogSaveChangesInterceptor(CurrentUserProvider<TUserId>? currentUserProvider, VisitIdProvider? visitIdProvider)
+    public AuditHistoryLogSaveChangesInterceptor(CurrentUserIdProvider<TUserId>? currentUserIdProvider, VisitIdProvider? visitIdProvider)
     {
-        _currentUserProvider = currentUserProvider;
+        _currentUserIdProvider = currentUserIdProvider;
         _visitIdProvider = visitIdProvider;
     }
 
@@ -87,7 +87,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
         var modificationType = DetectModificationType(entityEntry);
         auditHistoryLog.ModificationType = modificationType;
         auditHistoryLog.ModificationDate = DateTime.UtcNow;
-        auditHistoryLog.ModifiedUserId = _currentUserProvider is null ? default(TUserId) : _currentUserProvider.CurrentUserId;
+        auditHistoryLog.ModifiedUserId = _currentUserIdProvider is null ? default(TUserId) : _currentUserIdProvider.CurrentUserId;
         auditHistoryLog.VisitId = _visitIdProvider?.VisitId;
         auditHistoryLog.ObjectFullType = entityEntry.Entity.GetType().ToString();
         auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
