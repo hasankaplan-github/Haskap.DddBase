@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Providers
-{
-    public class VisitIdProvider
-    {
-        public Guid? VisitId { get; set; } = null;
+namespace Haskap.DddBase.Domain.Providers;
 
-        public void Generate()
-        {
-            VisitId = GuidGenerator.CreateSimpleGuid();
-        }
+public class VisitIdProvider
+{
+    public Guid? VisitId { get; set; } = null;
+
+    public void Generate()
+    {
+        VisitId = GuidGenerator.CreateSimpleGuid();
     }
 }
