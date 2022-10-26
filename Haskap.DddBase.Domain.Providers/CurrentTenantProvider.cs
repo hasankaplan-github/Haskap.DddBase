@@ -16,14 +16,14 @@ public class CurrentTenantProvider
     {
         get 
         {
-            return currentTenant.Value;
+            return _currentTenant.Value;
         } 
         private set
         {
-            currentTenant.Value = value;
+            _currentTenant.Value = value;
         } 
     }
-    private static readonly AsyncLocal<Tenant?> currentTenant = new AsyncLocal<Tenant?>();
+    private static readonly AsyncLocal<Tenant?> _currentTenant = new AsyncLocal<Tenant?>();
 
     public static IDisposable ChangeCurrentTenant(Tenant? tenant)
     {
