@@ -10,9 +10,9 @@ namespace Haskap.DddBase.Utilities.ExtensionMethods;
 
 public static class IntExtensionMethods
 {
-    public static TimeSpan Seconds(this int seconds)
+    public static TimeSpan SecondsDelay(this int seconds)
     {
         return TimeSpan.FromSeconds(seconds);
-        // usage: await 2.Seconds();
+        // usage: await 2.SecondsDelay();
     }
 }
