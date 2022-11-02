@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application.Contracts", "Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj", "{05D90F0C-E40C-4455-A91B-3602615508EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Core.Specifications", "Haskap.DddBase.Domain.Core.Specifications\Haskap.DddBase.Domain.Core.Specifications.csproj", "{F624ED4F-3E64-402B-B334-44341F36D1D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Specifications", "Haskap.DddBase.Domain.Specifications\Haskap.DddBase.Domain.Specifications.csproj", "{F624ED4F-3E64-402B-B334-44341F36D1D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations", "Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations\Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations.csproj", "{53F2FEA7-E9D2-4E17-A52A-84B04A152D39}"
 EndProject
