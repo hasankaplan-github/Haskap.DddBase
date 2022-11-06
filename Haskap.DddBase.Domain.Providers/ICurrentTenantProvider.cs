@@ -1,30 +1,34 @@
 ﻿using Haskap.DddBase.Domain.Core.TenantAggregate;
-using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
-namespace Haskap.DddBase.Infra.Providers;
+namespace Haskap.DddBase.Domain.Providers;
 
-// bu provider scoped olarak tanımlanmalı ve middleware içinde ilk kez set edilmeli.
-public class CurrentTenantProvider : ICurrentTenantProvider
+public interface ICurrentTenantProvider
 {
-    public Tenant? CurrentTenant { get; private set; }
-    //private static readonly AsyncLocal<Tenant?> _currentTenant = new AsyncLocal<Tenant?>();
+    // https://github.com/hikalkan/presentations/blob/master/2018-04-06-Multi-Tenancy/src/MultiTenancyDraft/Infrastructure/MultiTenancyMiddleware.cs
+    Tenant? CurrentTenant { get; }
 
-    public IDisposable ChangeCurrentTenant(Tenant? newCurrentTenant)
-    {
-        var oldTenant = CurrentTenant;
-        CurrentTenant = newCurrentTenant;
-        return new DisposeAction(() =>
-        {
-            CurrentTenant = oldTenant;
-        });
-    }
+    IDisposable ChangeCurrentTenant(Tenant? newCurrentTenant);
 }
+
+// https://learn.microsoft.com/en-us/ef/core/miscellaneous/multitenancy
+//public interface ITenantService
+//{
+//    string Tenant { get; }
+
+//    void SetTenant(string tenant);
+
+//    string[] GetTenants();
+
+//    event TenantChangedEventHandler OnTenantChanged;
+//}
 
 ///////////////////////////////////////
 /// 

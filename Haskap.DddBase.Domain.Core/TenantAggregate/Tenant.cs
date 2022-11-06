@@ -9,15 +9,19 @@ namespace Haskap.DddBase.Domain.Core.TenantAggregate;
 
 public class Tenant : AggregateRoot<Guid>
 {
-    public string Code { get; private set; }
+    public const string ClaimKey = "tenantKey";
+    public const string HeaderKey = "tenantKey";
+    public const string CookieKey = "tenantKey";
+
+    public string Name { get; private set; }
 
     private Tenant()
     {
     }
     
-    public Tenant(Guid id, string code)
+    public Tenant(Guid id, string name)
         : base(id)
     {
-        Code = code;
+        Name = name;
     }
 }
