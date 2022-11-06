@@ -35,3 +35,15 @@ public class CurrentTenantProvider
         });
     }
 }
+
+// https://learn.microsoft.com/en-us/ef/core/miscellaneous/multitenancy
+//public interface ITenantService
+//{
+//    string Tenant { get; }
+
+//    void SetTenant(string tenant);
+
+//    string[] GetTenants();
+
+//    event TenantChangedEventHandler OnTenantChanged;
+//}
