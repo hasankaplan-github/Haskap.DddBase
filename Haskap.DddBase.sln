@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Int
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Providers", "Haskap.DddBase.Domain.Providers\Haskap.DddBase.Domain.Providers.csproj", "{6E2A00A1-47FD-40B5-B933-0D1125BC56E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haskap.DddBase.Infra.Providers", "Haskap.DddBase.Infra.Providers\Haskap.DddBase.Infra.Providers.csproj", "{7050E7EB-61B4-44C6-B60A-1C054354BCC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{6E2A00A1-47FD-40B5-B933-0D1125BC56E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E2A00A1-47FD-40B5-B933-0D1125BC56E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E2A00A1-47FD-40B5-B933-0D1125BC56E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7050E7EB-61B4-44C6-B60A-1C054354BCC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7050E7EB-61B4-44C6-B60A-1C054354BCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7050E7EB-61B4-44C6-B60A-1C054354BCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7050E7EB-61B4-44C6-B60A-1C054354BCC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +112,7 @@ Global
 		{53F2FEA7-E9D2-4E17-A52A-84B04A152D39} = {95644666-8E8C-483C-B8F5-0599C8859CDC}
 		{FF07E4AE-FB85-459B-A5BA-BB911E4B1B55} = {95644666-8E8C-483C-B8F5-0599C8859CDC}
 		{6E2A00A1-47FD-40B5-B933-0D1125BC56E7} = {38CC997A-234F-4A90-95D3-7EC5E5C0E262}
+		{7050E7EB-61B4-44C6-B60A-1C054354BCC7} = {95644666-8E8C-483C-B8F5-0599C8859CDC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3538C37D-B52B-4EBE-90E4-A1C3295DF29A}

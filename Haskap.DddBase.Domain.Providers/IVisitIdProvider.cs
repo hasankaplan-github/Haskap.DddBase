@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.Providers;
 
-public class VisitIdProvider
+public interface IVisitIdProvider
 {
-    public Guid? VisitId { get; set; } = null;
+    Guid? VisitId { get; set; }
 
-    public void Generate()
-    {
-        VisitId = GuidGenerator.CreateSimpleGuid();
-    }
+    void Generate();
 }

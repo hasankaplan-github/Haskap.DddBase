@@ -17,9 +17,9 @@ namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
  */
 public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
-    private readonly CurrentUserIdProvider<TUserId>? _currentUserIdProvider;
+    private readonly ICurrentUserIdProvider<TUserId>? _currentUserIdProvider;
 
-    public AuditSaveChangesInterceptor(CurrentUserIdProvider<TUserId>? currentUserIdProvider)
+    public AuditSaveChangesInterceptor(ICurrentUserIdProvider<TUserId>? currentUserIdProvider)
     {
         _currentUserIdProvider = currentUserIdProvider;
     }

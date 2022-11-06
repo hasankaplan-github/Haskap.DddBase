@@ -18,10 +18,10 @@ namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
 // burada da TUserId nullable olan Guid? olarak verilecek.
 public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
-    private readonly CurrentUserIdProvider<TUserId>? _currentUserIdProvider;
-    private readonly VisitIdProvider? _visitIdProvider;
+    private readonly ICurrentUserIdProvider<TUserId>? _currentUserIdProvider;
+    private readonly IVisitIdProvider? _visitIdProvider;
 
-    public AuditHistoryLogSaveChangesInterceptor(CurrentUserIdProvider<TUserId>? currentUserIdProvider, VisitIdProvider? visitIdProvider)
+    public AuditHistoryLogSaveChangesInterceptor(ICurrentUserIdProvider<TUserId>? currentUserIdProvider, IVisitIdProvider? visitIdProvider)
     {
         _currentUserIdProvider = currentUserIdProvider;
         _visitIdProvider = visitIdProvider;
