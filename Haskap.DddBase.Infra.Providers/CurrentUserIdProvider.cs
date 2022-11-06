@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Infra.Providers;
 public class CurrentUserIdProvider<TUserId> : ICurrentUserIdProvider<TUserId>
 {
-    public TUserId CurrentUserId { get; set; }
+    public TUserId CurrentUserId { get; set; } = default(TUserId);
 }

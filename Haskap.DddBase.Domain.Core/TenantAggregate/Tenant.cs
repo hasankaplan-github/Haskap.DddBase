@@ -9,6 +9,8 @@ namespace Haskap.DddBase.Domain.Core.TenantAggregate;
 
 public class Tenant : AggregateRoot<Guid>
 {
+    public static Tenant NoTenant = new (Guid.Empty, "NoTenant");
+
     public const string ClaimKey = "tenantKey";
     public const string HeaderKey = "tenantKey";
     public const string CookieKey = "tenantKey";
