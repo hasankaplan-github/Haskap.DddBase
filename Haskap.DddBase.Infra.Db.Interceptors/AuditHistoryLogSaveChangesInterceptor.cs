@@ -91,8 +91,8 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
         auditHistoryLog.VisitId = _visitIdProvider?.VisitId;
         auditHistoryLog.ObjectFullType = entityEntry.Entity.GetType().ToString();
         auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
-        auditHistoryLog.ObjectOriginalValues = modificationType == AuditHistoryLogModificationType.Add ? null : (originalValues.Count == 0 ? null : JsonSerializer.Serialize(originalValues));
-        auditHistoryLog.ObjectNewValues = modificationType == AuditHistoryLogModificationType.Delete ? null : (newValues.Count == 0 ? null : JsonSerializer.Serialize(newValues));
+        auditHistoryLog.ObjectOriginalValues = modificationType == AuditHistoryLogModificationType.Add || originalValues.Count == 0 ? null : JsonSerializer.Serialize(originalValues);
+        auditHistoryLog.ObjectNewValues = modificationType == AuditHistoryLogModificationType.Delete || newValues.Count == 0 ? null : JsonSerializer.Serialize(newValues);
         auditHistoryLog.OwnerIds = null;
 
         return auditHistoryLog;
