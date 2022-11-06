@@ -15,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Servi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{95644666-8E8C-483C-B8F5-0599C8859CDC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.MsSqlDbContext", "Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.MsSqlDbContext\Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.MsSqlDbContext.csproj", "{D69408EC-9592-4409-B54E-4323A8E98CAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext", "Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext\Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext.csproj", "{D69408EC-9592-4409-B54E-4323A8E98CAC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.NpgsqlDbContext", "Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.NpgsqlDbContext\Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.NpgsqlDbContext.csproj", "{893D63C7-DA30-4AC7-92BE-24573643320D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext", "Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj", "{893D63C7-DA30-4AC7-92BE-24573643320D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.OracleDbContext", "Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.OracleDbContext\Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.OracleDbContext.csproj", "{63758F45-8CBC-4B3A-B5AB-24C84DA5C158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Contexts.OracleDbContext", "Haskap.DddBase.Infra.Db.Contexts.OracleDbContext\Haskap.DddBase.Infra.Db.Contexts.OracleDbContext.csproj", "{63758F45-8CBC-4B3A-B5AB-24C84DA5C158}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{D5CEB0FB-7D4C-4066-85B0-B0FBE6854431}"
 EndProject
@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Specifications", "Haskap.DddBase.Domain.Specifications\Haskap.DddBase.Domain.Specifications.csproj", "{F624ED4F-3E64-402B-B334-44341F36D1D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations", "Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations\Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations.csproj", "{53F2FEA7-E9D2-4E17-A52A-84B04A152D39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.EntityTypeConfigurations", "Haskap.DddBase.Infra.Db.EntityTypeConfigurations\Haskap.DddBase.Infra.Db.EntityTypeConfigurations.csproj", "{53F2FEA7-E9D2-4E17-A52A-84B04A152D39}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infrastructure.Data.Interceptors", "Haskap.DddBase.Infrastructure.Data.Interceptors\Haskap.DddBase.Infrastructure.Data.Interceptors.csproj", "{FF07E4AE-FB85-459B-A5BA-BB911E4B1B55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Interceptors", "Haskap.DddBase.Infra.Db.Interceptors\Haskap.DddBase.Infra.Db.Interceptors.csproj", "{FF07E4AE-FB85-459B-A5BA-BB911E4B1B55}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Providers", "Haskap.DddBase.Domain.Providers\Haskap.DddBase.Domain.Providers.csproj", "{6E2A00A1-47FD-40B5-B933-0D1125BC56E7}"
 EndProject
