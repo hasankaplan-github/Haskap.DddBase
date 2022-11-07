@@ -20,11 +20,16 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
 {
     private readonly ICurrentUserIdProvider<TUserId>? _currentUserIdProvider;
     private readonly IVisitIdProvider? _visitIdProvider;
+    private readonly ICurrentTenantProvider _currentTenantProvider;
 
-    public AuditHistoryLogSaveChangesInterceptor(ICurrentUserIdProvider<TUserId>? currentUserIdProvider, IVisitIdProvider? visitIdProvider)
+    public AuditHistoryLogSaveChangesInterceptor(
+        ICurrentUserIdProvider<TUserId>? currentUserIdProvider, 
+        IVisitIdProvider? visitIdProvider, 
+        ICurrentTenantProvider currentTenantProvider)
     {
         _currentUserIdProvider = currentUserIdProvider;
         _visitIdProvider = visitIdProvider;
+        _currentTenantProvider = currentTenantProvider;
     }
 
 
@@ -89,6 +94,9 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
         auditHistoryLog.ModificationDate = DateTime.UtcNow;
         auditHistoryLog.ModifiedUserId = _currentUserIdProvider is null ? default(TUserId) : _currentUserIdProvider.CurrentUserId;
         auditHistoryLog.VisitId = _visitIdProvider?.VisitId;
+        auditHistoryLog.TenantId = _currentTenantProvider is null ? Guid.Empty
+                                                                : _currentTenantProvider.CurrentTenant is null ? null
+                                                                : _currentTenantProvider.CurrentTenant.Id;
         auditHistoryLog.ObjectFullType = entityEntry.Entity.GetType().ToString();
         auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
         auditHistoryLog.ObjectOriginalValues = modificationType == AuditHistoryLogModificationType.Add || originalValues.Count == 0 ? null : JsonSerializer.Serialize(originalValues);

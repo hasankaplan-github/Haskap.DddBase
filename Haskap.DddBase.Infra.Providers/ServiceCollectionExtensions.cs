@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Infra.Providers;
 public static class ServiceCollectionExtensions
 {
-    public static void AddProviders<TUserId>(this IServiceCollection services)
+    public static void AddBaseProviders<TUserId>(this IServiceCollection services)
     {
         //services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         //services.AddSingleton<IJwtProvider, JwtProvider>();
