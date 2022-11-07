@@ -2,6 +2,7 @@
 using Haskap.DddBase.Domain.Attributes.AuditHistoryLogAttributes;
 using Haskap.DddBase.Domain.AuditHistoryLogAggregate;
 using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Domain.TenantAggregate;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -94,9 +95,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
         auditHistoryLog.ModificationDate = DateTime.UtcNow;
         auditHistoryLog.ModifiedUserId = _currentUserIdProvider is null ? default(TUserId) : _currentUserIdProvider.CurrentUserId;
         auditHistoryLog.VisitId = _visitIdProvider?.VisitId;
-        auditHistoryLog.TenantId = _currentTenantProvider is null ? Guid.Empty
-                                                                : _currentTenantProvider.CurrentTenant is null ? null
-                                                                : _currentTenantProvider.CurrentTenant.Id;
+        auditHistoryLog.TenantId = _currentTenantProvider is null ? Tenant.EmptyTenantId : _currentTenantProvider.CurrentTenantId;
         auditHistoryLog.ObjectFullType = entityEntry.Entity.GetType().ToString();
         auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
         auditHistoryLog.ObjectOriginalValues = modificationType == AuditHistoryLogModificationType.Add || originalValues.Count == 0 ? null : JsonSerializer.Serialize(originalValues);

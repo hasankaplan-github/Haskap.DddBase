@@ -13,9 +13,9 @@ namespace Haskap.DddBase.Domain.Providers;
 public interface ICurrentTenantProvider
 {
     // https://github.com/hikalkan/presentations/blob/master/2018-04-06-Multi-Tenancy/src/MultiTenancyDraft/Infrastructure/MultiTenancyMiddleware.cs
-    Tenant? CurrentTenant { get; }
+    Guid? CurrentTenantId { get; }
 
-    IDisposable ChangeCurrentTenant(Tenant? newCurrentTenant);
+    IDisposable ChangeCurrentTenant(Guid? newCurrentTenantId);
 }
 
 // https://learn.microsoft.com/en-us/ef/core/miscellaneous/multitenancy

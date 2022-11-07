@@ -12,16 +12,16 @@ namespace Haskap.DddBase.Infra.Providers;
 // bu provider scoped olarak tanımlanmalı ve middleware içinde ilk kez set edilmeli.
 public class CurrentTenantProvider : ICurrentTenantProvider
 {
-    public Tenant? CurrentTenant { get; private set; } = Tenant.EmptyTenant;
+    public Guid? CurrentTenantId { get; private set; } = Tenant.EmptyTenantId;
     //private static readonly AsyncLocal<Tenant?> _currentTenant = new AsyncLocal<Tenant?>();
 
-    public IDisposable ChangeCurrentTenant(Tenant? newCurrentTenant)
+    public IDisposable ChangeCurrentTenant(Guid? newCurrentTenantId)
     {
-        var oldTenant = CurrentTenant;
-        CurrentTenant = newCurrentTenant;
+        var oldTenantId = CurrentTenantId;
+        CurrentTenantId = newCurrentTenantId;
         return new DisposeAction(() =>
         {
-            CurrentTenant = oldTenant;
+            CurrentTenantId = oldTenantId;
         });
     }
 }
