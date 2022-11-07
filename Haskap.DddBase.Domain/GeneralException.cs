@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Core;
+namespace Haskap.DddBase.Domain;
 public abstract class GeneralException : Exception
 {
     public GeneralException(HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
