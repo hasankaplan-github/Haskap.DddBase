@@ -1,4 +1,4 @@
-﻿using Haskap.DddBase.Domain.Core.TenantAggregate;
+﻿using Haskap.DddBase.Domain.TenantAggregate;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities;
 using System;

@@ -1,6 +1,4 @@
-﻿using Haskap.DddBase.Domain.Core;
-
-namespace Haskap.DddBase.Domain.Providers;
+﻿namespace Haskap.DddBase.Domain.Providers;
 
 public interface ICurrentUserIdProvider<TUserId>
 {

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Core
+namespace Haskap.DddBase.Domain.AuditHistoryLogAggregate;
+
+public enum OwnedObjectType
 {
-    public interface ISoftDeletable
-    {
-        bool IsDeleted { get; set; }
-    }
+    None,
+    One,
+    Many
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Core.TenantAggregate;
+namespace Haskap.DddBase.Domain.TenantAggregate;
 
 public class Tenant : AggregateRoot<Guid>
 {

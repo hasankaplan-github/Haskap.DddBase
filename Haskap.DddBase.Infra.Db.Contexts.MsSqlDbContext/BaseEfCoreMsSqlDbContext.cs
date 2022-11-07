@@ -1,5 +1,4 @@
-﻿using Haskap.DddBase.Domain.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.MsSqlDbContext
 {

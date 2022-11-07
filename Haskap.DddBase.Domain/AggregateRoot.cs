@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Core;
+namespace Haskap.DddBase.Domain;
 
 public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
     where TId : notnull

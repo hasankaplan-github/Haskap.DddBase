@@ -1,7 +1,7 @@
 using MediatR;
 using System;
 
-namespace Haskap.DddBase.Domain.Core;
+namespace Haskap.DddBase.Domain;
 
 public record Event : INotification
 {

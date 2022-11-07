@@ -1,4 +1,4 @@
-﻿using Haskap.DddBase.Domain.Core;
+﻿using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;

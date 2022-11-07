@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using Haskap.DddBase.Utilities.ExtensionMethods;
-using Haskap.DddBase.Domain.Core;
 
 namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.OracleDbContext
 {

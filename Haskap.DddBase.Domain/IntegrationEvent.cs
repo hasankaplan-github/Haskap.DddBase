@@ -1,7 +1,7 @@
 using Haskap.DddBase.Utilities.Guids;
 using System;
 
-namespace Haskap.DddBase.Domain.Core;
+namespace Haskap.DddBase.Domain;
 
 public record IntegrationEvent : Event
 {

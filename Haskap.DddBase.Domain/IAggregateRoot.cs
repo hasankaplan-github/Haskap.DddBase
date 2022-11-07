@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Core;
-
-public interface IMultiTenant
+namespace Haskap.DddBase.Domain
 {
-    Guid? TenantId { get; set; }
+    public interface IAggregateRoot<TId> : IEntity<TId>
+    {
+    }
 }

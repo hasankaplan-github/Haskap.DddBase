@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Utilities", "Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj", "{5A6B1CCC-4165-4180-807F-CDE58AF5B567}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Core", "Haskap.DddBase.Domain.Core\Haskap.DddBase.Domain.Core.csproj", "{EBA6035B-2D8B-48E6-95FB-4F5936E353B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain", "Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj", "{EBA6035B-2D8B-48E6-95FB-4F5936E353B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Services", "Haskap.DddBase.Domain.Services\Haskap.DddBase.Domain.Services.csproj", "{A1793C57-520C-44D1-9393-97EF1DD7C783}"
 EndProject
@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Int
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Providers", "Haskap.DddBase.Domain.Providers\Haskap.DddBase.Domain.Providers.csproj", "{6E2A00A1-47FD-40B5-B933-0D1125BC56E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haskap.DddBase.Infra.Providers", "Haskap.DddBase.Infra.Providers\Haskap.DddBase.Infra.Providers.csproj", "{7050E7EB-61B4-44C6-B60A-1C054354BCC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Providers", "Haskap.DddBase.Infra.Providers\Haskap.DddBase.Infra.Providers.csproj", "{7050E7EB-61B4-44C6-B60A-1C054354BCC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{96C4FA64-72D0-4EB7-8D03-DA97D2F4AA0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

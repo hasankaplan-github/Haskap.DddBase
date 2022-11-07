@@ -1,4 +1,4 @@
-﻿namespace Haskap.DddBase.Domain.Core
+﻿namespace Haskap.DddBase.Domain
 {
     public interface IEntity<TId>
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Core.AuditHistoryLogAggregate;
+namespace Haskap.DddBase.Domain.AuditHistoryLogAggregate;
 
 public enum AuditHistoryLogModificationType
 {
