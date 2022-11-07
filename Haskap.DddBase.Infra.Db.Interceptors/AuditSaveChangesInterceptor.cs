@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
+namespace Haskap.DddBase.Infra.Db.Interceptors;
 
 
 /*

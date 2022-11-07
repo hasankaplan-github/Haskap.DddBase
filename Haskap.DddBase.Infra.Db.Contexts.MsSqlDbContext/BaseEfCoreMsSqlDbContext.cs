@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.MsSqlDbContext
+namespace Haskap.DddBase.Infra.Db.EfCoreDbContexts.MsSqlDbContext
 {
     public class BaseEfCoreMsSqlDbContext : DbContext
     {

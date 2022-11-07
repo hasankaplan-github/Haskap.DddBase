@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Haskap.DddBase.Infrastructure.Data.EfCoreEntityTypeConfigurations;
+namespace Haskap.DddBase.Infra.Db.EntityTypeConfigurations;
 
 //public class BaseEntityTypeConfiguration<TEntity, TId> : IEntityTypeConfiguration<TEntity>
 //where TEntity : Entity<TId>

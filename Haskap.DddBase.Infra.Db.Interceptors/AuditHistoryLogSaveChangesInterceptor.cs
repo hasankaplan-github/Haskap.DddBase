@@ -13,7 +13,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Infrastructure.Data.Interceptors;
+namespace Haskap.DddBase.Infra.Db.Interceptors;
 
 // burada da TUserId nullable olan Guid? olarak verilecek.
 public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterceptor

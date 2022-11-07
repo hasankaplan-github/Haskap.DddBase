@@ -6,7 +6,7 @@ using Haskap.DddBase.Domain;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.NpgsqlDbContext
+namespace Haskap.DddBase.Infra.Db.EfCoreDbContexts.NpgsqlDbContext
 {
     public class BaseEfCoreNpgsqlDbContext : DbContext
     {

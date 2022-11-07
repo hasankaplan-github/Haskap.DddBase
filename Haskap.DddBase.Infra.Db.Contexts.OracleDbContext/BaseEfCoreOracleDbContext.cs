@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Haskap.DddBase.Infrastructure.Data.EfCoreDbContexts.OracleDbContext
+namespace Haskap.DddBase.Infra.Db.EfCoreDbContexts.OracleDbContext
 {
     public class BaseEfCoreOracleDbContext : DbContext
     {
