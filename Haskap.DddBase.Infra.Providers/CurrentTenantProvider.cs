@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Domain.Providers;
 public class CurrentTenantProvider : ICurrentTenantProvider
 {
-    public Guid? CurrentTenantId { get; private set; } = Tenant.EmptyTenantId;
+    public Guid? CurrentTenantId { get; private set; } = null;
 
     public IDisposable ChangeCurrentTenant(Guid? newCurrentTenantId)
     {

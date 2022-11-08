@@ -9,8 +9,8 @@ namespace Haskap.DddBase.Domain.TenantAggregate;
 
 public class Tenant : AggregateRoot<Guid>
 {
-    public static Guid EmptyTenantId = Guid.Empty;
-    //public static Tenant AdminTenant = new(Guid.Parse("{9B55EE45-D859-458B-9D9C-DE8570969366}"), "AdminTenant");
+    public static Tenant Empty = new(Guid.Empty, "EmptyTenant");
+    public static Tenant Admin = new(Guid.Parse("11111111-1111-1111-1111-111111111111"), "AdminTenant");    
 
     public const string ClaimKey = "tenantKey";
     public const string HeaderKey = "tenantKey";

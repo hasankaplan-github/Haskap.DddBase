@@ -6,20 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain;
-public abstract class GeneralException : Exception
+public abstract class DomainException : Exception
 {
-    public GeneralException(HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
+    public DomainException(HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
     {
         HttpStatusCode = httpStatusCode;
     }
 
-    public GeneralException(string message, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
+    public DomainException(string message, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
         : base(message)
     {
         HttpStatusCode = httpStatusCode;
     }
 
-    public GeneralException(string message, Exception inner, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
+    public DomainException(string message, Exception inner, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
         : base(message, inner)
     {
         HttpStatusCode = httpStatusCode;

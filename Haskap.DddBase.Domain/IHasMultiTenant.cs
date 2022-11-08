@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain;
 
-public interface IMultiTenant
+public interface IHasMultiTenant
 {
     Guid? TenantId { get; set; }
 }
