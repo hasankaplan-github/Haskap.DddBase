@@ -14,23 +14,22 @@ namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 public class BaseContext : DbContext
 {
     protected ICurrentTenantProvider _currentTenantProvider;
-    protected Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
-    protected bool _multiTenancyIsEnabled => _currentTenantProvider.MultiTenancyIsEnabled;
 
-    //public BaseContext(
-    //    DbContextOptions<BaseContext> options,
-    //    ICurrentTenantProvider currentTenantProvider)
-    //    : base(options)
-    //{
-    //    //_currentTenantProvider = currentTenantProvider;
-    //}
+    protected IEfCoreGlobalQueryFilterParameterStatusProvider _efCoreGlobalQueryFilterParameterStatusProvider;
+
+
+    protected Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
+    protected bool _multiTenancyIsEnabled => _efCoreGlobalQueryFilterParameterStatusProvider.MultiTenancyFilterIsEnabled;
+    protected bool _softDeleteIsEnabled => _efCoreGlobalQueryFilterParameterStatusProvider.SoftDeleteFilterIsEnabled;
 
     protected BaseContext(
-        DbContextOptions options, 
-        ICurrentTenantProvider currentTenantProvider)
+        DbContextOptions options,
+        ICurrentTenantProvider currentTenantProvider,
+        IEfCoreGlobalQueryFilterParameterStatusProvider efCoreGlobalQueryFilterParameterStatusProvider)
         : base(options)
     {
         _currentTenantProvider = currentTenantProvider;
+        _efCoreGlobalQueryFilterParameterStatusProvider = efCoreGlobalQueryFilterParameterStatusProvider;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -111,7 +110,7 @@ public class BaseContext : DbContext
 
         if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
         {
-            softDeletableExpression = x => (x as ISoftDeletable).IsDeleted == false;
+            softDeletableExpression = x => !_softDeleteIsEnabled || (x as ISoftDeletable).IsDeleted == false;
         }
 
         if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)))

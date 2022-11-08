@@ -12,17 +12,14 @@ namespace Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext;
 
 public class BaseEfCoreNpgsqlDbContext : BaseContext
 {
-    //public BaseEfCoreNpgsqlDbContext(
-    //    DbContextOptions<BaseEfCoreNpgsqlDbContext> options,
-    //    ICurrentTenantProvider currentTenantProvider)
-    //    : base(options, currentTenantProvider)
-    //{
-    //}
-
     protected BaseEfCoreNpgsqlDbContext(
         DbContextOptions options, 
-        ICurrentTenantProvider currentTenantProvider)
-        : base(options, currentTenantProvider)
+        ICurrentTenantProvider currentTenantProvider,
+        IEfCoreGlobalQueryFilterParameterStatusProvider efCoreGlobalQueryFilterParameterStatusProvider)
+        : base(
+            options, 
+            currentTenantProvider, 
+            efCoreGlobalQueryFilterParameterStatusProvider)
     {
     }
 
