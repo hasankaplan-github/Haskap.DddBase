@@ -11,6 +11,8 @@ public class CurrentTenantProvider : ICurrentTenantProvider
 {
     public Guid? CurrentTenantId { get; private set; } = null;
 
+    public bool MultiTenancyIsEnabled => CurrentTenantId is not null;
+
     public IDisposable ChangeCurrentTenant(Guid? newCurrentTenantId)
     {
         var tempTenantId = CurrentTenantId;
@@ -19,5 +21,10 @@ public class CurrentTenantProvider : ICurrentTenantProvider
         {
             CurrentTenantId = tempTenantId;
         });
+    }
+
+    public IDisposable DisableMultiTenancy()
+    {
+        return ChangeCurrentTenant(null);
     }
 }
