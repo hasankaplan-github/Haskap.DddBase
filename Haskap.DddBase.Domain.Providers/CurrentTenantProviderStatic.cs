@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.Providers;
-public class CurrentTenantProvider
+public class CurrentTenantProviderStatic
 {
     // https://github.com/hikalkan/presentations/blob/master/2018-04-06-Multi-Tenancy/src/MultiTenancyDraft/Infrastructure/MultiTenancyMiddleware.cs
     public static Guid? CurrentTenantId

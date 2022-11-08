@@ -15,5 +15,6 @@ public static class ServiceCollectionExtensions
         //services.AddSingleton<IJwtProvider, JwtProvider>();
         services.AddScoped<ICurrentUserIdProvider<TUserId>, CurrentUserIdProvider<TUserId>>();
         services.AddScoped<IVisitIdProvider, VisitIdProvider>();
+        services.AddScoped<ICurrentTenantProvider, CurrentTenantProvider>();
     }
 }
