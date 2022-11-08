@@ -14,15 +14,15 @@ namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 public class BaseContext : DbContext
 {
     protected ICurrentTenantProvider _currentTenantProvider;
-    private Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
-    private bool _multiTenancyIsEnabled => _currentTenantProvider.MultiTenancyIsEnabled;
+    protected Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
+    protected bool _multiTenancyIsEnabled => _currentTenantProvider.MultiTenancyIsEnabled;
 
     //public BaseContext(
     //    DbContextOptions<BaseContext> options,
     //    ICurrentTenantProvider currentTenantProvider)
     //    : base(options)
     //{
-    //    _currentTenantProvider = currentTenantProvider;
+    //    //_currentTenantProvider = currentTenantProvider;
     //}
 
     protected BaseContext(
@@ -88,25 +88,14 @@ public class BaseContext : DbContext
         }
     }
 
-    private bool _isSoftDeletable = false;
-    private bool _hasMultiTenant = false;
-
     protected virtual bool ShouldFilterEntity<TEntity>(IMutableEntityType mutableEntityType)
     {
-        _isSoftDeletable = false;
-        _hasMultiTenant = false;
-
         if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
         {
-            _isSoftDeletable = true;
+            return true;
         }
 
         if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)))
-        {
-            _hasMultiTenant = true;
-        }
-
-        if (_isSoftDeletable || _hasMultiTenant)
         {
             return true;
         }
@@ -116,9 +105,56 @@ public class BaseContext : DbContext
 
     protected virtual Expression<Func<TEntity, bool>>? CreateFilterExpression<TEntity>()
     {
-        return (x => 
-        ((!_isSoftDeletable || (x as ISoftDeletable).IsDeleted == false) &&
-         (!_hasMultiTenant || !_multiTenancyIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId)));
+        Expression<Func<TEntity, bool>>? softDeletableExpression = null;
+        Expression<Func<TEntity, bool>>? multiTenancyExpression = null;
+        Expression<Func<TEntity, bool>>? combinedExpression = null;
+
+        if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
+        {
+            softDeletableExpression = x => (x as ISoftDeletable).IsDeleted == false;
+        }
+
+        if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)))
+        {
+            multiTenancyExpression = x => !_multiTenancyIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId;
+            combinedExpression = softDeletableExpression == null ? multiTenancyExpression : CombineExpressions(softDeletableExpression, multiTenancyExpression);
+        }
+
+        return combinedExpression;
     }
 
+    protected virtual Expression<Func<T, bool>> CombineExpressions<T>(Expression<Func<T, bool>> expression1, Expression<Func<T, bool>> expression2)
+    {
+        var parameter = Expression.Parameter(typeof(T));
+
+        var leftVisitor = new ReplaceExpressionVisitor(expression1.Parameters[0], parameter);
+        var left = leftVisitor.Visit(expression1.Body);
+
+        var rightVisitor = new ReplaceExpressionVisitor(expression2.Parameters[0], parameter);
+        var right = rightVisitor.Visit(expression2.Body);
+
+        return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
+    }
+
+    class ReplaceExpressionVisitor : ExpressionVisitor
+    {
+        private readonly Expression _oldValue;
+        private readonly Expression _newValue;
+
+        public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
+        {
+            _oldValue = oldValue;
+            _newValue = newValue;
+        }
+
+        public override Expression Visit(Expression node)
+        {
+            if (node == _oldValue)
+            {
+                return _newValue;
+            }
+
+            return base.Visit(node);
+        }
+    }
 }
