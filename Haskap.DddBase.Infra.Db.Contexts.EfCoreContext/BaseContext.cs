@@ -13,14 +13,14 @@ namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 
 public class BaseContext : DbContext
 {
-    protected ICurrentTenantProvider _currentTenantProvider;
+    protected ICurrentTenantProvider CurrentTenantProvider;
 
-    protected IEfCoreGlobalQueryFilterParameterStatusProvider _efCoreGlobalQueryFilterParameterStatusProvider;
+    protected IEfCoreGlobalQueryFilterParameterStatusProvider EfCoreGlobalQueryFilterParameterStatusProvider;
 
 
-    protected Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
-    protected bool _multiTenancyIsEnabled => _efCoreGlobalQueryFilterParameterStatusProvider.MultiTenancyFilterIsEnabled;
-    protected bool _softDeleteIsEnabled => _efCoreGlobalQueryFilterParameterStatusProvider.SoftDeleteFilterIsEnabled;
+    protected Guid? CurrentTenantId => CurrentTenantProvider.CurrentTenantId;
+    protected bool MultiTenancyFilterIsEnabled => EfCoreGlobalQueryFilterParameterStatusProvider.MultiTenancyFilterIsEnabled;
+    protected bool SoftDeleteFilterIsEnabled => EfCoreGlobalQueryFilterParameterStatusProvider.SoftDeleteFilterIsEnabled;
 
     protected BaseContext(
         DbContextOptions options,
@@ -28,8 +28,8 @@ public class BaseContext : DbContext
         IEfCoreGlobalQueryFilterParameterStatusProvider efCoreGlobalQueryFilterParameterStatusProvider)
         : base(options)
     {
-        _currentTenantProvider = currentTenantProvider;
-        _efCoreGlobalQueryFilterParameterStatusProvider = efCoreGlobalQueryFilterParameterStatusProvider;
+        CurrentTenantProvider = currentTenantProvider;
+        EfCoreGlobalQueryFilterParameterStatusProvider = efCoreGlobalQueryFilterParameterStatusProvider;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -110,12 +110,12 @@ public class BaseContext : DbContext
 
         if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
         {
-            softDeletableExpression = x => !_softDeleteIsEnabled || (x as ISoftDeletable).IsDeleted == false;
+            softDeletableExpression = x => !SoftDeleteFilterIsEnabled || (x as ISoftDeletable).IsDeleted == false;
         }
 
         if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)))
         {
-            multiTenancyExpression = x => !_multiTenancyIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId;
+            multiTenancyExpression = x => !MultiTenancyFilterIsEnabled || (x as IHasMultiTenant).TenantId == CurrentTenantId;
             combinedExpression = softDeletableExpression == null ? multiTenancyExpression : CombineExpressions(softDeletableExpression, multiTenancyExpression);
         }
 
