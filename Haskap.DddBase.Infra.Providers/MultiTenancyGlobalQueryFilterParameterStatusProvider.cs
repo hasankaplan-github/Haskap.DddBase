@@ -7,18 +7,34 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Infra.Providers;
-public class EfCoreGlobalQueryFilterParameterStatusProvider : IEfCoreGlobalQueryFilterParameterStatusProvider
+public class MultiTenancyGlobalQueryFilterParameterStatusProvider : IMultiTenancyGlobalQueryFilterParameterStatusProvider
 {
-    public bool MultiTenancyFilterIsEnabled => _currentTenantProvider.CurrentTenantId is not null;
-
-    public bool SoftDeleteFilterIsEnabled { get; private set; } = true;
-
     private readonly ICurrentTenantProvider _currentTenantProvider;
 
-    public EfCoreGlobalQueryFilterParameterStatusProvider(ICurrentTenantProvider currentTenantProvider)
+    public bool IsEnabled => _currentTenantProvider.CurrentTenantId is not null;
+
+    public MultiTenancyGlobalQueryFilterParameterStatusProvider(ICurrentTenantProvider currentTenantProvider)
     {
         _currentTenantProvider = currentTenantProvider;
     }
+
+    public IDisposable DisableFilterParameter()
+    {
+        return _currentTenantProvider.ChangeCurrentTenant(null);
+    }
+
+    public IDisposable EnableFilterParameter()
+    {
+        throw new NotSupportedException();
+    }
+
+
+
+
+
+    public bool SoftDeleteFilterIsEnabled { get; private set; } = true;
+
+    
 
     private IDisposable ChangeSoftDeleteFilterStatus(bool isEnabled)
     {
@@ -28,11 +44,6 @@ public class EfCoreGlobalQueryFilterParameterStatusProvider : IEfCoreGlobalQuery
         {
             SoftDeleteFilterIsEnabled = oldStatus;
         });
-    }
-
-    public IDisposable DisableMultiTenancyFilter()
-    {
-        return _currentTenantProvider.ChangeCurrentTenant(null);
     }
 
     public IDisposable EnableSoftDeleteFilter()

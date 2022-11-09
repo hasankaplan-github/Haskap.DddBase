@@ -13,23 +13,25 @@ namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 
 public class BaseContext : DbContext
 {
-    protected ICurrentTenantProvider CurrentTenantProvider;
+    private readonly ICurrentTenantProvider _currentTenantProvider;
+    private readonly IMultiTenancyGlobalQueryFilterParameterStatusProvider _multiTenancyGlobalQueryFilterParameterStatusProvider;
+    private readonly ISoftDeleteGlobalQueryFilterParameterStatusProvider _softDeleteGlobalQueryFilterParameterStatusProvider;
 
-    protected IEfCoreGlobalQueryFilterParameterStatusProvider EfCoreGlobalQueryFilterParameterStatusProvider;
 
-
-    protected Guid? CurrentTenantId => CurrentTenantProvider.CurrentTenantId;
-    protected bool MultiTenancyFilterIsEnabled => EfCoreGlobalQueryFilterParameterStatusProvider.MultiTenancyFilterIsEnabled;
-    protected bool SoftDeleteFilterIsEnabled => EfCoreGlobalQueryFilterParameterStatusProvider.SoftDeleteFilterIsEnabled;
+    private Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
+    private bool _multiTenancyFilterIsEnabled => _multiTenancyGlobalQueryFilterParameterStatusProvider.IsEnabled;
+    private bool _softDeleteFilterIsEnabled => _softDeleteGlobalQueryFilterParameterStatusProvider.IsEnabled;
 
     protected BaseContext(
         DbContextOptions options,
         ICurrentTenantProvider currentTenantProvider,
-        IEfCoreGlobalQueryFilterParameterStatusProvider efCoreGlobalQueryFilterParameterStatusProvider)
+        IMultiTenancyGlobalQueryFilterParameterStatusProvider multiTenancyGlobalQueryFilterParameterStatusProvider,
+        ISoftDeleteGlobalQueryFilterParameterStatusProvider softDeleteGlobalQueryFilterParameterStatusProvider)
         : base(options)
     {
-        CurrentTenantProvider = currentTenantProvider;
-        EfCoreGlobalQueryFilterParameterStatusProvider = efCoreGlobalQueryFilterParameterStatusProvider;
+        _currentTenantProvider = currentTenantProvider;
+        _multiTenancyGlobalQueryFilterParameterStatusProvider = multiTenancyGlobalQueryFilterParameterStatusProvider;
+        _softDeleteGlobalQueryFilterParameterStatusProvider = softDeleteGlobalQueryFilterParameterStatusProvider;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -110,12 +112,12 @@ public class BaseContext : DbContext
 
         if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
         {
-            softDeletableExpression = x => !SoftDeleteFilterIsEnabled || (x as ISoftDeletable).IsDeleted == false;
+            softDeletableExpression = x => !_softDeleteFilterIsEnabled || (x as ISoftDeletable).IsDeleted == false;
         }
 
         if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)))
         {
-            multiTenancyExpression = x => !MultiTenancyFilterIsEnabled || (x as IHasMultiTenant).TenantId == CurrentTenantId;
+            multiTenancyExpression = x => !_multiTenancyFilterIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId;
             combinedExpression = softDeletableExpression == null ? multiTenancyExpression : CombineExpressions(softDeletableExpression, multiTenancyExpression);
         }
 

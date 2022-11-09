@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICurrentUserIdProvider<TUserId>, CurrentUserIdProvider<TUserId>>();
         services.AddScoped<IVisitIdProvider, VisitIdProvider>();
         services.AddScoped<ICurrentTenantProvider, CurrentTenantProvider>();
-        services.AddScoped<IEfCoreGlobalQueryFilterParameterStatusProvider, EfCoreGlobalQueryFilterParameterStatusProvider>();
+        services.AddScoped<IMultiTenancyGlobalQueryFilterParameterStatusProvider, MultiTenancyGlobalQueryFilterParameterStatusProvider>();
+        services.AddScoped<ISoftDeleteGlobalQueryFilterParameterStatusProvider, SoftDeleteGlobalQueryFilterParameterStatusProvider>();
     }
 }

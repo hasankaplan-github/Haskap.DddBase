@@ -15,11 +15,13 @@ public class BaseEfCoreNpgsqlDbContext : BaseContext
     protected BaseEfCoreNpgsqlDbContext(
         DbContextOptions options, 
         ICurrentTenantProvider currentTenantProvider,
-        IEfCoreGlobalQueryFilterParameterStatusProvider efCoreGlobalQueryFilterParameterStatusProvider)
+        IMultiTenancyGlobalQueryFilterParameterStatusProvider multiTenancyGlobalQueryFilterParameterStatusProvider,
+        ISoftDeleteGlobalQueryFilterParameterStatusProvider softDeleteGlobalQueryFilterParameterStatusProvider)
         : base(
             options, 
             currentTenantProvider, 
-            efCoreGlobalQueryFilterParameterStatusProvider)
+            multiTenancyGlobalQueryFilterParameterStatusProvider,
+            softDeleteGlobalQueryFilterParameterStatusProvider)
     {
     }
 
