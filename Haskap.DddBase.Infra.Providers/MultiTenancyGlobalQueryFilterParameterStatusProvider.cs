@@ -27,32 +27,4 @@ public class MultiTenancyGlobalQueryFilterParameterStatusProvider : IMultiTenanc
     {
         throw new NotSupportedException();
     }
-
-
-
-
-
-    public bool SoftDeleteFilterIsEnabled { get; private set; } = true;
-
-    
-
-    private IDisposable ChangeSoftDeleteFilterStatus(bool isEnabled)
-    {
-        var oldStatus = SoftDeleteFilterIsEnabled;
-        SoftDeleteFilterIsEnabled = isEnabled;
-        return new DisposeAction(() =>
-        {
-            SoftDeleteFilterIsEnabled = oldStatus;
-        });
-    }
-
-    public IDisposable EnableSoftDeleteFilter()
-    {
-        return ChangeSoftDeleteFilterStatus(true);
-    }
-
-    public IDisposable DisableSoftDeleteFilter()
-    {
-        return ChangeSoftDeleteFilterStatus(false);
-    }
 }
