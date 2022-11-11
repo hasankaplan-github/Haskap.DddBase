@@ -13,13 +13,13 @@ namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 
 public class BaseContext : DbContext
 {
-    private readonly ICurrentTenantProvider _currentTenantProvider;
-    private readonly IGlobalQueryFilterParameterStatusCollectionProvider _filterParameterStatusCollectionProvider;
+    protected ICurrentTenantProvider _currentTenantProvider;
+    protected IGlobalQueryFilterParameterStatusCollectionProvider _globalQueryFilterParameterStatusCollectionProvider;
 
 
     private Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
-    private bool _multiTenancyFilterIsEnabled => _filterParameterStatusCollectionProvider.IsEnabled<IHasMultiTenant>();
-    private bool _softDeleteFilterIsEnabled => _filterParameterStatusCollectionProvider.IsEnabled<ISoftDeletable>();
+    private bool _multiTenancyFilterIsEnabled => _globalQueryFilterParameterStatusCollectionProvider.IsEnabled<IHasMultiTenant>();
+    private bool _softDeleteFilterIsEnabled => _globalQueryFilterParameterStatusCollectionProvider.IsEnabled<ISoftDeletable>();
 
     protected BaseContext(
         DbContextOptions options,
@@ -28,7 +28,7 @@ public class BaseContext : DbContext
         : base(options)
     {
         _currentTenantProvider = currentTenantProvider;
-        _filterParameterStatusCollectionProvider = filterParameterStatusCollectionProvider;
+        _globalQueryFilterParameterStatusCollectionProvider = filterParameterStatusCollectionProvider;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
