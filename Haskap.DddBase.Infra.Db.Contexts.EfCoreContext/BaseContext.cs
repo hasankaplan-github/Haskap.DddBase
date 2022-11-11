@@ -14,24 +14,21 @@ namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 public class BaseContext : DbContext
 {
     private readonly ICurrentTenantProvider _currentTenantProvider;
-    private readonly IMultiTenancyGlobalQueryFilterParameterStatusProvider _multiTenancyGlobalQueryFilterParameterStatusProvider;
-    private readonly ISoftDeleteGlobalQueryFilterParameterStatusProvider _softDeleteGlobalQueryFilterParameterStatusProvider;
+    private readonly IGlobalQueryFilterParameterStatusCollectionProvider _filterParameterStatusCollectionProvider;
 
 
     private Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
-    private bool _multiTenancyFilterIsEnabled => _multiTenancyGlobalQueryFilterParameterStatusProvider.IsEnabled;
-    private bool _softDeleteFilterIsEnabled => _softDeleteGlobalQueryFilterParameterStatusProvider.IsEnabled;
+    private bool _multiTenancyFilterIsEnabled => _filterParameterStatusCollectionProvider.IsEnabled<IHasMultiTenant>();
+    private bool _softDeleteFilterIsEnabled => _filterParameterStatusCollectionProvider.IsEnabled<ISoftDeletable>();
 
     protected BaseContext(
         DbContextOptions options,
         ICurrentTenantProvider currentTenantProvider,
-        IMultiTenancyGlobalQueryFilterParameterStatusProvider multiTenancyGlobalQueryFilterParameterStatusProvider,
-        ISoftDeleteGlobalQueryFilterParameterStatusProvider softDeleteGlobalQueryFilterParameterStatusProvider)
+        IGlobalQueryFilterParameterStatusCollectionProvider filterParameterStatusCollectionProvider)
         : base(options)
     {
         _currentTenantProvider = currentTenantProvider;
-        _multiTenancyGlobalQueryFilterParameterStatusProvider = multiTenancyGlobalQueryFilterParameterStatusProvider;
-        _softDeleteGlobalQueryFilterParameterStatusProvider = softDeleteGlobalQueryFilterParameterStatusProvider;
+        _filterParameterStatusCollectionProvider = filterParameterStatusCollectionProvider;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
