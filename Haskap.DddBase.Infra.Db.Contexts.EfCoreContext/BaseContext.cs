@@ -103,22 +103,20 @@ public class BaseContext : DbContext
 
     protected virtual Expression<Func<TEntity, bool>>? CreateFilterExpression<TEntity>()
     {
-        Expression<Func<TEntity, bool>>? softDeletableExpression = null;
-        Expression<Func<TEntity, bool>>? multiTenancyExpression = null;
-        Expression<Func<TEntity, bool>>? combinedExpression = null;
+        Expression<Func<TEntity, bool>>? expression = null;
 
         if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
         {
-            softDeletableExpression = x => !_softDeleteFilterIsEnabled || (x as ISoftDeletable).IsDeleted == false;
+            expression = x => !_softDeleteFilterIsEnabled || (x as ISoftDeletable).IsDeleted == false;
         }
 
         if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)))
         {
-            multiTenancyExpression = x => !_multiTenancyFilterIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId;
-            combinedExpression = softDeletableExpression == null ? multiTenancyExpression : CombineExpressions(softDeletableExpression, multiTenancyExpression);
+            Expression<Func<TEntity, bool>>? multiTenancyExpression = x => !_multiTenancyFilterIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId;
+            expression = expression == null ? multiTenancyExpression : CombineExpressions(expression, multiTenancyExpression);
         }
 
-        return combinedExpression;
+        return expression;
     }
 
     protected virtual Expression<Func<T, bool>> CombineExpressions<T>(Expression<Func<T, bool>> expression1, Expression<Func<T, bool>> expression2)
