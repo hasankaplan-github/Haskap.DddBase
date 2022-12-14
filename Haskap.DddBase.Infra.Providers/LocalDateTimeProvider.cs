@@ -13,6 +13,6 @@ public class LocalDateTimeProvider : ILocalDateTimeProvider
     public DateTime ConvertToLocal(DateTime dateTime)
     {
         SystemTimeZoneId = SystemTimeZoneId == string.Empty ? "GMT Standard Time" : SystemTimeZoneId;
-        return DateTime.SpecifyKind(TimeZoneInfo.ConvertTimeBySystemTimeZoneId(dateTime, SystemTimeZoneId), DateTimeKind.Local);
+        return DateTime.SpecifyKind(TimeZoneInfo.ConvertTimeBySystemTimeZoneId(dateTime.ToUniversalTime(), SystemTimeZoneId), DateTimeKind.Local);
     }
 }
