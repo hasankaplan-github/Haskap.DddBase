@@ -11,7 +11,7 @@ public class MultiTenancyGlobalQueryFilterParameterStatusProvider : IMultiTenanc
 {
     private readonly ICurrentTenantProvider _currentTenantProvider;
 
-    public bool IsEnabled => _currentTenantProvider.CurrentTenantId is not null;
+    public bool IsEnabled => _currentTenantProvider?.CurrentTenantId is not null;
 
     public MultiTenancyGlobalQueryFilterParameterStatusProvider(ICurrentTenantProvider currentTenantProvider)
     {
