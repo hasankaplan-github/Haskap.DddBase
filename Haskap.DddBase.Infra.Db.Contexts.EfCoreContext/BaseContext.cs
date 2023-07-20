@@ -17,9 +17,9 @@ public class BaseContext : DbContext
     protected IGlobalQueryFilterParameterStatusCollectionProvider _globalQueryFilterParameterStatusCollectionProvider;
 
 
-    private Guid? _currentTenantId => _currentTenantProvider.CurrentTenantId;
-    private bool _multiTenancyFilterIsEnabled => _globalQueryFilterParameterStatusCollectionProvider.IsEnabled<IHasMultiTenant>();
-    private bool _softDeleteFilterIsEnabled => _globalQueryFilterParameterStatusCollectionProvider.IsEnabled<ISoftDeletable>();
+    private Guid? _currentTenantId => _currentTenantProvider?.CurrentTenantId;
+    private bool _multiTenancyFilterIsEnabled => _globalQueryFilterParameterStatusCollectionProvider is null ? false : _globalQueryFilterParameterStatusCollectionProvider.IsEnabled<IHasMultiTenant>();
+    private bool _softDeleteFilterIsEnabled => _globalQueryFilterParameterStatusCollectionProvider is null ? false : _globalQueryFilterParameterStatusCollectionProvider.IsEnabled<ISoftDeletable>();
 
     protected BaseContext(
         DbContextOptions options,
