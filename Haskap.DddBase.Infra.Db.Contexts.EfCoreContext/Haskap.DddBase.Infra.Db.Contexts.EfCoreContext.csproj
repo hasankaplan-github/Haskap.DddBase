@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Haskap.DddBase.Domain.Providers\Haskap.DddBase.Domain.Providers.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
   </ItemGroup>
 
