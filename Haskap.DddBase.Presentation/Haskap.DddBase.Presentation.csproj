@@ -8,10 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\Haskap.DddBase.Domain.Providers\Haskap.DddBase.Domain.Providers.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Domain.Shared\Haskap.DddBase.Domain.Shared.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />

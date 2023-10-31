@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Utilities", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain", "Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj", "{EBA6035B-2D8B-48E6-95FB-4F5936E353B4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Services", "Haskap.DddBase.Domain.Services\Haskap.DddBase.Domain.Services.csproj", "{A1793C57-520C-44D1-9393-97EF1DD7C783}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{95644666-8E8C-483C-B8F5-0599C8859CDC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext", "Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext\Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext.csproj", "{D69408EC-9592-4409-B54E-4323A8E98CAC}"
@@ -43,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Presentation", "Haskap.DddBase.Presentation\Haskap.DddBase.Presentation.csproj", "{265EDCEF-4279-4533-9EE2-C964147F9506}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haskap.DddBase.Domain.Shared", "Haskap.DddBase.Domain.Shared\Haskap.DddBase.Domain.Shared.csproj", "{2B1FCD20-E662-4260-BC48-AAD9FF116987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Domain.Shared", "Haskap.DddBase.Domain.Shared\Haskap.DddBase.Domain.Shared.csproj", "{2B1FCD20-E662-4260-BC48-AAD9FF116987}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +57,6 @@ Global
 		{EBA6035B-2D8B-48E6-95FB-4F5936E353B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBA6035B-2D8B-48E6-95FB-4F5936E353B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBA6035B-2D8B-48E6-95FB-4F5936E353B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1793C57-520C-44D1-9393-97EF1DD7C783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1793C57-520C-44D1-9393-97EF1DD7C783}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1793C57-520C-44D1-9393-97EF1DD7C783}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1793C57-520C-44D1-9393-97EF1DD7C783}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D69408EC-9592-4409-B54E-4323A8E98CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D69408EC-9592-4409-B54E-4323A8E98CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D69408EC-9592-4409-B54E-4323A8E98CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -122,7 +116,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5A6B1CCC-4165-4180-807F-CDE58AF5B567} = {B7715CD6-10AB-4E32-BD0B-51C25F43B05C}
 		{EBA6035B-2D8B-48E6-95FB-4F5936E353B4} = {38CC997A-234F-4A90-95D3-7EC5E5C0E262}
-		{A1793C57-520C-44D1-9393-97EF1DD7C783} = {38CC997A-234F-4A90-95D3-7EC5E5C0E262}
 		{D69408EC-9592-4409-B54E-4323A8E98CAC} = {95644666-8E8C-483C-B8F5-0599C8859CDC}
 		{893D63C7-DA30-4AC7-92BE-24573643320D} = {95644666-8E8C-483C-B8F5-0599C8859CDC}
 		{63758F45-8CBC-4B3A-B5AB-24C84DA5C158} = {95644666-8E8C-483C-B8F5-0599C8859CDC}
