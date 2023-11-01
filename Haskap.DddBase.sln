@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Interceptors", "Haskap.DddBase.Infra.Db.Interceptors\Haskap.DddBase.Infra.Db.Interceptors.csproj", "{FF07E4AE-FB85-459B-A5BA-BB911E4B1B55}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Providers", "Haskap.DddBase.Infra.Providers\Haskap.DddBase.Infra.Providers.csproj", "{7050E7EB-61B4-44C6-B60A-1C054354BCC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra", "Haskap.DddBase.Infra\Haskap.DddBase.Infra.csproj", "{7050E7EB-61B4-44C6-B60A-1C054354BCC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{96C4FA64-72D0-4EB7-8D03-DA97D2F4AA0C}"
 EndProject

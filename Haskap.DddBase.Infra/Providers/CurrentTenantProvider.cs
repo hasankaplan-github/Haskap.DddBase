@@ -1,4 +1,5 @@
-﻿using Haskap.DddBase.Domain.TenantAggregate;
+﻿using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Domain.TenantAggregate;
 using Haskap.DddBase.Utilities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain.Providers;
+namespace Haskap.DddBase.Infra.Providers;
 public class CurrentTenantProvider : ICurrentTenantProvider
 {
     public Guid? CurrentTenantId { get; private set; } = null;
