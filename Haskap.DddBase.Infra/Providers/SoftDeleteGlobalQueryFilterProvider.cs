@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Infra.Providers;
-public class SoftDeleteGlobalQueryFilterParameterStatusProvider : ISoftDeleteGlobalQueryFilterParameterStatusProvider
+public class SoftDeleteGlobalQueryFilterProvider : ISoftDeleteGlobalQueryFilterProvider
 {
     public bool IsEnabled { get; private set; } = true;
 
@@ -21,12 +21,12 @@ public class SoftDeleteGlobalQueryFilterParameterStatusProvider : ISoftDeleteGlo
         });
     }
 
-    public IDisposable DisableFilterParameter()
+    public IDisposable Disable()
     {
         return ChangeSoftDeleteFilterStatus(false);
     }
 
-    public IDisposable EnableFilterParameter()
+    public IDisposable Enable()
     {
         return ChangeSoftDeleteFilterStatus(true);
     }

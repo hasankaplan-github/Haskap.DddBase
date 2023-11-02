@@ -7,23 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Infra.Providers;
-public class MultiTenancyGlobalQueryFilterParameterStatusProvider : IMultiTenancyGlobalQueryFilterParameterStatusProvider
+public class MultiTenancyGlobalQueryFilterProvider : IMultiTenancyGlobalQueryFilterProvider
 {
     private readonly ICurrentTenantProvider _currentTenantProvider;
 
     public bool IsEnabled => _currentTenantProvider?.CurrentTenantId is not null;
 
-    public MultiTenancyGlobalQueryFilterParameterStatusProvider(ICurrentTenantProvider currentTenantProvider)
+    public MultiTenancyGlobalQueryFilterProvider(ICurrentTenantProvider currentTenantProvider)
     {
         _currentTenantProvider = currentTenantProvider;
     }
 
-    public IDisposable DisableFilterParameter()
+    public IDisposable Disable()
     {
         return _currentTenantProvider.ChangeCurrentTenant(null);
     }
 
-    public IDisposable EnableFilterParameter()
+    public IDisposable Enable()
     {
         throw new NotSupportedException();
     }

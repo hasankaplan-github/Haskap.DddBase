@@ -17,10 +17,10 @@ public class MultiTenancyMiddleware
     public async Task Invoke(
         HttpContext httpContext,
         ICurrentTenantProvider currentTenantProvider,
-        IGlobalQueryFilterParameterStatusCollectionProvider filterParameterStatusCollectionProvider,
-        IMultiTenancyGlobalQueryFilterParameterStatusProvider multiTenancyGlobalQueryFilterParameterStatusProvider)
+        IGlobalQueryFilterGenericProvider globalQueryFilterGenericProvider,
+        IMultiTenancyGlobalQueryFilterProvider multiTenancyGlobalQueryFilterProvider)
     {
-        filterParameterStatusCollectionProvider.AddFilterParameterStatusProvider<IHasMultiTenant>(multiTenancyGlobalQueryFilterParameterStatusProvider);
+        globalQueryFilterGenericProvider.AddFilterProvider<IHasMultiTenant>(multiTenancyGlobalQueryFilterProvider);
 
         using (currentTenantProvider.ChangeCurrentTenant(FindTenant(httpContext)))
         {

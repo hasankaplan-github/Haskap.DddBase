@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.Providers;
-public interface ISoftDeleteGlobalQueryFilterParameterStatusProvider : IGlobalQueryFilterParameterStatusProvider
+public interface IMultiTenancyGlobalQueryFilterProvider : IGlobalQueryFilterProvider
 {
 }

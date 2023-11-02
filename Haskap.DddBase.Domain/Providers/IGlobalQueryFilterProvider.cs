@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.Providers;
-public interface IGlobalQueryFilterParameterStatusProvider
+public interface IGlobalQueryFilterProvider
 {
     bool IsEnabled { get; }
 
-    IDisposable DisableFilterParameter();
-    IDisposable EnableFilterParameter();
+    IDisposable Disable();
+    IDisposable Enable();
 }
