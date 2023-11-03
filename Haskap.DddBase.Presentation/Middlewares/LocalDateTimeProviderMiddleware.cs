@@ -1,6 +1,6 @@
 ﻿using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Domain.Shared;
+using Haskap.DddBase.Domain.Shared.Consts;
 using Haskap.DddBase.Domain.TenantAggregate;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -23,7 +23,7 @@ public class LocalDateTimeProviderMiddleware
         HttpContext httpContext,
         ILocalDateTimeProvider localDateTimeProvider)
     {
-        var userSystemTimeZoneId = httpContext.User.FindFirst(Consts.LocalDateTimeProviderConsts.UserSystemTimeZoneIdClaimKey)?.Value ?? string.Empty;
+        var userSystemTimeZoneId = httpContext.User.FindFirst(LocalDateTimeProviderConsts.UserSystemTimeZoneIdClaimKey)?.Value ?? string.Empty;
         localDateTimeProvider.SystemTimeZoneId = userSystemTimeZoneId;
 
         await _next(httpContext);
