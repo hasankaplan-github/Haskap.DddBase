@@ -22,4 +22,9 @@ public static class MiddlewareExtensions
     {
         return builder.UseMiddleware<LocalDateTimeProviderMiddleware>();
     }
+
+    public static IApplicationBuilder UseCurrentUserIdProvider(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<CurrentUserIdProviderMiddleware>();
+    }
 }
