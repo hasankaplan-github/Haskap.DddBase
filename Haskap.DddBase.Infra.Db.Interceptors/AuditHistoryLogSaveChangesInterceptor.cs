@@ -19,12 +19,12 @@ namespace Haskap.DddBase.Infra.Db.Interceptors;
 // burada da TUserId nullable olan Guid? olarak verilecek.
 public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
 {
-    private readonly ICurrentUserIdProvider<TUserId>? _currentUserIdProvider;
+    private readonly ICurrentUserIdProvider? _currentUserIdProvider;
     private readonly IVisitIdProvider? _visitIdProvider;
     private readonly ICurrentTenantProvider _currentTenantProvider;
 
     public AuditHistoryLogSaveChangesInterceptor(
-        ICurrentUserIdProvider<TUserId>? currentUserIdProvider,
+        ICurrentUserIdProvider? currentUserIdProvider,
         IVisitIdProvider? visitIdProvider,
         ICurrentTenantProvider currentTenantProvider)
     {
@@ -34,7 +34,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
     }
 
 
-    private AuditHistoryLog<TUserId> GetAuditHistoryLogForEntry(EntityEntry entityEntry)
+    private AuditHistoryLog GetAuditHistoryLogForEntry(EntityEntry entityEntry)
     {
         var keyValues = new Dictionary<string, object>();
         var originalValues = new Dictionary<string, object?>();
@@ -89,11 +89,11 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
             }
         }
 
-        var auditHistoryLog = new AuditHistoryLog<TUserId>(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
+        var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
         var modificationType = DetectModificationType(entityEntry);
         auditHistoryLog.ModificationType = modificationType;
         auditHistoryLog.ModificationDate = DateTime.UtcNow;
-        auditHistoryLog.ModifiedUserId = _currentUserIdProvider is null ? default(TUserId) : _currentUserIdProvider.CurrentUserId;
+        auditHistoryLog.ModifiedUserId = _currentUserIdProvider?.CurrentUserId;
         auditHistoryLog.VisitId = _visitIdProvider?.VisitId;
         auditHistoryLog.TenantId = _currentTenantProvider?.CurrentTenantId;
         auditHistoryLog.ObjectFullType = entityEntry.Entity.GetType().ToString();
@@ -109,7 +109,7 @@ public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterce
     {
         var entityEntries = dbContext.ChangeTracker
                                         .Entries()
-                                        .Where(x => !(x.Entity is AuditHistoryLog<TUserId>)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
+                                        .Where(x => !(x.Entity is AuditHistoryLog)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.Metadata.IsOwned() == false
                                                 && (x.State == EntityState.Deleted || x.State == EntityState.Modified || x.State == EntityState.Added)
                                                 && (Attribute.IsDefined(x.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))

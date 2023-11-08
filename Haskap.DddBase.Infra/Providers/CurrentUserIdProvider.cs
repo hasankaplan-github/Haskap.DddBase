@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Infra.Providers;
-public class CurrentUserIdProvider<TUserId> : ICurrentUserIdProvider<TUserId>
+public class CurrentUserIdProvider : ICurrentUserIdProvider
 {
-    public TUserId CurrentUserId { get; set; } = default(TUserId);
+    public Guid? CurrentUserId { get; set; } = null;
 }

@@ -15,11 +15,11 @@ namespace Haskap.DddBase.Infra.Db.Interceptors;
     Buradaki TUserId Guid? şeklinde nullable  olarak verilecek.
     Entity' de de IAuditable<Guid?> olarak verilecek ve user id ler nullable olmuş olacak.
  */
-public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
+public class AuditSaveChangesInterceptor : SaveChangesInterceptor
 {
-    private readonly ICurrentUserIdProvider<TUserId>? _currentUserIdProvider;
+    private readonly ICurrentUserIdProvider? _currentUserIdProvider;
 
-    public AuditSaveChangesInterceptor(ICurrentUserIdProvider<TUserId>? currentUserIdProvider)
+    public AuditSaveChangesInterceptor(ICurrentUserIdProvider? currentUserIdProvider)
     {
         _currentUserIdProvider = currentUserIdProvider;
     }
@@ -28,9 +28,9 @@ public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
     {
         var addedAuditableEntities = dbContext.ChangeTracker
                                         .Entries()
-                                        .Where(x => x.Entity is IAuditable<TUserId>  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
+                                        .Where(x => x.Entity is IAuditable  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.State == EntityState.Added)
-                                        .Select(x => x.Entity as IAuditable<TUserId>)
+                                        .Select(x => x.Entity as IAuditable)
                                         .ToList();
 
         foreach (var addedAuditableEntity in addedAuditableEntities)
@@ -39,7 +39,7 @@ public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
             dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedAt).IsModified = false;
 
             addedAuditableEntity.CreatedAt = DateTime.UtcNow;
-            addedAuditableEntity.CreatedUserId = _currentUserIdProvider is null ? default(TUserId) : _currentUserIdProvider.CurrentUserId;
+            addedAuditableEntity.CreatedUserId = _currentUserIdProvider?.CurrentUserId;
         }
     }
 
@@ -47,9 +47,9 @@ public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
     {
         var modifiedAuditableEntities = dbContext.ChangeTracker
                                         .Entries()
-                                        .Where(x => x.Entity is IAuditable<TUserId>  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
+                                        .Where(x => x.Entity is IAuditable  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
                                                 && x.State == EntityState.Modified)
-                                        .Select(x => x.Entity as IAuditable<TUserId>)
+                                        .Select(x => x.Entity as IAuditable)
                                         .ToList();
 
         foreach (var modifiedAuditableEntity in modifiedAuditableEntities)
@@ -58,7 +58,7 @@ public class AuditSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
             dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedAt).IsModified = false;
 
             modifiedAuditableEntity.ModifiedAt = DateTime.UtcNow;
-            modifiedAuditableEntity.ModifiedUserId = _currentUserIdProvider is null ? default(TUserId) : _currentUserIdProvider.CurrentUserId;
+            modifiedAuditableEntity.ModifiedUserId = _currentUserIdProvider?.CurrentUserId;
         }
     }
 

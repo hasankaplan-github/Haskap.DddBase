@@ -22,7 +22,7 @@ public class CurrentUserIdProviderMiddleware
 
     public async Task Invoke(
         HttpContext httpContext,
-        ICurrentUserIdProvider<Guid?> currentUserIdProvider)
+        ICurrentUserIdProvider currentUserIdProvider)
     {
         if (Guid.TryParse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out Guid userId))
         {

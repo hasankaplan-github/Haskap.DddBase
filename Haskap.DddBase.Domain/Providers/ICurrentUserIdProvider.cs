@@ -1,6 +1,6 @@
 ﻿namespace Haskap.DddBase.Domain.Providers;
 
-public interface ICurrentUserIdProvider<TUserId>
+public interface ICurrentUserIdProvider
 {
-    TUserId CurrentUserId { get; set; }
+    Guid? CurrentUserId { get; set; }
 }

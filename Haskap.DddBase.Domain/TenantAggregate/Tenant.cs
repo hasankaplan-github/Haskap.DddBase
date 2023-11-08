@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.TenantAggregate;
 
-public class Tenant : AggregateRoot<Guid>
+public class Tenant : AggregateRoot<Guid>, IAuditable
 {
     public static Tenant Empty = new(Guid.Empty, "EmptyTenant");
     public static Tenant Admin = new(Guid.Parse("11111111-1111-1111-1111-111111111111"), "AdminTenant");    
@@ -17,6 +17,12 @@ public class Tenant : AggregateRoot<Guid>
     public const string CookieKey = "tenantKey";
 
     public string Name { get; private set; }
+
+
+    public Guid? CreatedUserId { get; set; } = null;
+    public DateTime? CreatedAt { get; set; } = null;
+    public Guid? ModifiedUserId { get; set; } = null;
+    public DateTime? ModifiedAt { get; set; } = null;
 
     private Tenant()
     {

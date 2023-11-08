@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Domain
+namespace Haskap.DddBase.Domain;
+
+public interface IAuditable
 {
-    public interface IAuditable<TUserId>
-    {
-        TUserId CreatedUserId { get; set; }
-        DateTime? CreatedAt { get; set; }
-        TUserId ModifiedUserId { get; set; }
-        DateTime? ModifiedAt { get; set; }
-    }
+    Guid? CreatedUserId { get; set; }
+    DateTime? CreatedAt { get; set; }
+    Guid? ModifiedUserId { get; set; }
+    DateTime? ModifiedAt { get; set; }
 }
