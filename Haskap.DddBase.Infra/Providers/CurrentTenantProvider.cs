@@ -1,5 +1,4 @@
 ﻿using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Domain.TenantAggregate;
 using Haskap.DddBase.Utilities;
 using System;
 using System.Collections.Generic;

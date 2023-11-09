@@ -1,6 +1,6 @@
 ﻿using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Domain.TenantAggregate;
+using Haskap.DddBase.Domain.Shared.Consts;
 using Microsoft.AspNetCore.Http;
 
 namespace Haskap.DddBase.Presentation.Middlewares;
@@ -47,7 +47,7 @@ public class MultiTenancyMiddleware
 
     private string? FindFromClaims(HttpContext httpContext)
     {
-        return httpContext.User.FindFirst(x => x.Type == Tenant.ClaimKey)?.Value;
+        return httpContext.User.FindFirst(x => x.Type == TenantConsts.ClaimKey)?.Value;
     }
 
     private string? FindFromDomain(HttpContext httpContext)
@@ -57,11 +57,11 @@ public class MultiTenancyMiddleware
 
     private string? FindFromHeader(HttpContext httpContext)
     {
-        return httpContext.Request.Headers[Tenant.HeaderKey].FirstOrDefault();
+        return httpContext.Request.Headers[TenantConsts.HeaderKey].FirstOrDefault();
     }
 
     private string? FindFromCookie(HttpContext httpContext)
     {
-        return httpContext.Request.Cookies[Tenant.CookieKey];
+        return httpContext.Request.Cookies[TenantConsts.CookieKey];
     }
 }

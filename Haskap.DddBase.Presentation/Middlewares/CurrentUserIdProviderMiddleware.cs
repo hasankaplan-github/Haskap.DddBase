@@ -1,7 +1,6 @@
 ﻿using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Domain.Shared.Consts;
-using Haskap.DddBase.Domain.TenantAggregate;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

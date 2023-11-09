@@ -2,7 +2,6 @@
 using Haskap.DddBase.Domain.Attributes.AuditHistoryLogAttributes;
 using Haskap.DddBase.Domain.AuditHistoryLogAggregate;
 using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Domain.TenantAggregate;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
