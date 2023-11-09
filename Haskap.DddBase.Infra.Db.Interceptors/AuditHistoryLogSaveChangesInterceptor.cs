@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Infra.Db.Interceptors;
 
 // burada da TUserId nullable olan Guid? olarak verilecek.
-public class AuditHistoryLogSaveChangesInterceptor<TUserId> : SaveChangesInterceptor
+public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly ICurrentUserIdProvider? _currentUserIdProvider;
     private readonly IVisitIdProvider? _visitIdProvider;
