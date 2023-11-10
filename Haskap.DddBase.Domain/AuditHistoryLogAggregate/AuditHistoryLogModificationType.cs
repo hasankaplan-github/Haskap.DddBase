@@ -8,6 +8,7 @@ namespace Haskap.DddBase.Domain.AuditHistoryLogAggregate;
 
 public enum AuditHistoryLogModificationType
 {
+    None,
     Add,
     Update,
     Delete,

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.AuditHistoryLogAggregate;
 
-public enum OwnedObjectType
+public enum OwnershipType
 {
     None,
-    One,
-    Many
+    OwnedType,
+    EntityType
 }

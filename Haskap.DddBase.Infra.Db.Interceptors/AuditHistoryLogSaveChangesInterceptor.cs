@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Haskap.DddBase.Infra.Db.Interceptors;
 
@@ -33,8 +34,15 @@ public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
     }
 
 
-    private AuditHistoryLog GetAuditHistoryLogForEntry(EntityEntry entityEntry)
+    private AuditHistoryLog? GetAuditHistoryLogForEntry(EntityEntry entityEntry)
     {
+        var modificationType = DetectModificationType(entityEntry);
+
+        if (modificationType == AuditHistoryLogModificationType.None)
+        {
+            return null;
+        }
+
         var keyValues = new Dictionary<string, object>();
         var originalValues = new Dictionary<string, object?>();
         var newValues = new Dictionary<string, object?>();
@@ -55,7 +63,13 @@ public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
                     continue;
                 }
 
-                var propertyHasRemoveAuditHistoryLogAttribute = Attribute.IsDefined(propertyEntry.Metadata.PropertyInfo, typeof(RemoveAuditHistoryLogAttribute));
+                var propertyInfo = propertyEntry.Metadata.PropertyInfo;
+                if (propertyInfo is null)
+                {
+                    continue;
+                }
+
+                var propertyHasRemoveAuditHistoryLogAttribute = Attribute.IsDefined(propertyInfo, typeof(RemoveAuditHistoryLogAttribute));
                 if (propertyHasRemoveAuditHistoryLogAttribute)
                 {
                     continue;
@@ -79,7 +93,13 @@ public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
                     continue;
                 }
 
-                var propertyHasAddAuditHistoryLogAttribute = Attribute.IsDefined(propertyEntry.Metadata.PropertyInfo, typeof(AddAuditHistoryLogAttribute));
+                var propertyInfo = propertyEntry.Metadata.PropertyInfo;
+                if (propertyInfo is null)
+                {
+                    continue;
+                }
+
+                var propertyHasAddAuditHistoryLogAttribute = Attribute.IsDefined(propertyInfo, typeof(AddAuditHistoryLogAttribute));
                 if (propertyHasAddAuditHistoryLogAttribute)
                 {
                     originalValues[propertyName] = propertyEntry.OriginalValue;
@@ -89,9 +109,8 @@ public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
         }
 
         var auditHistoryLog = new AuditHistoryLog(GuidGenerator.CreateSequentialGuid(SequentialGuidType.SequentialAsString));
-        var modificationType = DetectModificationType(entityEntry);
         auditHistoryLog.ModificationType = modificationType;
-        auditHistoryLog.ModificationDate = DateTime.UtcNow;
+        auditHistoryLog.ModificationDateUtc = DateTime.UtcNow;
         auditHistoryLog.ModifiedUserId = _currentUserIdProvider?.CurrentUserId;
         auditHistoryLog.VisitId = _visitIdProvider?.VisitId;
         auditHistoryLog.TenantId = _currentTenantProvider?.CurrentTenantId;
@@ -99,100 +118,117 @@ public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
         auditHistoryLog.ObjectIds = keyValues.Count == 0 ? null : JsonSerializer.Serialize(keyValues);
         auditHistoryLog.ObjectOriginalValues = modificationType == AuditHistoryLogModificationType.Add || originalValues.Count == 0 ? null : JsonSerializer.Serialize(originalValues);
         auditHistoryLog.ObjectNewValues = modificationType == AuditHistoryLogModificationType.Delete || newValues.Count == 0 ? null : JsonSerializer.Serialize(newValues);
-        auditHistoryLog.OwnerIds = null;
+        auditHistoryLog.OwnershipType = entityEntry.Metadata.IsOwned() ? OwnershipType.OwnedType : OwnershipType.EntityType;
 
         return auditHistoryLog;
+    }
+
+    private AuditHistoryLogModificationType DetectModificationType(EntityEntry entry)
+    {
+        AuditHistoryLogModificationType modificationType = AuditHistoryLogModificationType.None;
+
+        if (Attribute.IsDefined(entry.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))
+            || entry.Entity.GetType().GetProperties().Any(y => y.GetCustomAttributes(true).Any(z => z is AddAuditHistoryLogAttribute)))
+        {
+            switch (entry.State)
+            {
+                case EntityState.Deleted:
+                    modificationType = AuditHistoryLogModificationType.Delete;
+                    break;
+                case EntityState.Added:
+                    modificationType = AuditHistoryLogModificationType.Add;
+                    break;
+                case EntityState.Modified:
+                    if (entry.Entity is ISoftDeletable)
+                    {
+                        PropertyEntry isDeletedPropertyEntry = entry.Property("IsDeleted");
+                        if (isDeletedPropertyEntry.IsModified)
+                        {
+                            //if (bool.Parse(isDeletedPropertyEntry.CurrentValue.ToString()) == true)
+                            if ((bool)isDeletedPropertyEntry.CurrentValue! == true)
+                            {
+                                modificationType = AuditHistoryLogModificationType.SoftDelete;
+                            }
+                            else
+                            {
+                                modificationType = AuditHistoryLogModificationType.Undelete;
+                            }
+                        }
+                        else
+                        {
+                            modificationType = AuditHistoryLogModificationType.Update;
+                        }
+                    }
+                    else
+                    {
+                        modificationType = AuditHistoryLogModificationType.Update;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }                               
+
+        return modificationType;
     }
 
     private void SetAuditHistoryLogForObjects(DbContext dbContext)
     {
         var entityEntries = dbContext.ChangeTracker
                                         .Entries()
-                                        .Where(x => !(x.Entity is AuditHistoryLog)  //x.Entity.GetType().GetInterfaces().Any(y=>y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IAuditable<>))  //typeof(IAuditable<>).IsAssignableFrom(x.Entity.GetType())
-                                                && x.Metadata.IsOwned() == false
-                                                && (x.State == EntityState.Deleted || x.State == EntityState.Modified || x.State == EntityState.Added)
-                                                && (Attribute.IsDefined(x.Entity.GetType(), typeof(AddAuditHistoryLogAttribute))
-                                                    //|| x.Entity.GetType().GetProperties().Any(y => Attribute.IsDefined(y.PropertyType, typeof(AddAuditHistoryLogAttribute)))
-                                                    || x.Entity.GetType().GetProperties().Any(y => y.GetCustomAttributes(true).Any(z => z is AddAuditHistoryLogAttribute))))
-                                        //.Select(x => x.Entity)
+                                        .Where(x => !(x.Entity is AuditHistoryLog)
+                                            && x.State != EntityState.Detached && x.State != EntityState.Unchanged
+                                        )
                                         .ToList();
 
         foreach (var entityEntry in entityEntries)
         {
             var auditHistoryLog = GetAuditHistoryLogForEntry(entityEntry);
-            dbContext.Add(auditHistoryLog);
-
-            var referenceValueObjects = entityEntry.References
-                .Where(r =>
-                        r.TargetEntry != null
-                        //&& r.TargetEntry.State == EntityState.Added
-                        && r.TargetEntry.Metadata.IsOwned())
-                .Select(x => x.TargetEntry);
-
-            foreach (var vo in referenceValueObjects)
+            if (auditHistoryLog is not null)
             {
-                var auditHistoryLogForOwnedEntry = GetAuditHistoryLogForEntry(vo);
-                auditHistoryLogForOwnedEntry.OwnerIds = auditHistoryLog.ObjectIds;
-                auditHistoryLogForOwnedEntry.OwnedObjectType = OwnedObjectType.One;
-                dbContext.Add(auditHistoryLogForOwnedEntry);
-            }
-
-            var collectionValueObjects = entityEntry.Collections;
-            foreach (var vos in collectionValueObjects)
-            {
-                if (vos.CurrentValue is null)
-                {
-                    continue;
-                }
-
-                foreach (var objectInstance in vos.CurrentValue)
-                {
-                    var vo = vos.FindEntry(objectInstance);
-                    var auditHistoryLogForOwnedEntry = GetAuditHistoryLogForEntry(vo);
-                    auditHistoryLogForOwnedEntry.OwnerIds = auditHistoryLog.ObjectIds;
-                    auditHistoryLogForOwnedEntry.OwnedObjectType = OwnedObjectType.Many;
-                    dbContext.Add(auditHistoryLogForOwnedEntry);
-                }
+                dbContext.Add(auditHistoryLog);
             }
         }
+        //InnerSetAuditHistoryLogForObjects(entityEntries, dbContext, null);
     }
 
-    private AuditHistoryLogModificationType DetectModificationType(EntityEntry entry)
-    {
-        AuditHistoryLogModificationType modificationType = AuditHistoryLogModificationType.Update;
 
-        switch (entry.State)
-        {
-            case EntityState.Deleted:
-                modificationType = AuditHistoryLogModificationType.Delete;
-                break;
-            case EntityState.Added:
-                modificationType = AuditHistoryLogModificationType.Add;
-                break;
-            case EntityState.Modified:
-                if (entry.Entity is ISoftDeletable)
-                {
-                    PropertyEntry isDeletedPropertyEntry = entry.Property("IsDeleted");
-                    if (isDeletedPropertyEntry.IsModified)
-                    {
-                        //if (bool.Parse(isDeletedPropertyEntry.CurrentValue.ToString()) == true)
-                        if ((bool)isDeletedPropertyEntry.CurrentValue! == true)
-                        {
-                            modificationType = AuditHistoryLogModificationType.SoftDelete;
-                        }
-                        else
-                        {
-                            modificationType = AuditHistoryLogModificationType.Undelete;
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
+    //private void InnerSetAuditHistoryLogForObjects(List<EntityEntry>? entityEntries, DbContext dbContext, AuditHistoryLog? ownerLog) 
+    //{
+    //    foreach (var entityEntry in entityEntries)
+    //    {
+    //        var auditHistoryLog = GetAuditHistoryLogForEntry(entityEntry, ownerLog?.ObjectIds);
 
-        return modificationType;
-    }
+    //        if (auditHistoryLog.ModificationType != AuditHistoryLogModificationType.None)
+    //        {
+    //            dbContext.Add(auditHistoryLog);
+    //        }
+
+    //        var referenceEntityEntries = entityEntry.References
+    //            .Where(r => r.TargetEntry != null)
+    //            .Select(x => x.TargetEntry)
+    //            .ToList();
+
+    //        InnerSetAuditHistoryLogForObjects(referenceEntityEntries, dbContext, auditHistoryLog);
+
+    //        var collectionEntries = entityEntry.Collections;
+    //        foreach (var collectionEntry in collectionEntries)
+    //        {
+    //            if (collectionEntry.CurrentValue is null)
+    //            {
+    //                continue;
+    //            }
+
+    //            var collectionEntityEntries = collectionEntry.CurrentValue
+    //                .Cast<object>()
+    //                .Select(x => collectionEntry.FindEntry(x))
+    //                .ToList();
+
+    //            InnerSetAuditHistoryLogForObjects(collectionEntityEntries, dbContext, auditHistoryLog);
+    //        }
+    //    }
+    //}
+
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
@@ -205,4 +241,5 @@ public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
         SetAuditHistoryLogForObjects(eventData.Context);
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
+
 }

@@ -10,15 +10,14 @@ public class AuditHistoryLog : AggregateRoot<Guid>
 {
     public Guid? VisitId { get; set; }
     public Guid? TenantId { get; set; }
-    public DateTime ModificationDate { get; set; }
+    public DateTime ModificationDateUtc { get; set; }
     public Guid? ModifiedUserId { get; set; }
     public AuditHistoryLogModificationType ModificationType { get; set; }
     public string ObjectFullType { get; set; }
-    public string? OwnerIds { get; set; } // zaten owner olanlar için nullable
     public string? ObjectIds { get; set; } //value objectler için nullable
     public string? ObjectOriginalValues { get; set; } //json
     public string? ObjectNewValues { get; set; } //json
-    public OwnedObjectType OwnedObjectType { get; set; } = OwnedObjectType.None;
+    public OwnershipType OwnershipType { get; set; } = OwnershipType.None;
 
     public AuditHistoryLog(Guid id)
         : base(id)
