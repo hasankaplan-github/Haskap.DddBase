@@ -27,4 +27,9 @@ public static class MiddlewareExtensions
     {
         return builder.UseMiddleware<CurrentUserIdProviderMiddleware>();
     }
+
+    public static IApplicationBuilder UseVisitrIdProvider(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<VisitIdProviderMiddleware>();
+    }
 }
