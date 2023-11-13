@@ -10,7 +10,7 @@ namespace Haskap.DddBase.Presentation.CustomAuthorization;
 //basede
 public abstract class PermissionProvider : IPermissionProvider
 {
-    private readonly Dictionary<string, List<OperationAuthorizationRequirement>> _permissions = new();
+    private readonly Dictionary<string, List<PermissionRequirement>> _permissions = new();
 
     public PermissionProvider()
     {
@@ -29,7 +29,7 @@ public abstract class PermissionProvider : IPermissionProvider
         }
     }
 
-    public void AddPermission(string groupName, string permissionName)
+    public void AddPermission(string groupName, string permissionName, string? displayText = null)
     {
         if (string.IsNullOrWhiteSpace(groupName))
         {
@@ -41,20 +41,20 @@ public abstract class PermissionProvider : IPermissionProvider
             throw new ArgumentNullException(nameof(permissionName));
         }
 
-        var permissions = _permissions.GetValueOrDefault(groupName, new List<OperationAuthorizationRequirement>());
-        permissions.Add(new OperationAuthorizationRequirement { Name = permissionName });
+        var permissions = _permissions.GetValueOrDefault(groupName, new List<PermissionRequirement>());
+        permissions.Add(new PermissionRequirement(permissionName, displayText));
 
         _permissions.Remove(groupName);
         _permissions.Add(groupName, permissions);
     }
 
-    public Dictionary<string, List<OperationAuthorizationRequirement>> GetAllPermissions()
+    public Dictionary<string, List<PermissionRequirement>> GetAllPermissions()
     {
         return _permissions;
     }
 
-    public List<OperationAuthorizationRequirement> GetPermissionsByGroupName(string groupName)
+    public List<PermissionRequirement> GetPermissionsByGroupName(string groupName)
     {
-        return _permissions.GetValueOrDefault(groupName, new List<OperationAuthorizationRequirement>());
+        return _permissions.GetValueOrDefault(groupName, new List<PermissionRequirement>());
     }
 }

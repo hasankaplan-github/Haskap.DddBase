@@ -4,9 +4,9 @@ namespace Haskap.DddBase.Presentation.CustomAuthorization;
 
 public interface IPermissionProvider
 {
-    Dictionary<string, List<OperationAuthorizationRequirement>> GetAllPermissions();
+    Dictionary<string, List<PermissionRequirement>> GetAllPermissions();
 
-    List<OperationAuthorizationRequirement> GetPermissionsByGroupName(string groupName);
+    List<PermissionRequirement> GetPermissionsByGroupName(string groupName);
 
-    void AddPermission(string groupName, string permissionName);
+    void AddPermission(string groupName, string permissionName, string? displayText = null);
 }
