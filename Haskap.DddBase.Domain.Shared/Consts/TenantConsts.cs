@@ -10,4 +10,5 @@ public static class TenantConsts
     public const string ClaimKey = "tenantKey";
     public const string HeaderKey = "tenantKey";
     public const string CookieKey = "tenantKey";
+    public const string QueryStringKey = "tenantKey";
 }
