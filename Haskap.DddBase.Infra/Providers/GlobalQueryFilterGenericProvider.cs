@@ -27,16 +27,11 @@ public class GlobalQueryFilterGenericProvider : IGlobalQueryFilterGenericProvide
 
     public bool IsEnabled<TFilter>()
     {
-        IGlobalQueryFilterProvider provider;
-        try
+        if (_dictionary.TryGetValue(typeof(TFilter), out IGlobalQueryFilterProvider provider))
         {
-            provider = _dictionary[typeof(TFilter)];
+            return provider.IsEnabled;
         }
-        catch (Exception)
-        {
-            return false;
-        }
-        
-        return provider.IsEnabled;
+
+        return false;
     }
 }

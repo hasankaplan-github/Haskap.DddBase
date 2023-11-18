@@ -37,26 +37,17 @@ public class MultiTenancyMiddleware
                             FindFromCookie(httpContext) ??
                             FromQueryString(httpContext);
 
-        if (tenantIdString is null)
+        if (Guid.TryParse(tenantIdString, out Guid tenantId))
         {
-            return null;
+            return tenantId;
         }
 
-        var tenantId = Guid.Parse(tenantIdString);
-
-        return tenantId;
+        return null;
     }
 
     private string? FindFromClaims(HttpContext httpContext)
     {
-        var tenantId = httpContext.User.FindFirst(x => x.Type == TenantConsts.ClaimKey)?.Value;
-
-        if (string.IsNullOrWhiteSpace(tenantId))
-        {
-            return null;
-        }
-
-        return tenantId;
+        return httpContext.User.FindFirst(x => x.Type == TenantConsts.ClaimKey)?.Value;
     }
 
     private string? FindFromDomain(HttpContext httpContext)

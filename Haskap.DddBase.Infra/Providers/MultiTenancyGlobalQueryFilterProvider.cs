@@ -11,20 +11,31 @@ public class MultiTenancyGlobalQueryFilterProvider : IMultiTenancyGlobalQueryFil
 {
     private readonly ICurrentTenantProvider _currentTenantProvider;
 
-    public bool IsEnabled => _currentTenantProvider?.CurrentTenantId is not null;
+    public bool IsEnabled { get; private set; } = true;
 
     public MultiTenancyGlobalQueryFilterProvider(ICurrentTenantProvider currentTenantProvider)
     {
         _currentTenantProvider = currentTenantProvider;
     }
 
+
     public IDisposable Disable()
     {
-        return _currentTenantProvider.ChangeCurrentTenant(null);
+        var temp = IsEnabled;
+        IsEnabled = false;
+        return new DisposeAction(() =>
+        {
+            IsEnabled = temp;
+        });
     }
 
     public IDisposable Enable()
     {
-        throw new NotSupportedException();
+        var temp = IsEnabled;
+        IsEnabled = true;
+        return new DisposeAction(() =>
+        {
+            IsEnabled = temp;
+        });
     }
 }
