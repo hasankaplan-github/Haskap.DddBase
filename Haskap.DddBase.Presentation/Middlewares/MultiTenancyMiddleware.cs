@@ -57,7 +57,14 @@ public class MultiTenancyMiddleware
 
     private string? FindFromHeader(HttpContext httpContext)
     {
-        return httpContext.Request.Headers[TenantConsts.HeaderKey].FirstOrDefault();
+        var tenantId = httpContext.Request.Headers[TenantConsts.HeaderKey].FirstOrDefault();
+
+        if (string.IsNullOrWhiteSpace(tenantId)) 
+        {
+            return null;
+        }
+
+        return tenantId;
     }
 
     private string? FindFromCookie(HttpContext httpContext)
