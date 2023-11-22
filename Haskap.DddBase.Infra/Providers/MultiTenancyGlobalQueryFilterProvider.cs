@@ -9,13 +9,10 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Infra.Providers;
 public class MultiTenancyGlobalQueryFilterProvider : IMultiTenancyGlobalQueryFilterProvider
 {
-    private readonly ICurrentTenantProvider _currentTenantProvider;
-
     public bool IsEnabled { get; private set; } = true;
 
-    public MultiTenancyGlobalQueryFilterProvider(ICurrentTenantProvider currentTenantProvider)
+    public MultiTenancyGlobalQueryFilterProvider()
     {
-        _currentTenantProvider = currentTenantProvider;
     }
 
 
