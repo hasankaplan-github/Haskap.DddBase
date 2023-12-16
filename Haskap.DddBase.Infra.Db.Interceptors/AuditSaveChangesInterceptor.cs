@@ -36,9 +36,9 @@ public class AuditSaveChangesInterceptor : SaveChangesInterceptor
         foreach (var addedAuditableEntity in addedAuditableEntities)
         {
             dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedUserId).IsModified = false;
-            dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedAt).IsModified = false;
+            dbContext.Entry(addedAuditableEntity).Property(x => x.ModifiedOn).IsModified = false;
 
-            addedAuditableEntity.CreatedAt = DateTime.UtcNow;
+            addedAuditableEntity.CreatedOn = DateTime.UtcNow;
             addedAuditableEntity.CreatedUserId = _currentUserIdProvider?.CurrentUserId;
         }
     }
@@ -55,9 +55,9 @@ public class AuditSaveChangesInterceptor : SaveChangesInterceptor
         foreach (var modifiedAuditableEntity in modifiedAuditableEntities)
         {
             dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedUserId).IsModified = false;
-            dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedAt).IsModified = false;
+            dbContext.Entry(modifiedAuditableEntity).Property(x => x.CreatedOn).IsModified = false;
 
-            modifiedAuditableEntity.ModifiedAt = DateTime.UtcNow;
+            modifiedAuditableEntity.ModifiedOn = DateTime.UtcNow;
             modifiedAuditableEntity.ModifiedUserId = _currentUserIdProvider?.CurrentUserId;
         }
     }

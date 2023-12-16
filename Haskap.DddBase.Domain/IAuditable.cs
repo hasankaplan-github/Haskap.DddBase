@@ -9,7 +9,7 @@ namespace Haskap.DddBase.Domain;
 public interface IAuditable
 {
     Guid? CreatedUserId { get; set; }
-    DateTime? CreatedAt { get; set; }
+    DateTime? CreatedOn { get; set; }
     Guid? ModifiedUserId { get; set; }
-    DateTime? ModifiedAt { get; set; }
+    DateTime? ModifiedOn { get; set; }
 }
