@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\Outputs</BaseOutputPath>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <BaseOutputPath>..\Outputs</BaseOutputPath>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

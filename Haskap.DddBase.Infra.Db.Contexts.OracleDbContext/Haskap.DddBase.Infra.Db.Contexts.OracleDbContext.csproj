@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <BaseOutputPath>..\Outputs</BaseOutputPath>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.23.40" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

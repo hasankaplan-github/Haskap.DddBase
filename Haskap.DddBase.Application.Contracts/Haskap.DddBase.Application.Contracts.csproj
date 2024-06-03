@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <BaseOutputPath>..\Outputs</BaseOutputPath>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
+  </ItemGroup>
+
+</Project>
