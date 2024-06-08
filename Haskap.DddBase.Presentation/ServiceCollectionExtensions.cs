@@ -16,5 +16,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IPermissionProvider>(permissionProvider);
         services.AddAuthorization(permissionProvider.ConfigureAuthorization);
+
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, PermissionAuthorizationMiddlewareResultHandler>();
     }
 }

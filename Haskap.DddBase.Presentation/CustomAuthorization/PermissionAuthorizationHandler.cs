@@ -34,10 +34,8 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionReq
 
         if (!permissions.Contains(requirement.Name))
         {
-            var forbiddenOperationException = new ForbiddenOperationException(requirement.DisplayText ?? requirement.Name);
-            context.Fail(new AuthorizationFailureReason(this, forbiddenOperationException.Message));
-
-            throw forbiddenOperationException;
+            context.Fail(new AuthorizationFailureReason(this, requirement.DisplayText ?? requirement.Name));
+            return;
         }
         
         context.Succeed(requirement);
