@@ -7,6 +7,7 @@ public class UtilityMethods
 {
     public static bool IsAjaxRequest(HttpRequest request)
     {
-        return request.Headers[HeaderNames.XRequestedWith] == "XMLHttpRequest";
+        return string.Equals(request.Query[HeaderNames.XRequestedWith], "XMLHttpRequest", StringComparison.Ordinal) ||
+            string.Equals(request.Headers.XRequestedWith, "XMLHttpRequest", StringComparison.Ordinal);
     }
 }
