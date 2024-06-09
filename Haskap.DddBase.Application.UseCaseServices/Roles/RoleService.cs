@@ -7,19 +7,27 @@ using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Haskap.DddBase.Application.Dtos.Common.DataTable;
 using Haskap.DddBase.Application.Contracts.Roles;
+using Haskap.DddBase.Domain.Providers;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Haskap.DddBase.Application.UseCaseServices.Roles;
 public class RoleService : UseCaseService, IRoleService
 {
     private readonly IBaseDbContext _baseDbContext;
     private readonly IMapper _mapper;
+    private readonly IMemoryCache _memoryCache;
+    private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
 
     public RoleService(
         IBaseDbContext baseDbContext,
-        IMapper mapper)
+        IMapper mapper,
+        IMemoryCache memoryCache,
+        IBaseCacheKeyProvider baseCacheKeyProvider)
     {
         _baseDbContext = baseDbContext;
         _mapper = mapper;
+        _memoryCache = memoryCache;
+        _baseCacheKeyProvider = baseCacheKeyProvider;
     }
 
     public async Task DeleteAsync(DeleteInputDto inputDto, CancellationToken cancellationToken)
@@ -30,6 +38,9 @@ public class RoleService : UseCaseService, IRoleService
 
         _baseDbContext.Role.Remove(toBeDeleted);
         await _baseDbContext.SaveChangesAsync(cancellationToken);
+
+        _memoryCache.Remove(_baseCacheKeyProvider.GetAllPermissionsCacheKey());
+        _memoryCache.Remove(_baseCacheKeyProvider.GetRolePermissionsCacheKey());
     }
 
     public async Task<List<RoleOutputDto>> GetAllAsync(CancellationToken cancellationToken)
@@ -145,6 +156,9 @@ public class RoleService : UseCaseService, IRoleService
         role.UpdatePermissions(inputDto.UncheckedPermissions, inputDto.CheckedPermissions);
 
         await _baseDbContext.SaveChangesAsync(cancellationToken);
+
+        _memoryCache.Remove(_baseCacheKeyProvider.GetAllPermissionsCacheKey());
+        _memoryCache.Remove(_baseCacheKeyProvider.GetRolePermissionsCacheKey());
     }
 
     public async Task<List<PermissionOutputDto>> GetPermissionsAsync(Guid roleId, CancellationToken cancellationToken)

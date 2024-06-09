@@ -8,6 +8,7 @@ using Haskap.DddBase.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 using Haskap.DddBase.Application.Dtos.Common.DataTable;
 using Haskap.DddBase.Application.Contracts.Accounts;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Haskap.DddBase.Application.UseCaseServices.Accounts;
 public class AccountService : UseCaseService, IAccountService
@@ -18,6 +19,9 @@ public class AccountService : UseCaseService, IAccountService
     private readonly UserDomainService _userDomainService;
     private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly IIsActiveGlobalQueryFilterProvider _isActive;
+    private readonly IMemoryCache _memoryCache;
+    private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
+
 
     public AccountService(
         IBaseDbContext baseDbContext,
@@ -25,7 +29,9 @@ public class AccountService : UseCaseService, IAccountService
         ICurrentUserIdProvider currentUserIdProvider,
         UserDomainService userDomainService,
         ICurrentTenantProvider currentTenantProvider,
-        IIsActiveGlobalQueryFilterProvider isActive)
+        IIsActiveGlobalQueryFilterProvider isActive,
+        IMemoryCache memoryCache,
+        IBaseCacheKeyProvider baseCacheKeyProvider)
     {
         _baseDbContext = baseDbContext;
         _mapper = mapper;
@@ -33,6 +39,8 @@ public class AccountService : UseCaseService, IAccountService
         _userDomainService = userDomainService;
         _currentTenantProvider = currentTenantProvider;
         _isActive = isActive;
+        _memoryCache = memoryCache;
+        _baseCacheKeyProvider = baseCacheKeyProvider;
     }
 
     public async Task ChangePasswordAsync(ChangePasswordInputDto inputDto, CancellationToken cancellationToken = default)
@@ -108,9 +116,16 @@ public class AccountService : UseCaseService, IAccountService
 
     public async Task<HashSet<string>> GetAllPermissionsAsync(GetAllPermissionsInputDto inputDto, CancellationToken cancellationToken = default)
     {
-        var allPermissions = await _userDomainService.GetAllPermissionsAsync(inputDto.UserId, cancellationToken);
+        var cachedValue = await _memoryCache.GetOrCreateAsync(_baseCacheKeyProvider.GetAllPermissionsCacheKey(), async cacheEntry =>
+        {
+            cacheEntry.SlidingExpiration = TimeSpan.FromMinutes(10);
 
-        return allPermissions;
+            var allPermissions = await _userDomainService.GetAllPermissionsAsync(inputDto.UserId, cancellationToken);
+
+            return allPermissions;
+        });
+
+        return cachedValue;
     }
 
     public async Task<HashSet<string>> GetUserPermissionsForCurrentUserAsync(CancellationToken cancellationToken = default)
@@ -120,9 +135,16 @@ public class AccountService : UseCaseService, IAccountService
 
     public async Task<HashSet<string>> GetUserPermissionsAsync(GetUserPermissionsInputDto inputDto, CancellationToken cancellationToken = default)
     {
-        var userPermissions = await _userDomainService.GetUserPermissionsAsync(inputDto.UserId, cancellationToken);
+        var cachedValue = await _memoryCache.GetOrCreateAsync(_baseCacheKeyProvider.GetUserPermissionsCacheKey(), async cacheEntry =>
+        {
+            cacheEntry.SlidingExpiration = TimeSpan.FromMinutes(10);
 
-        return userPermissions;
+            var userPermissions = await _userDomainService.GetUserPermissionsAsync(inputDto.UserId, cancellationToken);
+
+            return userPermissions;
+        });
+
+        return cachedValue;
     }
 
     public async Task<UpdateAccountOutputDto> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
@@ -316,6 +338,9 @@ public class AccountService : UseCaseService, IAccountService
         user.UpdatePermissions(inputDto.UncheckedPermissions, inputDto.CheckedPermissions);
 
         await _baseDbContext.SaveChangesAsync(cancellationToken);
+
+        _memoryCache.Remove(_baseCacheKeyProvider.GetAllPermissionsCacheKey());
+        _memoryCache.Remove(_baseCacheKeyProvider.GetUserPermissionsCacheKey());
     }
 
     public async Task<List<RoleOutputDto>> GetRolesForCurrentUserAsync(CancellationToken cancellationToken)

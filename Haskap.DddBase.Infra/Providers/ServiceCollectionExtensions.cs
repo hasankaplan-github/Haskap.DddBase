@@ -21,5 +21,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IIsActiveGlobalQueryFilterProvider, IsActiveGlobalQueryFilterProvider>();
         services.AddScoped<IGlobalQueryFilterGenericProvider, GlobalQueryFilterGenericProvider>();
         services.AddSingleton<ILocalDateTimeProvider, LocalDateTimeProvider>();
+        services.AddSingleton<IBaseCacheKeyProvider, BaseCacheKeyProvider>();
     }
 }
