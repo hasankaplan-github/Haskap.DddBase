@@ -9,6 +9,7 @@ using Haskap.DddBase.Application.Dtos.Common.DataTable;
 using Haskap.DddBase.Application.Contracts.Roles;
 using Haskap.DddBase.Domain.Providers;
 using Microsoft.Extensions.Caching.Memory;
+using Haskap.DddBase.Domain.UserAggregate.Events;
 
 namespace Haskap.DddBase.Application.UseCaseServices.Roles;
 public class RoleService : UseCaseService, IRoleService
@@ -17,17 +18,20 @@ public class RoleService : UseCaseService, IRoleService
     private readonly IMapper _mapper;
     private readonly IMemoryCache _memoryCache;
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
+    private readonly ICurrentUserIdProvider _currentUserIdProvider;
 
     public RoleService(
         IBaseDbContext baseDbContext,
         IMapper mapper,
         IMemoryCache memoryCache,
-        IBaseCacheKeyProvider baseCacheKeyProvider)
+        IBaseCacheKeyProvider baseCacheKeyProvider,
+        ICurrentUserIdProvider currentUserIdProvider)
     {
         _baseDbContext = baseDbContext;
         _mapper = mapper;
         _memoryCache = memoryCache;
         _baseCacheKeyProvider = baseCacheKeyProvider;
+        _currentUserIdProvider = currentUserIdProvider;
     }
 
     public async Task DeleteAsync(DeleteInputDto inputDto, CancellationToken cancellationToken)
@@ -39,8 +43,7 @@ public class RoleService : UseCaseService, IRoleService
         _baseDbContext.Role.Remove(toBeDeleted);
         await _baseDbContext.SaveChangesAsync(cancellationToken);
 
-        _memoryCache.Remove(_baseCacheKeyProvider.GetAllPermissionsCacheKey());
-        _memoryCache.Remove(_baseCacheKeyProvider.GetRolePermissionsCacheKey());
+        await MediatorWrapper.Publish(new RolePermissionsCacheContentUpdatedDomainEvent(_currentUserIdProvider.CurrentUserId.Value), cancellationToken);
     }
 
     public async Task<List<RoleOutputDto>> GetAllAsync(CancellationToken cancellationToken)
@@ -157,8 +160,7 @@ public class RoleService : UseCaseService, IRoleService
 
         await _baseDbContext.SaveChangesAsync(cancellationToken);
 
-        _memoryCache.Remove(_baseCacheKeyProvider.GetAllPermissionsCacheKey());
-        _memoryCache.Remove(_baseCacheKeyProvider.GetRolePermissionsCacheKey());
+        await MediatorWrapper.Publish(new RolePermissionsCacheContentUpdatedDomainEvent(_currentUserIdProvider.CurrentUserId.Value), cancellationToken);
     }
 
     public async Task<List<PermissionOutputDto>> GetPermissionsAsync(Guid roleId, CancellationToken cancellationToken)

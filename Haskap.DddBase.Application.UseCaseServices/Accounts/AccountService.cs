@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Haskap.DddBase.Application.Dtos.Common.DataTable;
 using Haskap.DddBase.Application.Contracts.Accounts;
 using Microsoft.Extensions.Caching.Memory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Haskap.DddBase.Domain.UserAggregate.Events;
 
 namespace Haskap.DddBase.Application.UseCaseServices.Accounts;
 public class AccountService : UseCaseService, IAccountService
@@ -116,7 +118,7 @@ public class AccountService : UseCaseService, IAccountService
 
     public async Task<HashSet<string>> GetAllPermissionsAsync(GetAllPermissionsInputDto inputDto, CancellationToken cancellationToken = default)
     {
-        var cachedValue = await _memoryCache.GetOrCreateAsync(_baseCacheKeyProvider.GetAllPermissionsCacheKey(), async cacheEntry =>
+        var cachedValue = await _memoryCache.GetOrCreateAsync(_baseCacheKeyProvider.GetAllPermissionsCacheKey(inputDto.UserId), async cacheEntry =>
         {
             cacheEntry.SlidingExpiration = TimeSpan.FromMinutes(10);
 
@@ -135,7 +137,7 @@ public class AccountService : UseCaseService, IAccountService
 
     public async Task<HashSet<string>> GetUserPermissionsAsync(GetUserPermissionsInputDto inputDto, CancellationToken cancellationToken = default)
     {
-        var cachedValue = await _memoryCache.GetOrCreateAsync(_baseCacheKeyProvider.GetUserPermissionsCacheKey(), async cacheEntry =>
+        var cachedValue = await _memoryCache.GetOrCreateAsync(_baseCacheKeyProvider.GetUserPermissionsCacheKey(inputDto.UserId), async cacheEntry =>
         {
             cacheEntry.SlidingExpiration = TimeSpan.FromMinutes(10);
 
@@ -339,8 +341,7 @@ public class AccountService : UseCaseService, IAccountService
 
         await _baseDbContext.SaveChangesAsync(cancellationToken);
 
-        _memoryCache.Remove(_baseCacheKeyProvider.GetAllPermissionsCacheKey());
-        _memoryCache.Remove(_baseCacheKeyProvider.GetUserPermissionsCacheKey());
+        await MediatorWrapper.Publish(new UserPermissionsCacheContentUpdatedDomainEvent(_currentUserIdProvider.CurrentUserId.Value), cancellationToken);
     }
 
     public async Task<List<RoleOutputDto>> GetRolesForCurrentUserAsync(CancellationToken cancellationToken)

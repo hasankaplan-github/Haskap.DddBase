@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Domain.Providers;
 public interface IBaseCacheKeyProvider
 {
-    string GetAllPermissionsCacheKey();
-    string GetUserPermissionsCacheKey();
-    string GetRolePermissionsCacheKey();
+    string GetAllPermissionsCacheKey(Guid userId);
+    string GetUserPermissionsCacheKey(Guid userId);
+    string GetRolePermissionsCacheKey(Guid userId);
 }

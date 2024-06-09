@@ -9,34 +9,18 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Infra.Providers;
 public class BaseCacheKeyProvider : IBaseCacheKeyProvider
 {
-    protected readonly IServiceScopeFactory ServiceScopeFactory;
-
-    public BaseCacheKeyProvider(IServiceScopeFactory serviceScopeFactory)
+    public string GetAllPermissionsCacheKey(Guid userId)
     {
-        ServiceScopeFactory = serviceScopeFactory;
+        return string.Format("AllPermissionsCacheKey_{0}", userId);
     }
 
-    public string GetAllPermissionsCacheKey()
+    public string GetRolePermissionsCacheKey(Guid userId)
     {
-        using var scope = ServiceScopeFactory.CreateScope();
-        var currentUserIdProvider = scope.ServiceProvider.GetRequiredService<ICurrentUserIdProvider>();
-
-        return string.Format("AllPermissionsCacheKey_{0}", currentUserIdProvider.CurrentUserId);
+        return string.Format("RolePermissionsCacheKey_{0}", userId);
     }
 
-    public string GetRolePermissionsCacheKey()
+    public string GetUserPermissionsCacheKey(Guid userId)
     {
-        using var scope = ServiceScopeFactory.CreateScope();
-        var currentUserIdProvider = scope.ServiceProvider.GetRequiredService<ICurrentUserIdProvider>();
-
-        return string.Format("RolePermissionsCacheKey_{0}", currentUserIdProvider.CurrentUserId);
-    }
-
-    public string GetUserPermissionsCacheKey()
-    {
-        using var scope = ServiceScopeFactory.CreateScope();
-        var currentUserIdProvider = scope.ServiceProvider.GetRequiredService<ICurrentUserIdProvider>();
-
-        return string.Format("UserPermissionsCacheKey_{0}", currentUserIdProvider.CurrentUserId);
+        return string.Format("UserPermissionsCacheKey_{0}", userId);
     }
 }
