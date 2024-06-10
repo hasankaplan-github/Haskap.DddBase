@@ -9,11 +9,11 @@ using System.Collections.ObjectModel;
 
 namespace Haskap.DddBase.Presentation.CustomAuthorization;
 //basede
-public abstract class PermissionProvider : IPermissionProvider
+public abstract class BasePermissionProvider : IPermissionProvider
 {
     private readonly Dictionary<string, List<PermissionRequirement>> _permissions = new();
 
-    public PermissionProvider()
+    public BasePermissionProvider()
     {
         Define();
     }
