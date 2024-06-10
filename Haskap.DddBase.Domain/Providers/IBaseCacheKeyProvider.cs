@@ -9,5 +9,5 @@ public interface IBaseCacheKeyProvider
 {
     string GetAllPermissionsCacheKey(Guid userId);
     string GetUserPermissionsCacheKey(Guid userId);
-    string GetRolePermissionsCacheKey(Guid userId);
+    string GetRolePermissionsCacheKey(Guid roleId);
 }

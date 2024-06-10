@@ -341,7 +341,7 @@ public class AccountService : UseCaseService, IAccountService
 
         await _baseDbContext.SaveChangesAsync(cancellationToken);
 
-        await MediatorWrapper.Publish(new UserPermissionsCacheContentUpdatedDomainEvent(_currentUserIdProvider.CurrentUserId.Value), cancellationToken);
+        await MediatorWrapper.Publish(new UserPermissionsCacheContentUpdatedDomainEvent(user.Id), cancellationToken);
     }
 
     public async Task<List<RoleOutputDto>> GetRolesForCurrentUserAsync(CancellationToken cancellationToken)

@@ -14,9 +14,9 @@ public class BaseCacheKeyProvider : IBaseCacheKeyProvider
         return string.Format("AllPermissionsCacheKey_{0}", userId);
     }
 
-    public string GetRolePermissionsCacheKey(Guid userId)
+    public string GetRolePermissionsCacheKey(Guid roleId)
     {
-        return string.Format("RolePermissionsCacheKey_{0}", userId);
+        return string.Format("RolePermissionsCacheKey_{0}", roleId);
     }
 
     public string GetUserPermissionsCacheKey(Guid userId)

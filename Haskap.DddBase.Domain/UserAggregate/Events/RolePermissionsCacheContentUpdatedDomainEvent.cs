@@ -5,4 +5,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Domain.UserAggregate.Events;
-public record RolePermissionsCacheContentUpdatedDomainEvent(Guid UserId) : DomainEvent;
+public record RolePermissionsCacheContentUpdatedDomainEvent(Guid RoleId) : DomainEvent;

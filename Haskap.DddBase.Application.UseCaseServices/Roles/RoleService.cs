@@ -160,7 +160,7 @@ public class RoleService : UseCaseService, IRoleService
 
         await _baseDbContext.SaveChangesAsync(cancellationToken);
 
-        await MediatorWrapper.Publish(new RolePermissionsCacheContentUpdatedDomainEvent(_currentUserIdProvider.CurrentUserId.Value), cancellationToken);
+        await MediatorWrapper.Publish(new RolePermissionsCacheContentUpdatedDomainEvent(role.Id), cancellationToken);
     }
 
     public async Task<List<PermissionOutputDto>> GetPermissionsAsync(Guid roleId, CancellationToken cancellationToken)
