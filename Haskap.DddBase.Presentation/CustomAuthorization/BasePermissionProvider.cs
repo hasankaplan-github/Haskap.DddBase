@@ -15,6 +15,9 @@ public abstract class BasePermissionProvider : IPermissionProvider
 
     public BasePermissionProvider()
     {
+        AddPermission(nameof(BasePermissions.App), BasePermissions.App.Admin);
+        AddPermission(nameof(BasePermissions.Tenants), BasePermissions.Tenants.HostAdmin);
+
         Define();
     }
 
