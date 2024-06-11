@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 namespace Haskap.DddBase.Presentation.CustomAuthorization;
-//basede
+
 public abstract class BasePermissionProvider : IPermissionProvider
 {
     private readonly Dictionary<string, List<PermissionRequirement>> _permissions = new();
@@ -16,7 +16,7 @@ public abstract class BasePermissionProvider : IPermissionProvider
     public BasePermissionProvider()
     {
         AddPermission(nameof(BasePermissions.App), BasePermissions.App.Admin);
-        AddPermission(nameof(BasePermissions.Tenants), BasePermissions.Tenants.HostAdmin);
+        AddPermission(nameof(BasePermissions.Tenants), BasePermissions.Tenants.Admin);
 
         Define();
     }

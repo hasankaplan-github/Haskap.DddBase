@@ -3,7 +3,7 @@ public class BasePermissions
 {
     public static class Tenants
     {
-        public const string HostAdmin = "Permissions.Tenants.HostAdmin";
+        public const string Admin = "Permissions.Tenants.Admin";
     }
 
     public static class App
