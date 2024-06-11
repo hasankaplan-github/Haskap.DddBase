@@ -43,7 +43,7 @@ public class RoleService : UseCaseService, IRoleService
         _baseDbContext.Role.Remove(toBeDeleted);
         await _baseDbContext.SaveChangesAsync(cancellationToken);
 
-        await MediatorWrapper.Publish(new RolePermissionsCacheContentUpdatedDomainEvent(_currentUserIdProvider.CurrentUserId.Value), cancellationToken);
+        await MediatorWrapper.Publish(new RolePermissionsCacheContentUpdatedDomainEvent(toBeDeleted.Id), cancellationToken);
     }
 
     public async Task<List<RoleOutputDto>> GetAllAsync(CancellationToken cancellationToken)

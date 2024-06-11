@@ -375,6 +375,8 @@ public class AccountService : UseCaseService, IAccountService
         user.UpdateRoles(inputDto.UncheckedRoles, inputDto.CheckedRoles);
 
         await _baseDbContext.SaveChangesAsync(cancellationToken);
+
+        await MediatorWrapper.Publish(new UserPermissionsCacheContentUpdatedDomainEvent(user.Id), cancellationToken);
     }
 
     public async Task ToggleActiveStatusAsync(Guid userId, CancellationToken cancellationToken)
