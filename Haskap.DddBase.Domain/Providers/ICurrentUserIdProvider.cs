@@ -3,8 +3,9 @@
 public interface ICurrentUserIdProvider
 {
     Guid? CurrentUserId { get; set; }
-    Guid? PreviousUserUserId { get; set; }
+
     bool IsImpersonated { get; set; }
-    string PreviousUserUsername { get; set; }
-    string PreviousUserTenantName { get; set; }
+    Guid? ImpersonatorUserId { get; set; }
+    string ImpersonatorUsername { get; set; }
+    string ImpersonatorTenantName { get; set; }
 }

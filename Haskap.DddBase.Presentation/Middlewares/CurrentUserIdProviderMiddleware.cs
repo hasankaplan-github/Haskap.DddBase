@@ -23,26 +23,26 @@ public class CurrentUserIdProviderMiddleware
         HttpContext httpContext,
         ICurrentUserIdProvider currentUserIdProvider)
     {
-        if (Guid.TryParse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out Guid userId))
+        if (Guid.TryParse(httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid currentUserId))
         {
-            currentUserIdProvider.CurrentUserId = userId;
+            currentUserIdProvider.CurrentUserId = currentUserId;
         }
 
-        if (bool.TryParse(httpContext.User.FindFirst(ImpersonationConsts.IsImpersonatedClaimKey)?.Value, out var isImpersonated))
+        if (bool.TryParse(httpContext.User.FindFirstValue(ImpersonationConsts.IsImpersonatedClaimKey), out var isImpersonated))
         {
             currentUserIdProvider.IsImpersonated = isImpersonated;
         }
 
         if (isImpersonated)
         {
-            if (Guid.TryParse(httpContext.User.FindFirst(ImpersonationConsts.PreviousUserNameIdentifierClaimKey)?.Value, out Guid previousUserUserId))
+            if (Guid.TryParse(httpContext.User.FindFirstValue(ImpersonationConsts.ImpersonatorNameIdentifierClaimKey), out Guid impersonatorUserId))
             {
-                currentUserIdProvider.PreviousUserUserId = previousUserUserId;
+                currentUserIdProvider.ImpersonatorUserId = impersonatorUserId;
             }
 
-            currentUserIdProvider.PreviousUserUsername = httpContext.User.FindFirst(ImpersonationConsts.PreviousUserNameClaimKey)?.Value ?? string.Empty;
+            currentUserIdProvider.ImpersonatorUsername = httpContext.User.FindFirstValue(ImpersonationConsts.ImpersonatorNameClaimKey)!;
 
-            currentUserIdProvider.PreviousUserTenantName = httpContext.User.FindFirst(ImpersonationConsts.PreviousUserTenantNameClaimKey)?.Value ?? string.Empty;
+            currentUserIdProvider.ImpersonatorTenantName = httpContext.User.FindFirstValue(ImpersonationConsts.ImpersonatorTenantNameClaimKey)!;
         }
 
         await _next(httpContext);
