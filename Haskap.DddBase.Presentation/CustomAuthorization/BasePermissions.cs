@@ -9,5 +9,6 @@ public class BasePermissions
     public static class App
     {
         public const string Admin = "Permissions.App.Admin";
+        public const string Impersonation = "Permissions.App.Impersonation";
     }
 }

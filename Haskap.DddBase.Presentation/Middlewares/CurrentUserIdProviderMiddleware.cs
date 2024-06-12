@@ -28,6 +28,23 @@ public class CurrentUserIdProviderMiddleware
             currentUserIdProvider.CurrentUserId = userId;
         }
 
+        if (bool.TryParse(httpContext.User.FindFirst(ImpersonationConsts.IsImpersonatedClaimKey)?.Value, out var isImpersonated))
+        {
+            currentUserIdProvider.IsImpersonated = isImpersonated;
+        }
+
+        if (isImpersonated)
+        {
+            if (Guid.TryParse(httpContext.User.FindFirst(ImpersonationConsts.PreviousUserNameIdentifierClaimKey)?.Value, out Guid previousUserUserId))
+            {
+                currentUserIdProvider.PreviousUserUserId = previousUserUserId;
+            }
+
+            currentUserIdProvider.PreviousUserUsername = httpContext.User.FindFirst(ImpersonationConsts.PreviousUserNameClaimKey)?.Value ?? string.Empty;
+
+            currentUserIdProvider.PreviousUserTenantName = httpContext.User.FindFirst(ImpersonationConsts.PreviousUserTenantNameClaimKey)?.Value ?? string.Empty;
+        }
+
         await _next(httpContext);
     }
 }

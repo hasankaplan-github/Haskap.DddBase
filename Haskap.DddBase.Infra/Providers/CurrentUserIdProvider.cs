@@ -9,4 +9,8 @@ namespace Haskap.DddBase.Infra.Providers;
 public class CurrentUserIdProvider : ICurrentUserIdProvider
 {
     public Guid? CurrentUserId { get; set; } = null;
+    public Guid? PreviousUserUserId { get; set; } = null;
+    public bool IsImpersonated {  get; set; }
+    public string PreviousUserUsername { get; set; } = string.Empty;
+    public string PreviousUserTenantName { get; set; } = string.Empty;
 }

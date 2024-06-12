@@ -11,4 +11,5 @@ public class LoginOutputDto
     public string UserFirstName { get; set; }
     public string UserLastName { get; set; }
     public string? UserSystemTimeZoneId { get; set; }
+    public Guid? TenantId { get; set; }
 }

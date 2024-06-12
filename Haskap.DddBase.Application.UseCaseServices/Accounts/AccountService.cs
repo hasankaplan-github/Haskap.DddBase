@@ -105,7 +105,31 @@ public class AccountService : UseCaseService, IAccountService
             UserId = user.Id,
             UserFirstName = user.FirstName,
             UserLastName = user.LastName,
-            UserSystemTimeZoneId = user.SystemTimeZoneId
+            UserSystemTimeZoneId = user.SystemTimeZoneId,
+            TenantId = user.TenantId
+        };
+
+        return output;
+    }
+
+    public async Task<LoginOutputDto> LoginAsAsync(LoginAsInputDto inputDto, CancellationToken cancellationToken)
+    {
+        var user = await _baseDbContext.User
+            .Where(x => x.Credentials.UserName == inputDto.Username)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (user is null)
+        {
+            throw new WrongUserNameOrPasswordException();
+        }
+
+        var output = new LoginOutputDto
+        {
+            UserId = user.Id,
+            UserFirstName = user.FirstName,
+            UserLastName = user.LastName,
+            UserSystemTimeZoneId = user.SystemTimeZoneId,
+            TenantId = user.TenantId
         };
 
         return output;

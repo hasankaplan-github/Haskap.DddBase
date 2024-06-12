@@ -47,7 +47,7 @@ public class MultiTenancyMiddleware
 
     private string? FindFromClaims(HttpContext httpContext)
     {
-        return httpContext.User.FindFirst(x => x.Type == TenantConsts.ClaimKeyClaimType)?.Value;
+        return httpContext.User.FindFirst(x => x.Type == TenantConsts.IdClaimType)?.Value;
     }
 
     private string? FindFromDomain(HttpContext httpContext)

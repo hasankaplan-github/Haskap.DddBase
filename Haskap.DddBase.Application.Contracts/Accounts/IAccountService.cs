@@ -22,4 +22,5 @@ public interface IAccountService
     Task<List<RoleOutputDto>> GetRolesAsync(GetRolesInputDto inputDto, CancellationToken cancellationToken);
     Task UpdateRolesAsync(UpdateRolesInputDto inputDto, CancellationToken cancellationToken);
     Task ToggleActiveStatusAsync(Guid userId, CancellationToken cancellationToken);
+    Task<LoginOutputDto> LoginAsAsync(LoginAsInputDto inputDto, CancellationToken cancellationToken);
 }
