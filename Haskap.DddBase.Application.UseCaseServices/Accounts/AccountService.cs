@@ -173,13 +173,23 @@ public class AccountService : UseCaseService, IAccountService
         return cachedValue;
     }
 
-    public async Task<UpdateAccountOutputDto> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<AccountOutputDto> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        var user = await _baseDbContext.User
-            .Where(x => x.Id == userId)
-            .FirstAsync(cancellationToken);
-
-        var output = _mapper.Map<UpdateAccountOutputDto>(user);
+        var output = await (from user in _baseDbContext.User
+                     from tenant in _baseDbContext.Tenant.Where(x => x.Id == user.TenantId).DefaultIfEmpty()
+                     where user.Id == userId
+                     select new AccountOutputDto
+                     {
+                         Id = user.Id,
+                         FirstName = user.FirstName,
+                         LastName = user.LastName,
+                         IsActive = user.IsActive,
+                         SystemTimeZoneId = user.SystemTimeZoneId,
+                         Username = user.Credentials.UserName,
+                         TenantId = user.TenantId,
+                         TenantName = tenant.Name ?? "Host"
+                     })
+                     .FirstOrDefaultAsync();
 
         return output;
     }
@@ -197,7 +207,7 @@ public class AccountService : UseCaseService, IAccountService
             throw new CurrentPasswordMismatchException();
         }
 
-        var newCredentials = new Credentials(inputDto.UserName, new Password(inputDto.CurrentPassword, Salt.Generate()));
+        var newCredentials = new Credentials(inputDto.Username, new Password(inputDto.CurrentPassword, Salt.Generate()));
 
         user.SetFirstName(inputDto.FirstName);
         user.SetLastName(inputDto.LastName);
@@ -221,7 +231,7 @@ public class AccountService : UseCaseService, IAccountService
                          LastName = user.LastName,
                          IsActive = user.IsActive,
                          SystemTimeZoneId = user.SystemTimeZoneId,
-                         UserName = user.Credentials.UserName,
+                         Username = user.Credentials.UserName,
                          TenantId = user.TenantId,
                          TenantName = tenant.Name ?? "Host"
                      });
@@ -245,7 +255,7 @@ public class AccountService : UseCaseService, IAccountService
         if (inputDto.UserName is not null)
         {
             filtered = true;
-            query = query.Where(x => x.UserName.Contains(inputDto.UserName));
+            query = query.Where(x => x.Username.Contains(inputDto.UserName));
         }
 
         if (inputDto.IsActive is not null)
@@ -291,11 +301,11 @@ public class AccountService : UseCaseService, IAccountService
             {
                 if (direction == "asc")
                 {
-                    query = query.OrderBy(x => x.UserName);
+                    query = query.OrderBy(x => x.Username);
                 }
                 else
                 {
-                    query = query.OrderByDescending(x => x.UserName);
+                    query = query.OrderByDescending(x => x.Username);
                 }
             }
             else if (columnIndex == 3)

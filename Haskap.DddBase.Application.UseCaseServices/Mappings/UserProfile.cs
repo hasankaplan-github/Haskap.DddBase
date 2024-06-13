@@ -14,6 +14,6 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<User, UpdateAccountOutputDto>()
-            .ForMember(x => x.UserName, x => x.MapFrom(y => y.Credentials.UserName));
+            .ForMember(x => x.Username, x => x.MapFrom(y => y.Credentials.UserName));
     }
 }
