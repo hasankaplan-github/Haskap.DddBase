@@ -11,13 +11,13 @@ namespace Haskap.DddBase.Presentation.CustomAuthorization;
 
 public abstract class BasePermissionProvider : IPermissionProvider
 {
-    private readonly Dictionary<string, List<PermissionRequirement>> _permissions = new();
+    private readonly Dictionary<Type, List<PermissionRequirement>> _permissions = new();
 
     public BasePermissionProvider()
     {
-        AddPermission(nameof(BasePermissions.Tenants), BasePermissions.Tenants.Admin);
-        AddPermission(nameof(BasePermissions.App), BasePermissions.App.Admin);
-        AddPermission(nameof(BasePermissions.App), BasePermissions.App.Impersonation);
+        AddPermission(typeof(BasePermissions.Tenants), BasePermissions.Tenants.Admin);
+        AddPermission(typeof(BasePermissions.App), BasePermissions.App.Admin);
+        AddPermission(typeof(BasePermissions.App), BasePermissions.App.Impersonator);
 
         Define();
     }
@@ -34,11 +34,11 @@ public abstract class BasePermissionProvider : IPermissionProvider
         }
     }
 
-    public void AddPermission(string groupName, string permissionName, string? displayText = null)
+    public void AddPermission(Type group, string permissionName, string? displayText = null)
     {
-        if (string.IsNullOrWhiteSpace(groupName))
+        if (group is null)
         {
-            throw new ArgumentNullException(nameof(groupName));
+            throw new ArgumentNullException(nameof(group));
         }
 
         if (string.IsNullOrWhiteSpace(permissionName))
@@ -46,22 +46,22 @@ public abstract class BasePermissionProvider : IPermissionProvider
             throw new ArgumentNullException(nameof(permissionName));
         }
 
-        if (!_permissions.TryGetValue(groupName, out var permissionRequirements))
+        if (!_permissions.TryGetValue(group, out var permissionRequirements))
         {
             permissionRequirements = new List<PermissionRequirement>();
-            _permissions.Add(groupName, permissionRequirements);
+            _permissions.Add(group, permissionRequirements);
         }
 
         permissionRequirements.Add(new PermissionRequirement(permissionName, displayText));
     }
 
-    public ReadOnlyDictionary<string, List<PermissionRequirement>> GetAllPermissions()
+    public ReadOnlyDictionary<Type, List<PermissionRequirement>> GetAllPermissions()
     {
         return _permissions.AsReadOnly();
     }
 
-    public IReadOnlyList<PermissionRequirement> GetPermissionsByGroupName(string groupName)
+    public IReadOnlyList<PermissionRequirement> GetPermissionsByGroup(Type group)
     {
-        return _permissions.GetValueOrDefault(groupName, Enumerable.Empty<PermissionRequirement>().ToList()).AsReadOnly();
+        return _permissions.GetValueOrDefault(group, Enumerable.Empty<PermissionRequirement>().ToList()).AsReadOnly();
     }
 }
