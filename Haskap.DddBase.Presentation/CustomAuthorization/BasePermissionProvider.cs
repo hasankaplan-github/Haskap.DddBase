@@ -16,7 +16,6 @@ public abstract class BasePermissionProvider : IPermissionProvider
     public BasePermissionProvider()
     {
         AddPermission(typeof(BasePermissions.Tenants), BasePermissions.Tenants.Admin);
-        AddPermission(typeof(BasePermissions.Tenants), BasePermissions.Tenants.RoleEditor);
 
         AddPermission(typeof(BasePermissions.App), BasePermissions.App.Admin);
         AddPermission(typeof(BasePermissions.App), BasePermissions.App.Impersonator);
