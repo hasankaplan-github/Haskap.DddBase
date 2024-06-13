@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Application.UseCaseServices.Mappings;
 
-internal class FileProfile : Profile
+public class FileProfile : Profile
 {
     public FileProfile()
     {

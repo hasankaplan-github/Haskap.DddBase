@@ -10,13 +10,9 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Presentation;
 public static class ServiceCollectionExtensions
 {
-    public static void AddCustomAuthorization(this IServiceCollection services, IPermissionProvider permissionProvider)
+    public static void AddBaseCustomAuthorization(this IServiceCollection services, IPermissionProvider permissionProvider)
     {
-        services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-
         services.AddSingleton<IPermissionProvider>(permissionProvider);
         services.AddAuthorization(permissionProvider.ConfigureAuthorization);
-
-        services.AddSingleton<IAuthorizationMiddlewareResultHandler, PermissionAuthorizationMiddlewareResultHandler>();
     }
 }

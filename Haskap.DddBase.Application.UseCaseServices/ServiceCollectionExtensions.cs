@@ -1,9 +1,5 @@
-﻿using Haskap.DddBase.Application.Contracts.Accounts;
-using Haskap.DddBase.Application.Contracts.Roles;
-using Haskap.DddBase.Application.Contracts.Tenants;
+﻿using Haskap.DddBase.Application.Contracts.Tenants;
 using Haskap.DddBase.Application.Contracts.ViewLevelExceptions;
-using Haskap.DddBase.Application.UseCaseServices.Accounts;
-using Haskap.DddBase.Application.UseCaseServices.Roles;
 using Haskap.DddBase.Application.UseCaseServices.Tenants;
 using Haskap.DddBase.Application.UseCaseServices.ViewLevelExceptions;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,9 +14,7 @@ public static class ServiceCollectionExtensions
 {
     public static void AddBaseServices(this IServiceCollection services)
     {
-        services.AddTransient<IAccountService, AccountService>();
         services.AddTransient<ITenantService, TenantService>();
-        services.AddTransient<IRoleService, RoleService>();
         services.AddTransient<IViewLevelExceptionService, ViewLevelExceptionService>();
     }
 }

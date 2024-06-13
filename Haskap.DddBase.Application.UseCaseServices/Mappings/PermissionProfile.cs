@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Application.UseCaseServices.Mappings;
 
-internal class PermissionProfile : Profile
+public class PermissionProfile : Profile
 {
     public PermissionProfile()
     {

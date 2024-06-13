@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Application.UseCaseServices.Mappings;
 
-internal class TenantProfile : Profile
+public class TenantProfile : Profile
 {
     public TenantProfile()
     {

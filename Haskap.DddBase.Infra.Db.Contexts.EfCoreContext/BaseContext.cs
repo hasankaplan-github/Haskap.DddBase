@@ -8,8 +8,6 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Linq.Expressions;
 using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Domain.RoleAggregate;
-using Haskap.DddBase.Domain.UserAggregate;
 using Haskap.DddBase.Domain.TenantAggregate;
 using Haskap.DddBase.Domain.ViewLevelExceptionAggregate;
 
@@ -37,9 +35,7 @@ public class BaseContext : DbContext, IBaseDbContext
         GlobalQueryFilterGenericProvider = globalQueryFilterGenericProvider;
     }
 
-    public DbSet<Role> Role { get; set; }
-    public DbSet<User> User { get; set; }
-    public DbSet<UserRole> UserRole { get; set; }
+    
     public DbSet<Tenant> Tenant { get; set; }
     public DbSet<ViewLevelException> ViewLevelException { get; set; }
 

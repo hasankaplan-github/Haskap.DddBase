@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Application.UseCaseServices.Mappings;
 
-internal class ViewLevelExceptionProfile : Profile
+public class ViewLevelExceptionProfile : Profile
 {
     public ViewLevelExceptionProfile()
     {
