@@ -4,6 +4,7 @@ public class BasePermissions
     public class Tenants
     {
         public const string Admin = "BasePermissions.Tenants.Admin";
+        public const string RoleEditor = "BasePermissions.Tenants.RoleEditor";
     }
 
     public class App
