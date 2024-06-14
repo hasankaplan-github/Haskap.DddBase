@@ -15,10 +15,34 @@ public abstract class BasePermissionProvider : IPermissionProvider
 
     public BasePermissionProvider()
     {
-        AddPermission(typeof(BasePermissions.Tenants), BasePermissions.Tenants.Admin);
+        AddPermission(typeof(AdminPermissions.App), AdminPermissions.App.Admin);
 
-        AddPermission(typeof(BasePermissions.App), BasePermissions.App.Admin);
-        AddPermission(typeof(BasePermissions.App), BasePermissions.App.Impersonator);
+        AddPermission(typeof(AdminPermissions.Tenant), AdminPermissions.Tenant.Create);
+        AddPermission(typeof(AdminPermissions.Tenant), AdminPermissions.Tenant.Read);
+        AddPermission(typeof(AdminPermissions.Tenant), AdminPermissions.Tenant.Update);
+        AddPermission(typeof(AdminPermissions.Tenant), AdminPermissions.Tenant.Delete);
+
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.ReadWithinSameTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.ReadWithinDifferentTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.ImpersonateWithinSameTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.ImpersonateWithinDifferentTenant); 
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.DeleteWithinSameTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.DeleteWithinDifferentTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.UpdatePermissionsWithinSameTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.UpdatePermissionsWithinDifferentTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.UpdateRolesWithinSameTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.UpdateRolesWithinDifferentTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.ToggleActiveStatusWithinSameTenant);
+        AddPermission(typeof(AdminPermissions.Account), AdminPermissions.Account.ToggleActiveStatusWithinDifferentTenant);
+    
+        AddPermission(typeof(AdminPermissions.Role), AdminPermissions.Role.Create);
+        AddPermission(typeof(AdminPermissions.Role), AdminPermissions.Role.Read);
+        AddPermission(typeof(AdminPermissions.Role), AdminPermissions.Role.Update);
+        AddPermission(typeof(AdminPermissions.Role), AdminPermissions.Role.Delete);
+        AddPermission(typeof(AdminPermissions.Role), AdminPermissions.Role.UpdatePermissions);
+
+        AddPermission(typeof(AdminPermissions.Profile), AdminPermissions.Profile.ReadWithinSameTenant);
+        AddPermission(typeof(AdminPermissions.Profile), AdminPermissions.Profile.ReadWithinDifferentTenant);
 
         Define();
     }
