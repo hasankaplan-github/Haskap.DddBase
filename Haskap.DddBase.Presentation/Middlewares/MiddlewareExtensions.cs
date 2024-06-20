@@ -23,11 +23,6 @@ public static class MiddlewareExtensions
         return builder.UseMiddleware<SoftDeleteMiddleware>();
     }
 
-    public static IApplicationBuilder UseLocalDateTimeProvider(this IApplicationBuilder builder)
-    {
-        return builder.UseMiddleware<LocalDateTimeProviderMiddleware>();
-    }
-
     public static IApplicationBuilder UseCurrentUserIdProvider(this IApplicationBuilder builder)
     {
         return builder.UseMiddleware<CurrentUserIdProviderMiddleware>();

@@ -6,7 +6,6 @@ public class ImpersonationConsts
     public const string ImpersonatorGivenNameClaimKey = "ImpersonatorGivenName";
     public const string ImpersonatorSurnameClaimKey = "ImpersonatorSurname";
     public const string ImpersonatorNameIdentifierClaimKey = "ImpersonatorNameIdentifier";
-    public const string ImpersonatorUserSystemTimeZoneIdClaimKey = "ImpersonatorUserSystemTimeZoneId";
     public const string ImpersonatorTenantIdClaimKey = "ImpersonatorTenantId";
     public const string ImpersonatorTenantNameClaimKey = "ImpersonatorTenantName";
 }
