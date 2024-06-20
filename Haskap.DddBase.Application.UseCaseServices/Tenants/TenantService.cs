@@ -41,6 +41,7 @@ public class TenantService : UseCaseService, ITenantService
     public async Task<List<TenantOutputDto>> GetAllForLoginViewAsync(CancellationToken cancellationToken)
     {
         var tenants = await _baseDbContext.Tenant
+            .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
 
         var output = _mapper.Map<List<TenantOutputDto>>(tenants);
