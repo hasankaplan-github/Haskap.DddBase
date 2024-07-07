@@ -24,6 +24,26 @@ public class AdminPermissions
         public const string UpdatePermissions = "AdminPermissions.Role.UpdatePermissions";
     }
 
+    public class AccountPermission
+    {
+        public const string Read = "AdminPermissions.AccountPermission.Read";
+        public const string ReadWithinSameTenant = "AdminPermissions.AccountPermission.ReadWithinSameTenant";
+        public const string ReadWithinDifferentTenant = "AdminPermissions.AccountPermission.ReadWithinDifferentTenant";
+        public const string Update = "AdminPermissions.AccountPermission.Update";
+        public const string UpdateWithinSameTenant = "AdminPermissions.AccountPermission.UpdateWithinSameTenant";
+        public const string UpdateWithinDifferentTenant = "AdminPermissions.AccountPermission.UpdateWithinDifferentTenant";
+    }
+
+    public class AccountRole
+    {
+        public const string Read = "AdminPermissions.AccountRole.Read";
+        public const string ReadWithinSameTenant = "AdminPermissions.AccountRole.ReadWithinSameTenant";
+        public const string ReadWithinDifferentTenant = "AdminPermissions.AccountRole.ReadWithinDifferentTenant";
+        public const string Update = "AdminPermissions.AccountRole.Update";
+        public const string UpdateWithinSameTenant = "AdminPermissions.AccountRole.UpdateWithinSameTenant";
+        public const string UpdateWithinDifferentTenant = "AdminPermissions.AccountRole.UpdateWithinDifferentTenant";
+    }
+
     public class Account
     {
         public const string ReadWithinSameTenant = "AdminPermissions.Account.ReadWithinSameTenant";
@@ -32,12 +52,6 @@ public class AdminPermissions
         public const string ImpersonateWithinDifferentTenant = "AdminPermissions.Account.ImpersonateWithinDifferentTenant";
         public const string DeleteWithinSameTenant = "AdminPermissions.Account.DeleteWithinSameTenant";
         public const string DeleteWithinDifferentTenant = "AdminPermissions.Account.DeleteWithinDifferentTenant";
-        //public const string UpdateOwnPermissions = "AdminPermissions.Account.UpdateOwnPermissions";
-        public const string UpdatePermissionsWithinSameTenant = "AdminPermissions.Account.UpdatePermissionsWithinSameTenant";
-        public const string UpdatePermissionsWithinDifferentTenant = "AdminPermissions.Account.UpdatePermissionsWithinDifferentTenant";
-        //public const string UpdateOwnRoles = "AdminPermissions.Account.UpdateOwnRoles";
-        public const string UpdateRolesWithinSameTenant = "AdminPermissions.Account.UpdateRolesWithinSameTenant";
-        public const string UpdateRolesWithinDifferentTenant = "AdminPermissions.Account.UpdateRolesWithinDifferentTenant";
         public const string ToggleActiveStatusWithinSameTenant = "AdminPermissions.Account.ToggleActiveStatusWithinSameTenant";
         public const string ToggleActiveStatusWithinDifferentTenant = "AdminPermissions.Account.ToggleActiveStatusWithinDifferentTenant";
     }
