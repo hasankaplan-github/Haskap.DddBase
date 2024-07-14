@@ -24,26 +24,6 @@ public class AdminPermissions
         public const string UpdatePermissions = "AdminPermissions.Role.UpdatePermissions";
     }
 
-    public class AccountPermission
-    {
-        public const string Read = "AdminPermissions.AccountPermission.Read";
-        public const string ReadWithinSameTenant = "AdminPermissions.AccountPermission.ReadWithinSameTenant";
-        public const string ReadWithinDifferentTenant = "AdminPermissions.AccountPermission.ReadWithinDifferentTenant";
-        public const string Update = "AdminPermissions.AccountPermission.Update";
-        public const string UpdateWithinSameTenant = "AdminPermissions.AccountPermission.UpdateWithinSameTenant";
-        public const string UpdateWithinDifferentTenant = "AdminPermissions.AccountPermission.UpdateWithinDifferentTenant";
-    }
-
-    public class AccountRole
-    {
-        public const string Read = "AdminPermissions.AccountRole.Read";
-        public const string ReadWithinSameTenant = "AdminPermissions.AccountRole.ReadWithinSameTenant";
-        public const string ReadWithinDifferentTenant = "AdminPermissions.AccountRole.ReadWithinDifferentTenant";
-        public const string Update = "AdminPermissions.AccountRole.Update";
-        public const string UpdateWithinSameTenant = "AdminPermissions.AccountRole.UpdateWithinSameTenant";
-        public const string UpdateWithinDifferentTenant = "AdminPermissions.AccountRole.UpdateWithinDifferentTenant";
-    }
-
     public class Account
     {
         public const string ReadWithinSameTenant = "AdminPermissions.Account.ReadWithinSameTenant";
@@ -54,11 +34,31 @@ public class AdminPermissions
         public const string DeleteWithinDifferentTenant = "AdminPermissions.Account.DeleteWithinDifferentTenant";
         public const string ToggleActiveStatusWithinSameTenant = "AdminPermissions.Account.ToggleActiveStatusWithinSameTenant";
         public const string ToggleActiveStatusWithinDifferentTenant = "AdminPermissions.Account.ToggleActiveStatusWithinDifferentTenant";
-    }
 
-    public class Profile
-    {
-        public const string ReadWithinSameTenant = "AdminPermissions.Profile.ReadWithinSameTenant";
-        public const string ReadWithinDifferentTenant = "AdminPermissions.Profile.ReadWithinDifferentTenant";
+        public class Permission
+        {
+            public const string Read = "AdminPermissions.Account.Permission.Read";
+            public const string ReadWithinSameTenant = "AdminPermissions.Account.Permission.ReadWithinSameTenant";
+            public const string ReadWithinDifferentTenant = "AdminPermissions.Account.Permission.ReadWithinDifferentTenant";
+            public const string Update = "AdminPermissions.Account.Permission.Update";
+            public const string UpdateWithinSameTenant = "AdminPermissions.Account.Permission.UpdateWithinSameTenant";
+            public const string UpdateWithinDifferentTenant = "AdminPermissions.Account.Permission.UpdateWithinDifferentTenant";
+        }
+
+        public class Role
+        {
+            public const string Read = "AdminPermissions.Account.Role.Read";
+            public const string ReadWithinSameTenant = "AdminPermissions.Account.Role.ReadWithinSameTenant";
+            public const string ReadWithinDifferentTenant = "AdminPermissions.Account.Role.ReadWithinDifferentTenant";
+            public const string Update = "AdminPermissions.Account.Role.Update";
+            public const string UpdateWithinSameTenant = "AdminPermissions.Account.Role.UpdateWithinSameTenant";
+            public const string UpdateWithinDifferentTenant = "AdminPermissions.Account.Role.UpdateWithinDifferentTenant";
+        }
+
+        public class Profile
+        {
+            public const string ReadWithinSameTenant = "AdminPermissions.Account.Profile.ReadWithinSameTenant";
+            public const string ReadWithinDifferentTenant = "AdminPermissions.Account.Profile.ReadWithinDifferentTenant";
+        }
     }
 }
