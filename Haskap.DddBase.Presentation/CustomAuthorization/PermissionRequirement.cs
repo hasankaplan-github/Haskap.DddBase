@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,5 +20,20 @@ public class PermissionRequirement : IAuthorizationRequirement
 
         Name = name;
         DisplayText = displayText;
+    }
+}
+
+public class PermissionRequirementEqualityComparer : IEqualityComparer<PermissionRequirement>
+{
+    public bool Equals(PermissionRequirement? x, PermissionRequirement? y)
+    {
+        if (x is null || y is null) return false;
+
+        return x.Name == y.Name;
+    }
+
+    public int GetHashCode([DisallowNull] PermissionRequirement obj)
+    {
+        return obj.Name.GetHashCode();
     }
 }

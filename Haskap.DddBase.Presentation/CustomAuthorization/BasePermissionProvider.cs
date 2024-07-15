@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Haskap.DddBase.Presentation.CustomAuthorization;
 
 public abstract class BasePermissionProvider : IPermissionProvider
 {
-    private readonly Dictionary<Type, List<PermissionRequirement>> _permissions = new();
+    private readonly Dictionary<string, HashSet<PermissionRequirement>> _permissions = new();
 
     public BasePermissionProvider()
     {
@@ -82,22 +83,26 @@ public abstract class BasePermissionProvider : IPermissionProvider
             throw new ArgumentNullException(nameof(permissionName));
         }
 
-        if (!_permissions.TryGetValue(group, out var permissionRequirements))
+        var key = group.FullName!.Substring(group.Namespace!.Length + 1).Replace('+', '.');
+
+        if (!_permissions.TryGetValue(key, out var permissionRequirements))
         {
-            permissionRequirements = new List<PermissionRequirement>();
-            _permissions.Add(group, permissionRequirements);
+            permissionRequirements = new HashSet<PermissionRequirement>(new PermissionRequirementEqualityComparer());
+            _permissions.Add(key, permissionRequirements);
         }
 
         permissionRequirements.Add(new PermissionRequirement(permissionName, displayText));
     }
 
-    public ReadOnlyDictionary<Type, List<PermissionRequirement>> GetAllPermissions()
+    public ReadOnlyDictionary<string, HashSet<PermissionRequirement>> GetAllPermissions()
     {
         return _permissions.AsReadOnly();
     }
 
-    public IReadOnlyList<PermissionRequirement> GetPermissionsByGroup(Type group)
+    public IReadOnlySet<PermissionRequirement> GetPermissionsByGroup(Type group)
     {
-        return _permissions.GetValueOrDefault(group, Enumerable.Empty<PermissionRequirement>().ToList()).AsReadOnly();
+        var key = group.FullName!.Substring(group.Namespace!.Length + 1).Replace('+', '.');
+
+        return _permissions.GetValueOrDefault(key, Enumerable.Empty<PermissionRequirement>().ToHashSet());
     }
 }

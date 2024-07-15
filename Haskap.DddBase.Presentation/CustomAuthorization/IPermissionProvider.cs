@@ -8,9 +8,9 @@ public interface IPermissionProvider
 {
     void ConfigureAuthorization(AuthorizationOptions authorizationOptions);
 
-    ReadOnlyDictionary<Type, List<PermissionRequirement>> GetAllPermissions();
+    ReadOnlyDictionary<string, HashSet<PermissionRequirement>> GetAllPermissions();
 
-    IReadOnlyList<PermissionRequirement> GetPermissionsByGroup(Type group);
+    IReadOnlySet<PermissionRequirement> GetPermissionsByGroup(Type group);
 
     void AddPermission(Type group, string permissionName, string? displayText = null);
 }
