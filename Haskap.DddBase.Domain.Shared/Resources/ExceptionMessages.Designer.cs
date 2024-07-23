@@ -68,5 +68,14 @@ namespace Haskap.DddBase.Domain.Shared.Resources {
                 return ResourceManager.GetString("DuplicateTenantNameException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bu işlem için &quot;{0}&quot; yetkisine sahip olmanız gerekmektedir! Yöneticiniz ile görüşünüz..
+        /// </summary>
+        public static string ForbiddenOperationException {
+            get {
+                return ResourceManager.GetString("ForbiddenOperationException", resourceCulture);
+            }
+        }
     }
 }

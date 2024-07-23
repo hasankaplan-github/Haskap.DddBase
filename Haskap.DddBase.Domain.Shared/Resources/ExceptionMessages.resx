@@ -120,4 +120,7 @@
   <data name="DuplicateTenantNameException" xml:space="preserve">
     <value>Bu isim zaten kayıtlı, farklı bir isim deneyin!</value>
   </data>
+  <data name="ForbiddenOperationException" xml:space="preserve">
+    <value>Bu işlem için "{0}" yetkisine sahip olmanız gerekmektedir! Yöneticiniz ile görüşünüz.</value>
+  </data>
 </root>

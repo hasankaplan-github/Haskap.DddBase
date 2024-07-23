@@ -120,4 +120,7 @@
   <data name="DuplicateTenantNameException" xml:space="preserve">
     <value>This name already exists, try another!</value>
   </data>
+  <data name="ForbiddenOperationException" xml:space="preserve">
+    <value>For this operation you need to have "{0}" permission! Contact your administrator.</value>
+  </data>
 </root>
