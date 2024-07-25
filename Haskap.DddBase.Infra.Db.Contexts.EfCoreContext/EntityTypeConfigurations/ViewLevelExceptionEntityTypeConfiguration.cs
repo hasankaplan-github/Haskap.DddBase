@@ -16,5 +16,6 @@ public class ViewLevelExceptionEntityTypeConfiguration : BaseEntityTypeConfigura
         base.Configure(builder);
 
         builder.Property(x => x.Id).ValueGeneratedNever();
+        builder.Property(x => x.HttpStatusCode).HasConversion<string>();
     }
 }

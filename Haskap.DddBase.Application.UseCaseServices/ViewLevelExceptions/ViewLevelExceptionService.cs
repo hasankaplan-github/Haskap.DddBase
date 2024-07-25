@@ -51,7 +51,8 @@ public class ViewLevelExceptionService : UseCaseService, IViewLevelExceptionServ
         var viewLevelException = new ViewLevelException(GuidGenerator.CreateSimpleGuid())
         {
             Message = inputDto.Message,
-            StackTrace = inputDto.StackTrace
+            StackTrace = inputDto.StackTrace,
+            HttpStatusCode = inputDto.HttpStatusCode
         };
 
         await _baseDbContext.ViewLevelException.AddAsync(viewLevelException);

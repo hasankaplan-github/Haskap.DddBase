@@ -69,7 +69,8 @@ public class DefaultExceptionHandler : IExceptionHandler
             var inputDto = new SaveAndGetIdInputDto
             {
                 Message = errorEnvelope.ExceptionMessage ?? string.Empty,
-                StackTrace = errorEnvelope.ExceptionStackTrace
+                StackTrace = errorEnvelope.ExceptionStackTrace,
+                HttpStatusCode = httpStatusCode
             };
             using var scope = _serviceScopeFactory.CreateScope();
             var viewLevelExceptionService = scope.ServiceProvider.GetRequiredService<IViewLevelExceptionService>();
