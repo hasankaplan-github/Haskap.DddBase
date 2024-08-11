@@ -123,4 +123,7 @@
   <data name="ForbiddenOperationException" xml:space="preserve">
     <value>Bu işlem için "{0}" yetkisine sahip olmanız gerekmektedir! Yöneticiniz ile görüşünüz.</value>
   </data>
+  <data name="TooManyRequestsException" xml:space="preserve">
+    <value>Kısa zaman içinde çok fazla istek geldi. {0} saniye sonra tekrar deneyin.</value>
+  </data>
 </root>

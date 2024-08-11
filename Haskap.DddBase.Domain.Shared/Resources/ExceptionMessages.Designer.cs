@@ -77,5 +77,14 @@ namespace Haskap.DddBase.Domain.Shared.Resources {
                 return ResourceManager.GetString("ForbiddenOperationException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kısa zaman içinde çok fazla istek geldi. {0} saniye sonra tekrar deneyin..
+        /// </summary>
+        public static string TooManyRequestsException {
+            get {
+                return ResourceManager.GetString("TooManyRequestsException", resourceCulture);
+            }
+        }
     }
 }
