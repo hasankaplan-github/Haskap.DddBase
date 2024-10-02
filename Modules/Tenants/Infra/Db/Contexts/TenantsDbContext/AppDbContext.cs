@@ -26,6 +26,8 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, ITenantsDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.HasDefaultSchema("tenants");
+
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly, type => type.Namespace!.Contains("TenantsDbContext"));
 
         base.OnModelCreating(builder);

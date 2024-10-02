@@ -26,6 +26,8 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, IViewLevelExceptionsDbCon
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.HasDefaultSchema("view_level_exceptions");
+
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly, type => type.Namespace!.Contains("ViewLevelExceptionsDbContext"));
 
         base.OnModelCreating(builder);
