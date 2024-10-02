@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Haskap.DddBase.Modules.Tenants.Domain;
+using Haskap.DddBase.Modules.Tenants.IntegrationEvents;
 
 namespace Haskap.DddBase.Modules.Tenants.Application.UseCaseServices.Tenants;
 public class TenantService : UseCaseService, ITenantService
@@ -37,6 +38,8 @@ public class TenantService : UseCaseService, ITenantService
         toBeDeleted.MarkAsDeleted();
 
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
+
+        await MediatorWrapper.Publish(new TenantSoftDeletedIntegrationEvent(toBeDeleted.Id), cancellationToken);
     }
 
     public async Task<List<TenantOutputDto>> GetAllForLoginViewAsync(CancellationToken cancellationToken)
@@ -57,6 +60,8 @@ public class TenantService : UseCaseService, ITenantService
 
         await _tenantsDbContext.Tenant.AddAsync(newTenant, cancellationToken);
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
+
+        await MediatorWrapper.Publish(new TenantCreatedIntegrationEvent(newTenant.Id, newTenant.Name), cancellationToken);
     }
 
     public async Task<JqueryDataTableResult> SearchAsync(SearchParamsInputDto inputDto, JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken)
@@ -145,5 +150,7 @@ public class TenantService : UseCaseService, ITenantService
         tenant.SetName(inputDto.NewName, _tenantsDbContext.Tenant);
 
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
+
+        await MediatorWrapper.Publish(new TenantUpdatedIntegrationEvent(tenant.Id, tenant.Name), cancellationToken);
     }
 }

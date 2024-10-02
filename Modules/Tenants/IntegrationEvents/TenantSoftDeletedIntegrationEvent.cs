@@ -5,5 +5,5 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Modules.Tenants.Module.IntegrationEvents;
+namespace Haskap.DddBase.Modules.Tenants.IntegrationEvents;
 public record TenantSoftDeletedIntegrationEvent(Guid TenantId) : IntegrationEvent;

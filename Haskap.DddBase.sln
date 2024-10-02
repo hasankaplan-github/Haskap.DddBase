@@ -55,19 +55,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Contracts", "Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "Modules\Tenants\Infra\Infra.csproj", "{03BED8BF-CD78-4978-A63F-A2A997979EEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module", "Modules\Tenants\Module\Module.csproj", "{DAA7DA45-9D86-4920-AE04-A4108C87B061}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module", "Modules\Tenants\Module\Module.csproj", "{DAA7DA45-9D86-4920-AE04-A4108C87B061}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Contracts", "Modules\ViewLevelExceptions\Application.Contracts\Application.Contracts.csproj", "{C968CD44-C02F-43C1-9BC9-44FD77493290}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Contracts", "Modules\ViewLevelExceptions\Application.Contracts\Application.Contracts.csproj", "{C968CD44-C02F-43C1-9BC9-44FD77493290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Dtos", "Modules\ViewLevelExceptions\Application.Dtos\Application.Dtos.csproj", "{A2AFFD2D-C978-4274-86A2-BDD536ABD007}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Dtos", "Modules\ViewLevelExceptions\Application.Dtos\Application.Dtos.csproj", "{A2AFFD2D-C978-4274-86A2-BDD536ABD007}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UseCaseServices", "Modules\ViewLevelExceptions\Application.UseCaseServices\Application.UseCaseServices.csproj", "{33564F15-DAD7-47DF-A332-AC74622724B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UseCaseServices", "Modules\ViewLevelExceptions\Application.UseCaseServices\Application.UseCaseServices.csproj", "{33564F15-DAD7-47DF-A332-AC74622724B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Modules\ViewLevelExceptions\Domain\Domain.csproj", "{2D906ADB-5078-402C-A784-A78E8655F9EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Modules\ViewLevelExceptions\Domain\Domain.csproj", "{2D906ADB-5078-402C-A784-A78E8655F9EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Modules\ViewLevelExceptions\Infra\Infra.csproj", "{311C8AA9-FF94-4A7A-BBD4-5184A8BBB740}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "Modules\ViewLevelExceptions\Infra\Infra.csproj", "{311C8AA9-FF94-4A7A-BBD4-5184A8BBB740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module", "Modules\ViewLevelExceptions\Module\Module.csproj", "{D7B3CBA1-D8F1-49D7-B816-C745E91CC176}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module", "Modules\ViewLevelExceptions\Module\Module.csproj", "{D7B3CBA1-D8F1-49D7-B816-C745E91CC176}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEvents", "Modules\Tenants\IntegrationEvents\IntegrationEvents.csproj", "{B4AA7184-05D1-4D86-B39F-6C796A52DF32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEvents", "Modules\ViewLevelExceptions\IntegrationEvents\IntegrationEvents.csproj", "{728B889C-1518-4A88-BBA7-928409A08263}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -175,6 +179,14 @@ Global
 		{D7B3CBA1-D8F1-49D7-B816-C745E91CC176}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7B3CBA1-D8F1-49D7-B816-C745E91CC176}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7B3CBA1-D8F1-49D7-B816-C745E91CC176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4AA7184-05D1-4D86-B39F-6C796A52DF32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4AA7184-05D1-4D86-B39F-6C796A52DF32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4AA7184-05D1-4D86-B39F-6C796A52DF32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4AA7184-05D1-4D86-B39F-6C796A52DF32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{728B889C-1518-4A88-BBA7-928409A08263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{728B889C-1518-4A88-BBA7-928409A08263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{728B889C-1518-4A88-BBA7-928409A08263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{728B889C-1518-4A88-BBA7-928409A08263}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +219,8 @@ Global
 		{2D906ADB-5078-402C-A784-A78E8655F9EB} = {4E9BBAB8-B491-4C2F-B0F4-D7E3E303CF6A}
 		{311C8AA9-FF94-4A7A-BBD4-5184A8BBB740} = {4E9BBAB8-B491-4C2F-B0F4-D7E3E303CF6A}
 		{D7B3CBA1-D8F1-49D7-B816-C745E91CC176} = {4E9BBAB8-B491-4C2F-B0F4-D7E3E303CF6A}
+		{B4AA7184-05D1-4D86-B39F-6C796A52DF32} = {50CF8D5A-6321-480B-9380-D6A3C825D8B3}
+		{728B889C-1518-4A88-BBA7-928409A08263} = {4E9BBAB8-B491-4C2F-B0F4-D7E3E303CF6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3538C37D-B52B-4EBE-90E4-A1C3295DF29A}
