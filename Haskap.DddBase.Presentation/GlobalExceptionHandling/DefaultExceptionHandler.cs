@@ -1,6 +1,4 @@
-﻿using Haskap.DddBase.Application.Contracts.ViewLevelExceptions;
-using Haskap.DddBase.Application.Dtos.ViewLevelExceptions;
-using Haskap.DddBase.Domain;
+﻿using Haskap.DddBase.Domain;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +13,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Extensions.Hosting;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
 
 namespace Haskap.DddBase.Presentation.GlobalExceptionHandling;
 public class DefaultExceptionHandler : IExceptionHandler
@@ -66,15 +65,15 @@ public class DefaultExceptionHandler : IExceptionHandler
         }
         else
         {
-            var inputDto = new SaveAndGetIdInputDto
+            var input = new SaveAndGetIdInputDto
             {
                 Message = errorEnvelope.ExceptionMessage ?? string.Empty,
                 StackTrace = errorEnvelope.ExceptionStackTrace,
                 HttpStatusCode = httpStatusCode
             };
             using var scope = _serviceScopeFactory.CreateScope();
-            var viewLevelExceptionService = scope.ServiceProvider.GetRequiredService<IViewLevelExceptionService>();
-            var errorId = await viewLevelExceptionService.SaveAndGetIdAsync(inputDto);
+            var viewLevelExceptionsModuleApi = scope.ServiceProvider.GetRequiredService<Modules.ViewLevelExceptions.Module.IModuleApi>();
+            var errorId = await viewLevelExceptionsModuleApi.SaveAndGetIdAsync(input);
 
             httpContext.Response.Redirect($"/Home/Error?errorId={errorId}");
         }

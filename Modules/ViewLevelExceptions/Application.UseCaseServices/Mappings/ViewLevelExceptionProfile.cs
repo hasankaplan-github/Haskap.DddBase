@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using Haskap.DddBase.Application.Dtos.ViewLevelExceptions;
-using Haskap.DddBase.Domain.ViewLevelExceptionAggregate;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Application.UseCaseServices.Mappings;
+namespace Haskap.DddBase.Modules.ViewLevelExceptions.Application.UseCaseServices.Mappings;
 
 public class ViewLevelExceptionProfile : Profile
 {

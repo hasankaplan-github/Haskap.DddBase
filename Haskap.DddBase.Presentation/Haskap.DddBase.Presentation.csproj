@@ -9,10 +9,9 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <ProjectReference Include="..\Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj" />
-    <ProjectReference Include="..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Domain.Shared\Haskap.DddBase.Domain.Shared.csproj" />
-    <ProjectReference Include="..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\Modules\Tenants\Module\Module.csproj" />
+    <ProjectReference Include="..\Modules\ViewLevelExceptions\Module\Module.csproj" />
   </ItemGroup>
 
 </Project>

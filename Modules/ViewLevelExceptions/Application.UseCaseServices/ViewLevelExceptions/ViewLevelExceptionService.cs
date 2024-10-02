@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using Haskap.DddBase.Application.Contracts.ViewLevelExceptions;
-using Haskap.DddBase.Application.Dtos.ViewLevelExceptions;
 using Haskap.DddBase.Application.UseCaseServices;
 using Haskap.DddBase.Domain;
-using Haskap.DddBase.Domain.ViewLevelExceptionAggregate;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Domain;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,17 +13,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Application.UseCaseServices.ViewLevelExceptions;
+namespace Haskap.DddBase.Modules.ViewLevelExceptions.Application.UseCaseServices.ViewLevelExceptions;
 public class ViewLevelExceptionService : UseCaseService, IViewLevelExceptionService
 {
-    private readonly IBaseDbContext _baseDbContext;
+    private readonly IViewLevelExceptionsDbContext _viewLevelExceptionsDbContext;
     private readonly IMapper _mapper;
 
     public ViewLevelExceptionService(
-        IBaseDbContext baseDbContext,
+        IViewLevelExceptionsDbContext viewLevelExceptionsDbContext,
         IMapper mapper)
     {
-        _baseDbContext = baseDbContext;
+        _viewLevelExceptionsDbContext = viewLevelExceptionsDbContext;
         _mapper = mapper;
     }
 
@@ -30,14 +31,14 @@ public class ViewLevelExceptionService : UseCaseService, IViewLevelExceptionServ
 
     public async Task DeleteViewLevelExceptionAsync(Guid id)
     {
-        await _baseDbContext.ViewLevelException
+        await _viewLevelExceptionsDbContext.ViewLevelException
             .Where(x => x.Id == id)
             .ExecuteDeleteAsync();
     }
 
     public async Task<ViewLevelExceptionOutputDto> GetViewLevelExceptionAsync(Guid id)
     {
-        var exception = await _baseDbContext.ViewLevelException
+        var exception = await _viewLevelExceptionsDbContext.ViewLevelException
             .Where(x => x.Id == id)
             .FirstOrDefaultAsync();
 
@@ -55,8 +56,8 @@ public class ViewLevelExceptionService : UseCaseService, IViewLevelExceptionServ
             HttpStatusCode = inputDto.HttpStatusCode
         };
 
-        await _baseDbContext.ViewLevelException.AddAsync(viewLevelException);
-        await _baseDbContext.SaveChangesAsync();
+        await _viewLevelExceptionsDbContext.ViewLevelException.AddAsync(viewLevelException);
+        await _viewLevelExceptionsDbContext.SaveChangesAsync();
 
         return viewLevelException.Id;
     }

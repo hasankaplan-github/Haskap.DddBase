@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Modules.Tenants.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations;
+namespace Haskap.DddBase.Modules.Tenants.Infra.Db.Contexts.TenantsDbContext.EntityTypeConfigurations;
 
 public class TenantEntityTypeConfiguration : BaseEntityTypeConfiguration<Tenant>
 {

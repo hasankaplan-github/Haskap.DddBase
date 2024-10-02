@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Application.Dtos.ViewLevelExceptions;
+namespace Haskap.DddBase.Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
 public class ViewLevelExceptionOutputDto
 {
     public Guid Id { get; set; }

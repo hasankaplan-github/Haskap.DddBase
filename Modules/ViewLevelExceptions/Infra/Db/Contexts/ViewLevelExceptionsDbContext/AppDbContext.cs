@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using System.Threading;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext;
-using Haskap.DddBase.Modules.Tenants.Domain;
-using Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Domain;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
 
-namespace Haskap.DddBase.Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
+namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext;
 
-public class AppDbContext : BaseEfCoreNpgsqlDbContext, ITenantsDbContext
+public class AppDbContext : BaseEfCoreNpgsqlDbContext, IViewLevelExceptionsDbContext
 {
     protected AppDbContext(
         DbContextOptions options, 
@@ -22,11 +22,11 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, ITenantsDbContext
     {
     }
 
-    public DbSet<Tenant> Tenant { get; set; }
+    public DbSet<ViewLevelException> ViewLevelException { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly, type => type.Namespace!.Contains("TenantsDbContext"));
+        builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly, type => type.Namespace!.Contains("ViewLevelExceptionsDbContext"));
 
         base.OnModelCreating(builder);
     }

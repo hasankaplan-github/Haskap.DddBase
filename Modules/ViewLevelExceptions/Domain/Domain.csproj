@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Haskap.DddBase.Modules.ViewLevelExceptions.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Haskap.DddBase.Modules.ViewLevelExceptions.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

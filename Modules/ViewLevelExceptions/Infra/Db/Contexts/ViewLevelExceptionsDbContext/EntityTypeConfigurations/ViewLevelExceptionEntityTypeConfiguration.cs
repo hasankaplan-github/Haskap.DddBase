@@ -1,4 +1,4 @@
-using Haskap.DddBase.Domain.ViewLevelExceptionAggregate;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations;
+namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext.EntityTypeConfigurations;
 
 public class ViewLevelExceptionEntityTypeConfiguration : BaseEntityTypeConfiguration<ViewLevelException>
 {
@@ -15,7 +15,6 @@ public class ViewLevelExceptionEntityTypeConfiguration : BaseEntityTypeConfigura
     {
         base.Configure(builder);
 
-        builder.Property(x => x.Id).ValueGeneratedNever();
         builder.Property(x => x.HttpStatusCode).HasConversion<string>();
     }
 }

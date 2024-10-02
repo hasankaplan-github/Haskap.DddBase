@@ -1,0 +1,32 @@
+﻿using Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Domain;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext;
+
+namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra;
+public static class DependencyInjection
+{
+    public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string? connectionStringName = null)
+    {
+        //services.AddBaseDbContext(typeof(ITenantsDbContext), typeof(AppDbContext));
+        services.AddScoped<IViewLevelExceptionsDbContext, AppDbContext>();
+
+        var connectionString = configuration.GetConnectionString(connectionStringName!);
+        services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+        {
+            options.UseNpgsql(connectionString, optionsBuilder => optionsBuilder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "view_level_exceptions"));
+            options.UseSnakeCaseNamingConvention();
+            //options.AddBaseInterceptors(serviceProvider);
+        });
+
+        return services;
+    }
+}

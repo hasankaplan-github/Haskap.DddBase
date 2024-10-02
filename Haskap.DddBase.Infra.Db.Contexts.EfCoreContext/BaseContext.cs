@@ -8,11 +8,10 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Linq.Expressions;
 using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Domain.ViewLevelExceptionAggregate;
 
 namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 
-public class BaseContext : DbContext, IBaseDbContext
+public class BaseContext : DbContext
 {
     protected ICurrentTenantProvider? CurrentTenantProvider;
     protected IGlobalQueryFilterGenericProvider? GlobalQueryFilterGenericProvider;
@@ -33,10 +32,6 @@ public class BaseContext : DbContext, IBaseDbContext
         CurrentTenantProvider = currentTenantProvider;
         GlobalQueryFilterGenericProvider = globalQueryFilterGenericProvider;
     }
-
-    
-    public DbSet<ViewLevelException> ViewLevelException { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
