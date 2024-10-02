@@ -16,17 +16,17 @@ using Haskap.DddBase.Domain.Common.Exceptions;
 using System.Globalization;
 
 namespace Haskap.DddBase.Presentation;
-public static class ServiceCollectionExtensions
+public static class DependencyInjection
 {
-    public static void AddBaseCustomAuthorization(this IServiceCollection services, IPermissionProvider permissionProvider, Type accountServiceType)
+    public static void AddBaseCustomAuthorization(this IServiceCollection services, IPermissionProvider permissionProvider)
     {
         services.AddSingleton<IPermissionProvider>(permissionProvider);
         services.AddAuthorization(permissionProvider.ConfigureAuthorization);
 
-        services.AddSingleton<IAuthorizationHandler>(serviceProvider => 
-            new PermissionAuthorizationHandler(
-                serviceProvider.GetRequiredService<IServiceScopeFactory>(),
-                accountServiceType));
+        //services.AddSingleton<IAuthorizationHandler>(serviceProvider => 
+        //    new PermissionAuthorizationHandler(
+        //        serviceProvider.GetRequiredService<IServiceScopeFactory>(),
+        //        accountServiceType));
         services.AddSingleton<IAuthorizationMiddlewareResultHandler, PermissionAuthorizationMiddlewareResultHandler>();
     }
 

@@ -14,12 +14,12 @@ using Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExce
 namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string? connectionStringName = null)
+    public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName)
     {
         //services.AddBaseDbContext(typeof(ITenantsDbContext), typeof(AppDbContext));
         services.AddScoped<IViewLevelExceptionsDbContext, AppDbContext>();
 
-        var connectionString = configuration.GetConnectionString(connectionStringName!);
+        var connectionString = configuration.GetConnectionString(connectionStringName);
         services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         {
             options.UseNpgsql(connectionString, optionsBuilder => optionsBuilder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "view_level_exceptions"));

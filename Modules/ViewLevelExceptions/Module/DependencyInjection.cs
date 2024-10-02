@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Modules.ViewLevelExceptions.Module;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddViewLevelExceptionsModule(this IServiceCollection services, IConfiguration configuration, string? connectionStringName = null)
+    public static IServiceCollection AddViewLevelExceptionsModule(this IServiceCollection services, IConfiguration configuration, string connectionStringName)
     {
         services.AddUseCaseServices();
         services.AddInfra(configuration, connectionStringName);
