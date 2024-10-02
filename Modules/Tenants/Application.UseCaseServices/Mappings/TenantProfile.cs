@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using Haskap.DddBase.Application.Dtos.Tenants;
-using Haskap.DddBase.Domain.TenantAggregate;
+using Haskap.DddBase.Modules.Tenants.Application.Dtos.Tenants;
+using Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Application.UseCaseServices.Mappings;
+namespace Haskap.DddBase.Modules.Tenants.Application.UseCaseServices.Mappings;
 
 public class TenantProfile : Profile
 {

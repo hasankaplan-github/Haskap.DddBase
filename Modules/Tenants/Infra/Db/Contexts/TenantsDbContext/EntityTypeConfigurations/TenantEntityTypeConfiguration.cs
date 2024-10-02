@@ -1,5 +1,5 @@
 ﻿using Haskap.DddBase.Domain.Shared.Consts;
-using Haskap.DddBase.Domain.TenantAggregate;
+using Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations;
+namespace Haskap.DddBase.Modules.Tenants.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations;
 
 public class TenantEntityTypeConfiguration : BaseEntityTypeConfiguration<Tenant>
 {

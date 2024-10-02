@@ -8,7 +8,6 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Linq.Expressions;
 using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Domain.TenantAggregate;
 using Haskap.DddBase.Domain.ViewLevelExceptionAggregate;
 
 namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
@@ -36,7 +35,6 @@ public class BaseContext : DbContext, IBaseDbContext
     }
 
     
-    public DbSet<Tenant> Tenant { get; set; }
     public DbSet<ViewLevelException> ViewLevelException { get; set; }
 
 

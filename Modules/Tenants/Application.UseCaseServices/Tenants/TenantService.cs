@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Haskap.DddBase.Application.Contracts.Tenants;
 using Haskap.DddBase.Application.Dtos.Common.DataTable;
-using Haskap.DddBase.Application.Dtos.Tenants;
+using Haskap.DddBase.Modules.Tenants.Application.Dtos.Tenants;
 using Haskap.DddBase.Domain;
-using Haskap.DddBase.Domain.TenantAggregate;
+using Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate;
 using Haskap.DddBase.Application.UseCaseServices;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
@@ -12,35 +12,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Haskap.DddBase.Modules.Tenants.Domain;
 
-namespace Haskap.DddBase.Application.UseCaseServices.Tenants;
+namespace Haskap.DddBase.Modules.Tenants.Application.UseCaseServices.Tenants;
 public class TenantService : UseCaseService, ITenantService
 {
-    private readonly IBaseDbContext _baseDbContext;
+    private readonly ITenantsDbContext _tenantsDbContext;
     private readonly IMapper _mapper;
 
     public TenantService(
-        IBaseDbContext baseDbContext,
+        ITenantsDbContext tenantsDbContext,
         IMapper mapper)
     {
-        _baseDbContext = baseDbContext;
+        _tenantsDbContext = tenantsDbContext;
         _mapper = mapper;
     }
 
     public async Task DeleteAsync(DeleteInputDto inputDto, CancellationToken cancellationToken)
     {
-        var toBeDeleted = await _baseDbContext.Tenant
+        var toBeDeleted = await _tenantsDbContext.Tenant
             .Where(x=>x.Id == inputDto.TenantId)
             .FirstAsync(cancellationToken);
 
         toBeDeleted.MarkAsDeleted();
 
-        await _baseDbContext.SaveChangesAsync(cancellationToken);
+        await _tenantsDbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<List<TenantOutputDto>> GetAllForLoginViewAsync(CancellationToken cancellationToken)
     {
-        var tenants = await _baseDbContext.Tenant
+        var tenants = await _tenantsDbContext.Tenant
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
 
@@ -52,15 +53,15 @@ public class TenantService : UseCaseService, ITenantService
 
     public async Task SaveNewAsync(SaveNewInputDto inputDto, CancellationToken cancellationToken)
     {
-        var newTenant = new Tenant(GuidGenerator.CreateSimpleGuid(), inputDto.Name, _baseDbContext.Tenant);
+        var newTenant = new Tenant(GuidGenerator.CreateSimpleGuid(), inputDto.Name, _tenantsDbContext.Tenant);
 
-        await _baseDbContext.Tenant.AddAsync(newTenant, cancellationToken);
-        await _baseDbContext.SaveChangesAsync(cancellationToken);
+        await _tenantsDbContext.Tenant.AddAsync(newTenant, cancellationToken);
+        await _tenantsDbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<JqueryDataTableResult> SearchAsync(SearchParamsInputDto inputDto, JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken)
     {
-        var query = _baseDbContext.Tenant.AsQueryable();
+        var query = _tenantsDbContext.Tenant.AsQueryable();
 
         var totalCount = await query.CountAsync(cancellationToken);
         var filteredCount = totalCount;
@@ -126,7 +127,7 @@ public class TenantService : UseCaseService, ITenantService
             return new TenantOutputDto { Id = null, Name = "Host" };
         }
 
-        var tenant = await _baseDbContext.Tenant
+        var tenant = await _tenantsDbContext.Tenant
             .Where(x => x.Id == tenantId)
             .FirstAsync(cancellationToken);
 
@@ -137,12 +138,12 @@ public class TenantService : UseCaseService, ITenantService
 
     public async Task UpdateAsync(UpdateInputDto inputDto, CancellationToken cancellationToken)
     {
-        var tenant = await _baseDbContext.Tenant
+        var tenant = await _tenantsDbContext.Tenant
             .Where(x => x.Id == inputDto.TenantId)
             .FirstAsync(cancellationToken);
 
-        tenant.SetName(inputDto.NewName, _baseDbContext.Tenant);
+        tenant.SetName(inputDto.NewName, _tenantsDbContext.Tenant);
 
-        await _baseDbContext.SaveChangesAsync(cancellationToken);
+        await _tenantsDbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -1,6 +1,4 @@
-﻿using Haskap.DddBase.Application.Contracts.Tenants;
-using Haskap.DddBase.Application.Contracts.ViewLevelExceptions;
-using Haskap.DddBase.Application.UseCaseServices.Tenants;
+﻿using Haskap.DddBase.Application.Contracts.ViewLevelExceptions;
 using Haskap.DddBase.Application.UseCaseServices.ViewLevelExceptions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,7 +12,6 @@ public static class ServiceCollectionExtensions
 {
     public static void AddBaseServices(this IServiceCollection services)
     {
-        services.AddTransient<ITenantService, TenantService>();
         services.AddTransient<IViewLevelExceptionService, ViewLevelExceptionService>();
     }
 }

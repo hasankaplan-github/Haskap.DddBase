@@ -1,5 +1,5 @@
 ﻿using Haskap.DddBase.Application.Dtos.Common.DataTable;
-using Haskap.DddBase.Application.Dtos.Tenants;
+using Haskap.DddBase.Modules.Tenants.Application.Dtos.Tenants;
 using System;
 using System.Collections.Generic;
 using System.Linq;

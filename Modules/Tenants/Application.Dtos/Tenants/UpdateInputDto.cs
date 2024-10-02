@@ -1,4 +1,4 @@
-﻿namespace Haskap.DddBase.Application.Dtos.Tenants;
+﻿namespace Haskap.DddBase.Modules.Tenants.Application.Dtos.Tenants;
 
 public class UpdateInputDto
 {
