@@ -23,7 +23,7 @@ public class CalendarHelper
         return Enumerable.Range(minHijriYear, maxHijriYear - minHijriYear + 1);
     }
 
-    public DateOnly FindOccurrenceOfDayOfWeek(int year, int month, DayOfWeek day, SpecialDayOccurrenceInAMonth occurrence)
+    public DateOnly FindOccurrenceOfDayOfWeek(int year, int month, DayOfWeek day, int occurrenceInAMonth)
     {
         var firstDayOfMonth = new DateOnly(year, month, 1);
 
@@ -37,7 +37,7 @@ public class CalendarHelper
         }
 
         //multiply by the Occurance to get the day
-        var resultedDay = (daysNeeded + 1) + (7 * ((int)occurrence - 1));
+        var resultedDay = (daysNeeded + 1) + (7 * (occurrenceInAMonth - 1));
 
         if (resultedDay > DateTime.DaysInMonth(year, month))
         {
