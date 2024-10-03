@@ -8,22 +8,15 @@ namespace Haskap.DddBase.Presentation.CustomAuthorization;
 
 public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
 {
-    //private readonly IServiceScopeFactory _serviceScopeFactory;
-    //private readonly Type _accountServiceType;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly Type _accountServiceType;
 
-    //public PermissionAuthorizationHandler(
-    //    IServiceScopeFactory serviceScopeFactory,
-    //    Type accountServiceType)
-    //{
-    //    _serviceScopeFactory = serviceScopeFactory;
-    //    _accountServiceType = accountServiceType;
-    //}
-
-    private readonly Func<dynamic, CancellationToken, Task<HashSet<string>>> _getAllPermissionsAsyncFunc;
-
-    public PermissionAuthorizationHandler(Func<dynamic, CancellationToken, Task<HashSet<string>>> getAllPermissionsAsyncFunc)
+    public PermissionAuthorizationHandler(
+        IServiceScopeFactory serviceScopeFactory,
+        Type accountServiceType)
     {
-        _getAllPermissionsAsyncFunc = getAllPermissionsAsyncFunc;
+        _serviceScopeFactory = serviceScopeFactory;
+        _accountServiceType = accountServiceType;
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
@@ -34,22 +27,20 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionReq
             return;
         }
 
-        //using var scope = _serviceScopeFactory.CreateScope();
-        //var accountService = scope.ServiceProvider.GetRequiredService(_accountServiceType);
+        using var scope = _serviceScopeFactory.CreateScope();
+        var accountService = scope.ServiceProvider.GetRequiredService(_accountServiceType);
 
-        //MethodInfo getAllPermissionsAsyncMethodInfo = _accountServiceType.GetMethod("GetAllPermissionsAsync")!;
-        //ParameterInfo[] parameters = getAllPermissionsAsyncMethodInfo.GetParameters();
-        //object getAllPermissionsInputDtoParameterInstance = Activator.CreateInstance(parameters[0].ParameterType)!;
-        //PropertyInfo userIdPRopertyInfo = getAllPermissionsInputDtoParameterInstance.GetType().GetProperty("UserId")!;
-        //userIdPRopertyInfo.SetValue(getAllPermissionsInputDtoParameterInstance, userId);
-        //object[] parametersArray = [getAllPermissionsInputDtoParameterInstance, default(CancellationToken)];
-        //var permissionsTask = getAllPermissionsAsyncMethodInfo.Invoke(accountService, parametersArray) as Task<HashSet<string>>;
+        MethodInfo getAllPermissionsAsyncMethodInfo = _accountServiceType.GetMethod("GetAllPermissionsAsync")!;
+        ParameterInfo[] parameters = getAllPermissionsAsyncMethodInfo.GetParameters();
+        object getAllPermissionsInputDtoParameterInstance = Activator.CreateInstance(parameters[0].ParameterType)!;
+        PropertyInfo userIdPRopertyInfo = getAllPermissionsInputDtoParameterInstance.GetType().GetProperty("UserId")!;
+        userIdPRopertyInfo.SetValue(getAllPermissionsInputDtoParameterInstance, userId);
+        object[] parametersArray = [getAllPermissionsInputDtoParameterInstance, default(CancellationToken)];
+        var permissionsTask = getAllPermissionsAsyncMethodInfo.Invoke(accountService, parametersArray) as Task<HashSet<string>>;
 
-        //var permissions = await permissionsTask!.ConfigureAwait(false);
+        var permissions = await permissionsTask!.ConfigureAwait(false);
 
-        dynamic inputParameter = new ExpandoObject();
-        inputParameter.UserId = userId;
-        HashSet<string> permissions = await _getAllPermissionsAsyncFunc.Invoke(inputParameter, default(CancellationToken));
+
 
         //var permissions = await accountService.GetAllPermissionsAsync(new GetAllPermissionsInputDto { UserId = userId });
 
