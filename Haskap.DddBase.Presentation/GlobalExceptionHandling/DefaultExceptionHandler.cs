@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Extensions.Hosting;
 using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
+using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
 
 namespace Haskap.DddBase.Presentation.GlobalExceptionHandling;
 public class DefaultExceptionHandler : IExceptionHandler
@@ -72,8 +73,8 @@ public class DefaultExceptionHandler : IExceptionHandler
                 HttpStatusCode = httpStatusCode
             };
             using var scope = _serviceScopeFactory.CreateScope();
-            var viewLevelExceptionsModuleApi = scope.ServiceProvider.GetRequiredService<Modules.ViewLevelExceptions.Module.IModuleApi>();
-            var errorId = await viewLevelExceptionsModuleApi.SaveAndGetIdAsync(input);
+            var viewLevelExceptionService = scope.ServiceProvider.GetRequiredService<IViewLevelExceptionService>();
+            var errorId = await viewLevelExceptionService.SaveAndGetIdAsync(input);
 
             httpContext.Response.Redirect($"/Home/Error?errorId={errorId}");
         }
