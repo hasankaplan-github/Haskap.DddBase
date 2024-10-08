@@ -1,5 +1,6 @@
 ﻿using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
 using Haskap.DddBase.Modules.ViewLevelExceptions.Application.UseCaseServices.ViewLevelExceptions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Haskap.DddBase.Modules.ViewLevelExceptions.Application.UseCaseServices
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddUseCaseServices(this IServiceCollection services)
+    public static IServiceCollection AddUseCaseServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly));
         services.AddAutoMapper(typeof(DependencyInjection).Assembly);

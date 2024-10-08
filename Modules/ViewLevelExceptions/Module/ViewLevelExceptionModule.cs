@@ -9,7 +9,7 @@ public class ViewLevelExceptionModule : IModule
 {
     public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName)
     {
-        services.AddUseCaseServices();
+        services.AddUseCaseServices(configuration);
         services.AddInfra(configuration, connectionStringName);
 
         return services;

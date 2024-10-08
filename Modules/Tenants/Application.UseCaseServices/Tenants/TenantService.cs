@@ -1,19 +1,13 @@
 ﻿using AutoMapper;
-using Haskap.DddBase.Application.Contracts.Tenants;
 using Haskap.DddBase.Application.Dtos.Common.DataTable;
-using Haskap.DddBase.Modules.Tenants.Application.Dtos.Tenants;
-using Haskap.DddBase.Domain;
-using Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate;
 using Haskap.DddBase.Application.UseCaseServices;
+using Haskap.DddBase.Modules.Tenants.Application.Contracts.Tenants;
+using Haskap.DddBase.Modules.Tenants.Application.Dtos.Tenants;
+using Haskap.DddBase.Modules.Tenants.Domain;
+using Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate;
+using Haskap.DddBase.Modules.Tenants.IntegrationEvents;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Haskap.DddBase.Modules.Tenants.Domain;
-using Haskap.DddBase.Modules.Tenants.IntegrationEvents;
 
 namespace Haskap.DddBase.Modules.Tenants.Application.UseCaseServices.Tenants;
 public class TenantService : UseCaseService, ITenantService
