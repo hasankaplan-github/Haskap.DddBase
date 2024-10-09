@@ -12,8 +12,8 @@ namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevel
 
 public class AppDbContext : BaseEfCoreNpgsqlDbContext, IViewLevelExceptionsDbContext
 {
-    protected AppDbContext(
-        DbContextOptions options, 
+    public AppDbContext(
+        DbContextOptions<AppDbContext> options, 
         IGlobalQueryFilterGenericProvider? globalQueryFilterGenericProvider)
         : base(
             options, 

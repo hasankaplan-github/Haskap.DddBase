@@ -12,8 +12,8 @@ namespace Haskap.DddBase.Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
 
 public class AppDbContext : BaseEfCoreNpgsqlDbContext, ITenantsDbContext
 {
-    protected AppDbContext(
-        DbContextOptions options, 
+    public AppDbContext(
+        DbContextOptions<AppDbContext> options, 
         IGlobalQueryFilterGenericProvider? globalQueryFilterGenericProvider)
         : base(
             options, 
