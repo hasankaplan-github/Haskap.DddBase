@@ -14,7 +14,7 @@ using Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExce
 namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName)
+    public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
     {
         //services.AddBaseDbContext(typeof(ITenantsDbContext), typeof(AppDbContext));
         services.AddScoped<IViewLevelExceptionsDbContext, AppDbContext>();
@@ -22,7 +22,11 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString(connectionStringName);
         services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         {
-            options.UseNpgsql(connectionString, optionsBuilder => optionsBuilder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "view_level_exceptions"));
+            options.UseNpgsql(connectionString, optionsBuilder =>
+            {
+                optionsBuilder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "view_level_exceptions");
+                optionsBuilder.MigrationsAssembly(migrationAssembly ?? typeof(DependencyInjection).Namespace);
+            });
             options.UseSnakeCaseNamingConvention();
             //options.AddBaseInterceptors(serviceProvider);
         });

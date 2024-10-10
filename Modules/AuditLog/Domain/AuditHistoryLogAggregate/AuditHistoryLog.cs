@@ -1,13 +1,9 @@
-﻿using Haskap.DddBase.Domain.Shared.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Haskap.DddBase.Domain;
+using Haskap.DddBase.Domain.Shared.Enums;
 
-namespace Haskap.DddBase.Domain.AuditHistoryLogAggregate;
+namespace Modules.AuditLog.Domain.AuditHistoryLogAggregate;
 
-public class AuditHistoryLog : AggregateRoot<Guid>
+public class AuditHistoryLog : AggregateRoot, IHasMultiTenant
 {
     public Guid? VisitId { get; set; }
     public Guid? TenantId { get; set; }
@@ -19,6 +15,10 @@ public class AuditHistoryLog : AggregateRoot<Guid>
     public string? ObjectOriginalValues { get; set; } //json
     public string? ObjectNewValues { get; set; } //json
     public AuditHistoryLogOwnershipType OwnershipType { get; set; } = AuditHistoryLogOwnershipType.None;
+
+    private AuditHistoryLog()
+    {
+    }
 
     public AuditHistoryLog(Guid id)
         : base(id)

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Utilities.Module;
 public static class ModuleExtensions
 {
-    public static IServiceCollection AddModule<T>(this IServiceCollection services, IConfiguration configuration, string connectionStringName) 
+    public static IServiceCollection AddModule<T>(this IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly) 
         where T : class, IModule, new()
     {
         var module = new T();
-        return module.RegisterModule(services, configuration, connectionStringName);
+        return module.RegisterModule(services, configuration, connectionStringName, migrationAssembly);
     }
 }

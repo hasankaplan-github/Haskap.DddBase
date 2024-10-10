@@ -37,7 +37,7 @@ public class BaseContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseContext).Assembly);
+        //modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseContext).Assembly);
 
         //TrySetDatabaseProvider(modelBuilder);
 

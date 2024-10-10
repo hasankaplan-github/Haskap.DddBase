@@ -1,15 +1,13 @@
-﻿using Haskap.DddBase.Modules.Tenants.Application.UseCaseServices;
-using Haskap.DddBase.Modules.Tenants.Infra;
-using Haskap.DddBase.Utilities.Module;
+﻿using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Modules.AuditLog.Infra;
 
-namespace Haskap.DddBase.Modules.Tenants.Module;
-public class TenantModule : IModule
+namespace Modules.AuditLog.Module;
+public class AuditLogModule : IModule
 {
     public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string migrationAssembly)
     {
-        services.AddUseCaseServices(configuration);
         services.AddInfra(configuration, connectionStringName, migrationAssembly);
 
         return services;
