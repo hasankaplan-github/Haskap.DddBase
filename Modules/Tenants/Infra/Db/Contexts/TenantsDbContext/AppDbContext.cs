@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext;
-using Haskap.DddBase.Modules.Tenants.Domain;
-using Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate;
+using Modules.Tenants.Domain;
+using Modules.Tenants.Domain.TenantAggregate;
 
-namespace Haskap.DddBase.Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
+namespace Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
 
 public class AppDbContext : BaseEfCoreNpgsqlDbContext, ITenantsDbContext
 {

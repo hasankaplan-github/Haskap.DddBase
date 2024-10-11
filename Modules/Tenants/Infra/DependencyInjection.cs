@@ -1,12 +1,12 @@
-﻿using Haskap.DddBase.Modules.Tenants.Domain;
-using Haskap.DddBase.Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
+﻿using Modules.Tenants.Domain;
+using Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Tenants.Infra.Db.Interceptors;
 
-namespace Haskap.DddBase.Modules.Tenants.Infra;
+namespace Modules.Tenants.Infra;
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)

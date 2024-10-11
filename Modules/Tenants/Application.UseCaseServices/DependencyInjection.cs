@@ -1,9 +1,9 @@
-﻿using Haskap.DddBase.Modules.Tenants.Application.Contracts.Tenants;
-using Haskap.DddBase.Modules.Tenants.Application.UseCaseServices.Tenants;
+﻿using Modules.Tenants.Application.Contracts.Tenants;
+using Modules.Tenants.Application.UseCaseServices.Tenants;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Haskap.DddBase.Modules.Tenants.Application.UseCaseServices;
+namespace Modules.Tenants.Application.UseCaseServices;
 
 public static class DependencyInjection
 {

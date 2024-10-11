@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <BaseOutputPath>..\..\..\Outputs</BaseOutputPath>
-    <AssemblyName>Haskap.DddBase.Modules.ViewLevelExceptions.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Haskap.DddBase.Modules.ViewLevelExceptions.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Modules.ViewLevelExceptions.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Modules.ViewLevelExceptions.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

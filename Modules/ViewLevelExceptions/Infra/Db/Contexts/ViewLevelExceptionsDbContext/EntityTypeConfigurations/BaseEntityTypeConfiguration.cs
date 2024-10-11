@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Haskap.DddBase.Modules.ViewLevelExceptions.Domain;
+using Modules.ViewLevelExceptions.Domain;
 
-namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext.EntityTypeConfigurations;
+namespace Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext.EntityTypeConfigurations;
 
 public class BaseEntityTypeConfiguration<TEntity> : Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations.BaseEntityTypeConfiguration<TEntity>
     where TEntity : class

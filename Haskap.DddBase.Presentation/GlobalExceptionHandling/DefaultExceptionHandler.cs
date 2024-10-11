@@ -13,8 +13,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Extensions.Hosting;
-using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
-using Haskap.DddBase.Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
+using Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
+using Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
 
 namespace Haskap.DddBase.Presentation.GlobalExceptionHandling;
 public class DefaultExceptionHandler : IExceptionHandler

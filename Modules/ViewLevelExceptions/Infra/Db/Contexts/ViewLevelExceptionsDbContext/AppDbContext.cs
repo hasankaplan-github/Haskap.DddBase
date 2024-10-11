@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext;
-using Haskap.DddBase.Modules.ViewLevelExceptions.Domain;
-using Haskap.DddBase.Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
+using Modules.ViewLevelExceptions.Domain;
+using Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
 
-namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext;
+namespace Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext;
 
 public class AppDbContext : BaseEfCoreNpgsqlDbContext, IViewLevelExceptionsDbContext
 {

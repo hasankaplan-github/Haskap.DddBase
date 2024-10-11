@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Haskap.DddBase.Modules.ViewLevelExceptions.Domain;
+namespace Modules.ViewLevelExceptions.Domain;
 
 public abstract class Entity : Entity<Guid>, IEntity
 {

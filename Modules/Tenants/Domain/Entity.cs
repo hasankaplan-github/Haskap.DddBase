@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Haskap.DddBase.Modules.Tenants.Domain;
+namespace Modules.Tenants.Domain;
 
 public abstract class Entity : Entity<Guid>, IEntity
 {

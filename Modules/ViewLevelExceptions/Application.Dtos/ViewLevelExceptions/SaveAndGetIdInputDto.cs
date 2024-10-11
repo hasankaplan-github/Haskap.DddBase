@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
+namespace Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
 public class SaveAndGetIdInputDto
 {
     public string Message { get; set; }

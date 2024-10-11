@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <BaseOutputPath>..\..\..\Outputs</BaseOutputPath>
-    <AssemblyName>Haskap.DddBase.Modules.Tenants.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Haskap.DddBase.Modules.Tenants.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Modules.Tenants.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Modules.Tenants.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
 </Project>

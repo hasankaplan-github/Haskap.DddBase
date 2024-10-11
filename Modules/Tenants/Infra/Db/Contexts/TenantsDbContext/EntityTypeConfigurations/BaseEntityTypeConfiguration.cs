@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Haskap.DddBase.Modules.Tenants.Domain;
+using Modules.Tenants.Domain;
 
-namespace Haskap.DddBase.Modules.Tenants.Infra.Db.Contexts.TenantsDbContext.EntityTypeConfigurations;
+namespace Modules.Tenants.Infra.Db.Contexts.TenantsDbContext.EntityTypeConfigurations;
 
 public class BaseEntityTypeConfiguration<TEntity> : Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations.BaseEntityTypeConfiguration<TEntity>
     where TEntity : class

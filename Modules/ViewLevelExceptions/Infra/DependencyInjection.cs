@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Haskap.DddBase.Modules.ViewLevelExceptions.Domain;
-using Haskap.DddBase.Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext;
+using Modules.ViewLevelExceptions.Domain;
+using Modules.ViewLevelExceptions.Infra.Db.Contexts.ViewLevelExceptionsDbContext;
 
-namespace Haskap.DddBase.Modules.ViewLevelExceptions.Infra;
+namespace Modules.ViewLevelExceptions.Infra;
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)

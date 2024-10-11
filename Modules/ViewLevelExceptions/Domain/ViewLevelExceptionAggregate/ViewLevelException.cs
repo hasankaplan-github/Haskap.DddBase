@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
+namespace Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
 public class ViewLevelException : AggregateRoot<Guid>
 {
     public string Message { get; set; }

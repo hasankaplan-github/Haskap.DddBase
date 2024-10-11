@@ -1,7 +1,7 @@
 ﻿using Haskap.DddBase.Application.Dtos.Common.DataTable;
-using Haskap.DddBase.Modules.Tenants.Application.Dtos.Tenants;
+using Modules.Tenants.Application.Dtos.Tenants;
 
-namespace Haskap.DddBase.Modules.Tenants.Application.Contracts.Tenants;
+namespace Modules.Tenants.Application.Contracts.Tenants;
 public interface ITenantService
 {
     Task DeleteAsync(DeleteInputDto inputDto, CancellationToken cancellationToken);

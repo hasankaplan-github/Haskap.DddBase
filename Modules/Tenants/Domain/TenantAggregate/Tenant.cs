@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Haskap.DddBase.Domain;
-using Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate.Exceptions;
+using Modules.Tenants.Domain.TenantAggregate.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate;
+namespace Modules.Tenants.Domain.TenantAggregate;
 public class Tenant : AggregateRoot<Guid>, ISoftDeletable
 {
     public string Name { get; private set; }

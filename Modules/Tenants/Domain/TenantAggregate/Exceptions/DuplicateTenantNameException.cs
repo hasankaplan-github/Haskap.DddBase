@@ -8,7 +8,7 @@ using System.Net;
 using System.Resources;
 using Haskap.DddBase.Domain.Shared.Resources;
 
-namespace Haskap.DddBase.Modules.Tenants.Domain.TenantAggregate.Exceptions;
+namespace Modules.Tenants.Domain.TenantAggregate.Exceptions;
 public class DuplicateTenantNameException : DomainException
 {
     public DuplicateTenantNameException()
