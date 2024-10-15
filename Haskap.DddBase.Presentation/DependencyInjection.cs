@@ -14,19 +14,22 @@ using Haskap.DddBase.Domain.Shared.Consts;
 using Haskap.DddBase.Domain.Common;
 using Haskap.DddBase.Domain.Common.Exceptions;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace Haskap.DddBase.Presentation;
 public static class DependencyInjection
 {
-    public static void AddBaseCustomAuthorization(this IServiceCollection services, IPermissionProvider permissionProvider, Type accountServiceType)
+    public static void AddBaseCustomAuthorization<TPermissionProvider, TAccountService>(this IServiceCollection services)
+        where TPermissionProvider : class, IPermissionProvider, new()
     {
-        services.AddSingleton<IPermissionProvider>(permissionProvider);
-        services.AddAuthorization(permissionProvider.ConfigureAuthorization);
+        services.AddSingleton<IPermissionProvider, TPermissionProvider>();
+
+        services.AddAuthorization(new TPermissionProvider().ConfigureAuthorization);
 
         services.AddSingleton<IAuthorizationHandler>(serviceProvider =>
             new PermissionAuthorizationHandler(
                 serviceProvider.GetRequiredService<IServiceScopeFactory>(),
-                accountServiceType));
+                typeof(TAccountService)));
 
         services.AddSingleton<IAuthorizationMiddlewareResultHandler, PermissionAuthorizationMiddlewareResultHandler>();
     }

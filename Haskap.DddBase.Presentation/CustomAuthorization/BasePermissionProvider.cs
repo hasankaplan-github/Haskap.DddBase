@@ -71,7 +71,7 @@ public abstract class BasePermissionProvider : IPermissionProvider
         }
     }
 
-    public void AddPermission(Type group, string permissionName, string? displayText = null)
+    protected void AddPermission(Type group, string permissionName, string? displayText = null)
     {
         if (group is null)
         {

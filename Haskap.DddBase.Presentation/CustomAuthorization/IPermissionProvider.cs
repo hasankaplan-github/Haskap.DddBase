@@ -12,5 +12,5 @@ public interface IPermissionProvider
 
     IReadOnlySet<PermissionRequirement> GetPermissionsByGroup(Type group);
 
-    void AddPermission(Type group, string permissionName, string? displayText = null);
+    //void AddPermission(Type group, string permissionName, string? displayText = null);
 }
