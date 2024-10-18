@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Haskap.DddBase.Utilities.Calendar;
 public class CalendarHelper
 {
-    public IEnumerable<int> GetHijriYears(int year)
+    public static IEnumerable<int> GetHijriYears(int year)
     {
         //var diff = year - 621;
         //var hijriYear = Convert.ToInt32(Math.Round(diff + decimal.Divide(diff, 33), MidpointRounding.ToZero));
@@ -23,7 +23,7 @@ public class CalendarHelper
         return Enumerable.Range(minHijriYear, maxHijriYear - minHijriYear + 1);
     }
 
-    public DateOnly FindOccurrenceOfDayOfWeek(int year, int month, DayOfWeek day, int occurrenceInAMonth)
+    public static DateOnly FindOccurrenceOfDayOfWeek(int year, int month, DayOfWeek day, int occurrenceInAMonth)
     {
         var firstDayOfMonth = new DateOnly(year, month, 1);
 
@@ -45,5 +45,32 @@ public class CalendarHelper
         }
 
         return new DateOnly(year, month, resultedDay);
+    }
+
+    public static int GetYearCountBetweenTwoDates(DateOnly startDate, DateOnly endDate)
+    {
+        return endDate.Year - startDate.Year + 1;
+    }
+
+
+    public static int GetMonthCountBetweenTwoDates(DateOnly startDate, DateOnly endDate)
+    {
+        return ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month + 1;
+    }
+
+    public static DateTime HijriToGrogerianDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
+    {
+        var hijriCalendar = new UmAlQuraCalendar();
+        var dateTime = hijriCalendar.ToDateTime(year, month, day, hour, minute, second, millisecond);
+
+        return dateTime;
+    }
+
+    public static DateTime HijriToGrogerianDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int era)
+    {
+        var hijriCalendar = new UmAlQuraCalendar();
+        var dateTime = hijriCalendar.ToDateTime(year, month, day, hour, minute, second, millisecond, era);
+
+        return dateTime;
     }
 }
