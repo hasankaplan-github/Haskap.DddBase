@@ -16,6 +16,8 @@ public class WebSocketHelper : IDisposable
     private readonly SocketsHttpHandler _socketsHttpHandler;
     private ClientWebSocket _clientWebSocket;
 
+    public WebSocketState State => _clientWebSocket.State;
+
     public WebSocketHelper(ILogger<WebSocketHelper> logger)
     {
         _logger = logger;
