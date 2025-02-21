@@ -79,6 +79,15 @@ namespace Haskap.DddBase.Domain.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bu özellik, &quot;{0}&quot; modülünün etkinleştirilmiş olmasını gerektirmektedir. Adres: &quot;{1}&quot;.
+        /// </summary>
+        public static string ModuleIsDisabledException {
+            get {
+                return ResourceManager.GetString("ModuleIsDisabledException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kısa zaman içinde çok fazla istek geldi. {0} saniye sonra tekrar deneyin..
         /// </summary>
         public static string TooManyRequestsException {

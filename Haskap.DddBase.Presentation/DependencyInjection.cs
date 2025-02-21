@@ -1,20 +1,13 @@
-﻿using Haskap.DddBase.Presentation.CustomAuthorization;
+﻿using Haskap.DddBase.Domain.Common;
+using Haskap.DddBase.Domain.Common.Exceptions;
+using Haskap.DddBase.Domain.Shared.Consts;
+using Haskap.DddBase.Presentation.CustomAuthorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Http;
-using Haskap.DddBase.Domain.Shared.Consts;
-using Haskap.DddBase.Domain.Common;
-using Haskap.DddBase.Domain.Common.Exceptions;
-using System.Globalization;
-using System.Runtime.InteropServices;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net;
+using System.Threading.RateLimiting;
 
 namespace Haskap.DddBase.Presentation;
 public static class DependencyInjection

@@ -10,4 +10,5 @@ public interface IBaseCacheKeyProvider
     string GetAllPermissionsCacheKey(Guid userId);
     string GetUserPermissionsCacheKey(Guid userId);
     string GetRolePermissionsCacheKey(Guid roleId);
+    string GetModuleStatusesCacheKey(Guid? tenantId);
 }

@@ -23,4 +23,9 @@ public class BaseCacheKeyProvider : IBaseCacheKeyProvider
     {
         return string.Format("UserPermissionsCacheKey_{0}", userId);
     }
+
+    public string GetModuleStatusesCacheKey(Guid? tenantId)
+    {
+        return $"ModuleStatus_{tenantId}_CacheKey";
+    }
 }
