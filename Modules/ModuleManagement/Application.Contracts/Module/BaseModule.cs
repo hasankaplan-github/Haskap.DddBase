@@ -9,6 +9,8 @@ public abstract class BaseModule<TModule> : IModule
     protected readonly IModuleService ModuleService;
     protected readonly ICurrentTenantProvider CurrentTenantProvider;
 
+    public string ModuleName => typeof(TModule).Name;
+
     public BaseModule(
         IModuleService moduleService,
         ICurrentTenantProvider currentTenantProvider)
