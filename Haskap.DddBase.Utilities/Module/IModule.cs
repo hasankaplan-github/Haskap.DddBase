@@ -6,4 +6,5 @@ public interface IModule
 {
     string ModuleName { get; }
     Task<bool> IsEnabledAsync(CancellationToken cancellationToken = default);
+    Task ThrowIfDisabledAsync(string requestPath, CancellationToken cancellationToken = default);
 }
