@@ -1,17 +1,17 @@
-﻿using Modules.Tenants.Application.UseCaseServices;
-using Modules.Tenants.Infra;
+﻿using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Haskap.DddBase.Domain.Providers;
-using Modules.Tenants.Application.Contracts;
 using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.Tenants.Application.UseCaseServices;
+using Modules.Tenants.Domain;
+using Modules.Tenants.Infra;
 
 namespace Modules.Tenants.Module;
 
-public class TenantModule : BaseModule<TenantModule>, ITenantModule
+public class TenantsModule : BaseModule<TenantsModule>, ITenantsModule
 {
-    public TenantModule(
+    public TenantsModule(
         IModuleService moduleService,
         ICurrentTenantProvider currentTenantProvider)
         : base(moduleService, currentTenantProvider)
@@ -22,7 +22,7 @@ public class TenantModule : BaseModule<TenantModule>, ITenantModule
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddScoped<ITenantModule, TenantModule>();
+            services.AddScoped<ITenantsModule, TenantsModule>();
             services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             return services;

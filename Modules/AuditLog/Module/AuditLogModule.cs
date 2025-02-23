@@ -2,7 +2,7 @@
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.AuditLog.Application.Contracts;
+using Modules.AuditLog.Domain;
 using Modules.AuditLog.Infra;
 using Modules.ModuleManagement.Application.Contracts.Module;
 

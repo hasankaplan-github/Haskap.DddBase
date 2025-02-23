@@ -1,17 +1,17 @@
-﻿using Modules.ViewLevelExceptions.Application.UseCaseServices;
-using Modules.ViewLevelExceptions.Infra;
+﻿using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Haskap.DddBase.Domain.Providers;
-using Modules.ViewLevelExceptions.Application.Contracts;
 using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.ViewLevelExceptions.Application.UseCaseServices;
+using Modules.ViewLevelExceptions.Domain;
+using Modules.ViewLevelExceptions.Infra;
 
 namespace Modules.ViewLevelExceptions.Module;
 
-public class ViewLevelExceptionModule : BaseModule<ViewLevelExceptionModule>, IViewLevelExceptionModule
+public class ViewLevelExceptionsModule : BaseModule<ViewLevelExceptionsModule>, IViewLevelExceptionsModule
 {
-    public ViewLevelExceptionModule(
+    public ViewLevelExceptionsModule(
         IModuleService moduleService,
         ICurrentTenantProvider currentTenantProvider)
         : base(moduleService, currentTenantProvider)
@@ -22,7 +22,7 @@ public class ViewLevelExceptionModule : BaseModule<ViewLevelExceptionModule>, IV
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddScoped<IViewLevelExceptionModule, ViewLevelExceptionModule>();
+            services.AddScoped<IViewLevelExceptionsModule, ViewLevelExceptionsModule>();
             services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             return services;
