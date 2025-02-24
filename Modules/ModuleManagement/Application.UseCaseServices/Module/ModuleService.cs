@@ -4,6 +4,7 @@ using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ModuleManagement.Application.Dtos.Module;
 using Modules.ModuleManagement.Domain;
@@ -57,7 +58,14 @@ public class ModuleService : UseCaseService, IModuleService
 
         var modules = await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
         {
-            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
+            var tenantCts = await _memoryCache.GetOrCreateAsync(_baseCacheKeyProvider.GetTenantCancellationTokenSourceCacheKey(tenantId), async ce =>
+            {
+                var cts = new CancellationTokenSource();
+                ce.AddExpirationToken(new CancellationChangeToken(cts.Token));
+                return cts;
+            });
+            cacheEntry.AddExpirationToken(new CancellationChangeToken(tenantCts!.Token));
+            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
             var enabledModules = await _moduleManagementDbContext.EnabledModule
                 .Where(x => x.TenantId == tenantId)
@@ -100,7 +108,12 @@ public class ModuleService : UseCaseService, IModuleService
 
             await transaction.CommitAsync(cancellationToken);
 
-            _memoryCache.Remove(_baseCacheKeyProvider.GetModuleStatusesCacheKey(input.TenantId));
+            var cacheKey = _baseCacheKeyProvider.GetTenantCancellationTokenSourceCacheKey(input.TenantId);
+            var existingTenantCts = _memoryCache.Get<CancellationTokenSource>(cacheKey);
+            existingTenantCts?.Cancel();
+
+            var tenantCts = new CancellationTokenSource();
+            _memoryCache.Set(cacheKey, tenantCts, new CancellationChangeToken(tenantCts.Token));
         }
         catch (Exception)
         {

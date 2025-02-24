@@ -33,4 +33,9 @@ public class BaseCacheKeyProvider : IBaseCacheKeyProvider
     {
         return $"UserCancellationTokenSourceCacheKey_{userId}";
     }
+
+    public string GetTenantCancellationTokenSourceCacheKey(Guid? tenantId)
+    {
+        return $"TenantCancellationTokenSourceCacheKey_{tenantId}";
+    }
 }
