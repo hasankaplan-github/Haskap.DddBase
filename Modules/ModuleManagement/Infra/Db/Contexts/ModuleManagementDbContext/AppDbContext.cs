@@ -25,11 +25,9 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, IModuleManagementDbContex
         builder.HasDefaultSchema("module_management");
 
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly, type => type.Namespace!.Contains("ModuleManagementDbContext"));
-        builder.ApplyConfiguration(new AuditHistoryLogEntityTypeConfigurationExcluded());
 
         base.OnModelCreating(builder);
     }
 
     public DbSet<EnabledModule> EnabledModule { get; set; }
-    public DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
 }

@@ -6,6 +6,7 @@ using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Modules.AuditLog.Application.Contracts;
 using Modules.AuditLog.Domain.AuditHistoryLogAggregate;
 using System.Text.Json;
 
@@ -17,15 +18,18 @@ public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
     private readonly ICurrentUserIdProvider? _currentUserIdProvider;
     private readonly IVisitIdProvider? _visitIdProvider;
     private readonly ICurrentTenantProvider? _currentTenantProvider;
+    private readonly IAuditLogModule _auditLogModule;
 
     public AuditHistoryLogSaveChangesInterceptor(
         ICurrentUserIdProvider? currentUserIdProvider,
         IVisitIdProvider? visitIdProvider,
-        ICurrentTenantProvider? currentTenantProvider)
+        ICurrentTenantProvider? currentTenantProvider,
+        IAuditLogModule auditLogModule)
     {
         _currentUserIdProvider = currentUserIdProvider;
         _visitIdProvider = visitIdProvider;
         _currentTenantProvider = currentTenantProvider;
+        _auditLogModule = auditLogModule;
     }
 
 
@@ -169,6 +173,11 @@ public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
 
     private void SetAuditHistoryLogForObjects(DbContext dbContext)
     {
+        if (!_auditLogModule.IsEnabledAsync().GetAwaiter().GetResult())
+        {
+            return;
+        }
+
         var entityEntries = dbContext.ChangeTracker
                                         .Entries()
                                         .Where(x => !(x.Entity is AuditHistoryLog)

@@ -7,5 +7,4 @@ namespace Modules.ModuleManagement.Domain;
 public interface IModuleManagementDbContext : IUnitOfWork
 {
     DbSet<EnabledModule> EnabledModule { get; set; }
-    DbSet<AuditHistoryLog> AuditHistoryLog { get; set; }
 }

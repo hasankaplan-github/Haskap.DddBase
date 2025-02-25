@@ -4,7 +4,6 @@ using Haskap.DddBase.Domain.Attributes.AuditHistoryLogAttributes;
 
 namespace Modules.ModuleManagement.Domain.ModuleAggregate;
 
-[AddAuditHistoryLog]
 public class EnabledModule : AggregateRoot, IHasMultiTenant
 {
     public string Name { get; private set; }

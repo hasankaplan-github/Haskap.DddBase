@@ -21,7 +21,6 @@ public static class DependencyInjection
                 optionsBuilder.MigrationsAssembly(migrationAssembly);
             });
             options.UseSnakeCaseNamingConvention();
-            options.AddAuditLogInterceptors(serviceProvider);
             options.AddMultiTenancyInterceptors(serviceProvider);
         });
 

@@ -14,10 +14,8 @@ public static class DependencyInjection
         services.AddScoped<AuditHistoryLogSaveChangesInterceptor>();
         services.AddScoped<AuditSaveChangesInterceptor>();
 
-        services.AddScoped<IAuditLogDbContext, AppDbContext>();
-
         var connectionString = configuration.GetConnectionString(connectionStringName);
-        services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+        services.AddDbContext<IAuditLogDbContext, AppDbContext>((serviceProvider, options) =>
         {
             options.UseNpgsql(connectionString, optionsBuilder =>
             {
