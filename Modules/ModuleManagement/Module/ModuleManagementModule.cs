@@ -2,9 +2,9 @@
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Modules.ModuleManagement.Application.Contracts;
 using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ModuleManagement.Application.UseCaseServices;
-using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Infra;
 
 namespace Modules.ModuleManagement.Module;

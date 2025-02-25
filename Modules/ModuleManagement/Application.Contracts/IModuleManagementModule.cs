@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.ModuleManagement.Domain;
+namespace Modules.ModuleManagement.Application.Contracts;
 public interface IModuleManagementModule : IModule
 {
 }

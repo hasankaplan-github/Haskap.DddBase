@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.ViewLevelExceptions.Domain;
+namespace Modules.ViewLevelExceptions.Application.Contracts;
 public interface IViewLevelExceptionsModule : IModule
 {
 }

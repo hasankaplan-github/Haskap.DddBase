@@ -1,6 +1,6 @@
 ﻿using Haskap.DddBase.Utilities.Module;
 
-namespace Modules.Tenants.Domain;
+namespace Modules.Tenants.Application.Contracts;
 public interface ITenantsModule : IModule
 {
 }
