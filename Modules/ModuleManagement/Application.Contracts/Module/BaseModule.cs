@@ -25,6 +25,11 @@ public abstract class BaseModule<TModule> : IModule
         return await ModuleService.IsEnabledAsync<TModule>(CurrentTenantProvider.CurrentTenantId, cancellationToken);
     }
 
+    public async Task<bool> IsEnabledAsync(Guid? tenantId, CancellationToken cancellationToken = default)
+    {
+        return await ModuleService.IsEnabledAsync<TModule>(tenantId, cancellationToken);
+    }
+
     public virtual async Task ThrowIfDisabledAsync(string requestPath, CancellationToken cancellationToken = default)
     {
         if (!await IsEnabledAsync(cancellationToken))
