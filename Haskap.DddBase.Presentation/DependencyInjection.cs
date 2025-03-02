@@ -1,8 +1,6 @@
 ﻿using Haskap.DddBase.Domain.Common;
 using Haskap.DddBase.Domain.Common.Exceptions;
 using Haskap.DddBase.Domain.Shared.Consts;
-using Haskap.DddBase.Presentation.CustomAuthorization;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,21 +10,6 @@ using System.Threading.RateLimiting;
 namespace Haskap.DddBase.Presentation;
 public static class DependencyInjection
 {
-    public static void AddBaseCustomAuthorization<TPermissionProvider, TAccountService>(this IServiceCollection services)
-        where TPermissionProvider : class, IPermissionProvider, new()
-    {
-        services.AddSingleton<IPermissionProvider, TPermissionProvider>();
-
-        services.AddAuthorization(new TPermissionProvider().ConfigureAuthorization);
-
-        services.AddSingleton<IAuthorizationHandler>(serviceProvider =>
-            new PermissionAuthorizationHandler(
-                serviceProvider.GetRequiredService<IServiceScopeFactory>(),
-                typeof(TAccountService)));
-
-        services.AddSingleton<IAuthorizationMiddlewareResultHandler, PermissionAuthorizationMiddlewareResultHandler>();
-    }
-
     public static void AddIpAddressRateLimiterPolicy(this IServiceCollection services, IpAddressRateLimiterOptions? limiterOptions = null)
     {
         services.AddRateLimiter(rateLimiterOptions =>

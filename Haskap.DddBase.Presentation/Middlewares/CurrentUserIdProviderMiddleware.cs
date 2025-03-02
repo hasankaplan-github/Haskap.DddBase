@@ -45,6 +45,11 @@ public class CurrentUserIdProviderMiddleware
             currentUserIdProvider.ImpersonatorTenantName = httpContext.User.FindFirstValue(ImpersonationConsts.ImpersonatorTenantNameClaimKey)!;
         }
 
+        if (Guid.TryParse(httpContext.User.FindFirstValue(AccountConsts.LoginIdClaimType), out Guid currentLoginId))
+        {
+            currentUserIdProvider.CurrentLoginId = currentLoginId;
+        }
+
         await _next(httpContext);
     }
 }

@@ -8,4 +8,6 @@ public interface ICurrentUserIdProvider
     Guid? ImpersonatorUserId { get; set; }
     string ImpersonatorUsername { get; set; }
     string ImpersonatorTenantName { get; set; }
+
+    Guid? CurrentLoginId { get; set; }
 }

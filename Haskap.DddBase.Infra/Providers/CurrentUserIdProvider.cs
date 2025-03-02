@@ -15,4 +15,7 @@ public class CurrentUserIdProvider : ICurrentUserIdProvider
     public Guid? ImpersonatorUserId { get; set; } = null;
     public string ImpersonatorUsername { get; set; } = string.Empty;
     public string ImpersonatorTenantName { get; set; } = string.Empty;
+
+
+    public Guid? CurrentLoginId { get; set; } = null;
 }
