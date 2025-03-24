@@ -6,4 +6,5 @@ public interface IModuleService
     Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken);
     Task UpdateEnabledModulesAsync(UpdateEnabledModulesInputDto input, CancellationToken cancellationToken);
     Task<List<ModuleOutputDto>> GetModulesAsync(Guid? tenantId, CancellationToken cancellationToken);
+    IReadOnlyList<string> GetModuleNames();
 }

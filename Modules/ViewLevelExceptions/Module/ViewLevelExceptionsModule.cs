@@ -22,7 +22,6 @@ public class ViewLevelExceptionsModule : BaseModule<ViewLevelExceptionsModule>, 
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddScoped<IViewLevelExceptionsModule, ViewLevelExceptionsModule>();
             services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             return services;

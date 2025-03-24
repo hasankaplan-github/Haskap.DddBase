@@ -9,8 +9,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddUseCaseServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddOptions<Haskap.DddBase.Domain.Shared.Consts.Modules>().BindConfiguration(Haskap.DddBase.Domain.Shared.Consts.Modules.SectionName);
-
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly));
         services.AddAutoMapper(typeof(DependencyInjection).Assembly);
 

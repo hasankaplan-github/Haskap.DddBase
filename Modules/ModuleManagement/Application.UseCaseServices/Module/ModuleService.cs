@@ -1,8 +1,10 @@
 ﻿using Haskap.DddBase.Application.UseCaseServices;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Guids;
+using Haskap.DddBase.Utilities.Module;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Modules.ModuleManagement.Application.Contracts.Module;
@@ -14,40 +16,42 @@ namespace Modules.ModuleManagement.Application.UseCaseServices.Module;
 
 public class ModuleService : UseCaseService, IModuleService
 {
-    private readonly Haskap.DddBase.Domain.Shared.Consts.Modules _modules;
     private readonly IModuleManagementDbContext _moduleManagementDbContext;
     private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
     private readonly IMemoryCache _memoryCache;
+    private readonly IServiceCollection _services;
 
     public ModuleService(
-        IOptions<Haskap.DddBase.Domain.Shared.Consts.Modules> modulesOptions,
         IModuleManagementDbContext moduleManagementDbContext,
         ICurrentTenantProvider currentTenantProvider,
         IBaseCacheKeyProvider baseCacheKeyProvider,
-        IMemoryCache memoryCache)
+        IMemoryCache memoryCache,
+        IServiceCollection services)
     {
-        _modules = modulesOptions.Value;
         _moduleManagementDbContext = moduleManagementDbContext;
         _currentTenantProvider = currentTenantProvider;
         _baseCacheKeyProvider = baseCacheKeyProvider;
         _memoryCache = memoryCache;
+        _services = services;
     }
 
     public async Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)
     {
         var moduleName = typeof(TModule).Name;
 
-        if (!_modules.IsEnabled[moduleName])
-        {
-            return false;
-        }
-
         var modules = await GetModulesAsync(tenantId, cancellationToken);
 
         return modules.Where(x => x.Name == moduleName)
             .Select(x => x.IsEnabled)
             .First();
+    }
+
+    public IReadOnlyList<string> GetModuleNames()
+    {
+        var moduleNames = _services.Where(x => x.ServiceType.GetInterfaces().Contains(typeof(IModule))).Select(x => x.ImplementationType!.Name).ToList();
+
+        return moduleNames.AsReadOnly();
     }
 
     public async Task<List<ModuleOutputDto>> GetModulesAsync(Guid? tenantId, CancellationToken cancellationToken)
@@ -72,11 +76,13 @@ public class ModuleService : UseCaseService, IModuleService
                 .Select(x => x.Name)
                 .ToListAsync(cancellationToken);
 
-            return _modules.IsEnabled
+            var moduleNames = GetModuleNames();
+
+            return moduleNames
                 .Select(x => new ModuleOutputDto
                 {
-                    Name = x.Key,
-                    IsEnabled = enabledModules.Contains(x.Key)
+                    Name = x,
+                    IsEnabled = enabledModules.Contains(x)
                 })
                 .ToList();
         });
@@ -124,7 +130,8 @@ public class ModuleService : UseCaseService, IModuleService
 
         void DetectInvalidModuleNamesAndThrowIfAnyAsync(List<string> updatedModuleNames)
         {
-            var hasInvalidModuleName = updatedModuleNames.Any(x => !_modules.IsEnabled.ContainsKey(x));
+            var validModuleNames = GetModuleNames();
+            var hasInvalidModuleName = updatedModuleNames.Any(x => !validModuleNames.Contains(x));
 
             if (hasInvalidModuleName)
             {

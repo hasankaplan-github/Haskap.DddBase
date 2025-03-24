@@ -22,7 +22,6 @@ public class TenantsModule : BaseModule<TenantsModule>, ITenantsModule
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddScoped<ITenantsModule, TenantsModule>();
             services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             return services;

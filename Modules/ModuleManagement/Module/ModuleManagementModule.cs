@@ -22,7 +22,6 @@ public class ModuleManagementModule : BaseModule<ModuleManagementModule>, IModul
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddScoped<IModuleManagementModule, ModuleManagementModule>();
             services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             return services;

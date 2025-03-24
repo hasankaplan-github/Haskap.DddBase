@@ -21,7 +21,6 @@ public class AuditLogModule : BaseModule<AuditLogModule>, IAuditLogModule
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddScoped<IAuditLogModule, AuditLogModule>();
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             return services;
         }
