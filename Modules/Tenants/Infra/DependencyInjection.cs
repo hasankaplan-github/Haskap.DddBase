@@ -13,11 +13,8 @@ public static class DependencyInjection
     {
         services.AddScoped<MultiTenancySaveChangesInterceptor>();
 
-        //services.AddBaseDbContext(typeof(ITenantsDbContext), typeof(AppDbContext));
-        services.AddScoped<ITenantsDbContext, AppDbContext>();
-
         var connectionString = configuration.GetConnectionString(connectionStringName);
-        services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+        services.AddDbContext<ITenantsDbContext, AppDbContext>((serviceProvider, options) =>
         {
             options.UseNpgsql(connectionString, optionsBuilder =>
             {
