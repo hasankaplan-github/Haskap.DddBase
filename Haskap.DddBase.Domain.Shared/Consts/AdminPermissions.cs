@@ -1,4 +1,4 @@
-﻿namespace Haskap.DddBase.Presentation.CustomAuthorization;
+﻿namespace Haskap.DddBase.Domain.Shared.Consts;
 public class AdminPermissions
 {
     public class Tenant

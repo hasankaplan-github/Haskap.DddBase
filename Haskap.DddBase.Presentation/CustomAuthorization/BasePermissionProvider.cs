@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Haskap.DddBase.Domain.Shared.Consts;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.ObjectModel;
 
 namespace Haskap.DddBase.Presentation.CustomAuthorization;
