@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ModuleManagement\Application.Contracts\Application.Contracts.csproj" />
-    <ProjectReference Include="..\Application.UseCaseServices\Application.UseCaseServices.csproj" />
+    <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infra\Infra.csproj" />
   </ItemGroup>
 

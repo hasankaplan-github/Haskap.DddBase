@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Infra.Db.Con
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{D5CEB0FB-7D4C-4066-85B0-B0FBE6854431}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application.UseCaseServices", "Haskap.DddBase.Application.UseCaseServices\Haskap.DddBase.Application.UseCaseServices.csproj", "{608E91C9-5FC5-42A4-A45B-1D0EF617E486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application", "Haskap.DddBase.Application\Haskap.DddBase.Application.csproj", "{608E91C9-5FC5-42A4-A45B-1D0EF617E486}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haskap.DddBase.Application.Contracts", "Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj", "{05D90F0C-E40C-4455-A91B-3602615508EA}"
 EndProject
@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewLevelExceptions", "View
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Modules\Tenants\Domain\Domain.csproj", "{CF575D19-E041-4ED0-8C9A-CF44A5D554E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UseCaseServices", "Modules\Tenants\Application.UseCaseServices\Application.UseCaseServices.csproj", "{5D90008E-9ECF-42E9-999A-C5065C0BAFF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Modules\Tenants\Application\Application.csproj", "{5D90008E-9ECF-42E9-999A-C5065C0BAFF0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Dtos", "Modules\Tenants\Application.Dtos\Application.Dtos.csproj", "{3EB5CD3A-E3CD-421E-82A7-4E2548FC56A3}"
 EndProject
@@ -59,7 +59,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Contracts", "Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Dtos", "Modules\ViewLevelExceptions\Application.Dtos\Application.Dtos.csproj", "{A2AFFD2D-C978-4274-86A2-BDD536ABD007}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UseCaseServices", "Modules\ViewLevelExceptions\Application.UseCaseServices\Application.UseCaseServices.csproj", "{33564F15-DAD7-47DF-A332-AC74622724B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Modules\ViewLevelExceptions\Application\Application.csproj", "{33564F15-DAD7-47DF-A332-AC74622724B9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Modules\ViewLevelExceptions\Domain\Domain.csproj", "{2D906ADB-5078-402C-A784-A78E8655F9EB}"
 EndProject
@@ -85,7 +85,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Contracts", "Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Dtos", "Modules\ModuleManagement\Application.Dtos\Application.Dtos.csproj", "{F202C055-B6BC-4AE1-9CA3-F889261738DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UseCaseServices", "Modules\ModuleManagement\Application.UseCaseServices\Application.UseCaseServices.csproj", "{DF34E135-BE27-4A25-A611-D31DBA81AAE1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Modules\ModuleManagement\Application\Application.csproj", "{DF34E135-BE27-4A25-A611-D31DBA81AAE1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Modules\ModuleManagement\Domain\Domain.csproj", "{899C9EB8-00FA-4D70-8B90-F1DC4C68C7CA}"
 EndProject
