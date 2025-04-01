@@ -96,7 +96,7 @@ public class ModuleService : UseCaseService, IModuleService
 
         using var _ = _currentTenantProvider.ChangeCurrentTenant(input.TenantId);
 
-        using var transaction = await _moduleManagementDbContext.Database.BeginTransactionAsync(cancellationToken);
+        using var transaction = _moduleManagementDbContext.Database.CurrentTransaction ?? await _moduleManagementDbContext.Database.BeginTransactionAsync(cancellationToken);
         try
         {
             var enabledModules = await _moduleManagementDbContext.EnabledModule

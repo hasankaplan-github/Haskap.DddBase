@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Haskap.DddBase.Utilities.Guids;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.AuditLog.Infra.Db.Interceptors;
+using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.ModuleManagement.Application.Dtos.Module;
 using Modules.ModuleManagement.Domain;
+using Modules.ModuleManagement.Domain.ModuleAggregate;
 using Modules.ModuleManagement.Infra.Db.Contexts.ModuleManagementDbContext;
 using Modules.Tenants.Infra.Db.Interceptors;
 
@@ -22,6 +25,39 @@ public static class DependencyInjection
             });
             options.UseSnakeCaseNamingConvention();
             options.AddMultiTenancyInterceptors(serviceProvider);
+
+            options.UseSeeding((dbContext, _) =>
+            {
+                var exists = dbContext.Set<EnabledModule>().Any();
+
+                if (exists)
+                {
+                    return;
+                }
+
+                var moduleService = serviceProvider.GetRequiredService<IModuleService>();
+
+                var enabledModules = moduleService.GetModuleNames().Select(x => new EnabledModule(GuidGenerator.CreateSimpleGuid(), x)).ToList();
+
+                dbContext.Set<EnabledModule>().AddRange(enabledModules);
+                dbContext.SaveChanges();
+            })
+            .UseAsyncSeeding(async (dbContext, _, cancellationToken) =>
+            {
+                var exists = await dbContext.Set<EnabledModule>().AnyAsync(cancellationToken);
+
+                if (exists)
+                {
+                    return;
+                }
+
+                var moduleService = serviceProvider.GetRequiredService<IModuleService>();
+
+                var enabledModules = moduleService.GetModuleNames().Select(x => new EnabledModule(GuidGenerator.CreateSimpleGuid(), x)).ToList();
+
+                dbContext.Set<EnabledModule>().AddRange(enabledModules);
+                await dbContext.SaveChangesAsync(cancellationToken);
+            });
         });
 
         return services;
