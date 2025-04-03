@@ -8,6 +8,7 @@ using Modules.Tenants.Domain.TenantAggregate;
 using Modules.Tenants.IntegrationEvents;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
+using Haskap.DddBase.Domain;
 
 namespace Modules.Tenants.Application.UseCaseServices.Tenants;
 public class TenantService : UseCaseService, ITenantService
