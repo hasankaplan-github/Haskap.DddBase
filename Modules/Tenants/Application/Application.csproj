@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="WolverineFx" Version="3.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
     <ProjectReference Include="..\..\..\Haskap.DddBase.Application\Haskap.DddBase.Application.csproj" />
     <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />

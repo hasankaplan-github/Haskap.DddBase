@@ -9,19 +9,23 @@ using Modules.Tenants.IntegrationEvents;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Haskap.DddBase.Domain;
+using Wolverine;
 
 namespace Modules.Tenants.Application.UseCaseServices.Tenants;
 public class TenantService : UseCaseService, ITenantService
 {
     private readonly ITenantsDbContext _tenantsDbContext;
     private readonly IMapper _mapper;
+    private readonly IMessageBus _messageBus;
 
     public TenantService(
         ITenantsDbContext tenantsDbContext,
-        IMapper mapper)
+        IMapper mapper,
+        IMessageBus messageBus)
     {
         _tenantsDbContext = tenantsDbContext;
         _mapper = mapper;
+        _messageBus = messageBus;
     }
 
     public async Task DeleteAsync(DeleteInputDto inputDto, CancellationToken cancellationToken)
@@ -34,7 +38,7 @@ public class TenantService : UseCaseService, ITenantService
 
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
 
-        await MediatorWrapper.Publish(new TenantSoftDeletedIntegrationEvent(toBeDeleted.Id), cancellationToken);
+        await _messageBus.PublishAsync(new TenantSoftDeletedIntegrationEvent(toBeDeleted.Id));
     }
 
     public async Task<List<TenantOutputDto>> GetAllForLoginViewAsync(CancellationToken cancellationToken)
@@ -56,7 +60,7 @@ public class TenantService : UseCaseService, ITenantService
         await _tenantsDbContext.Tenant.AddAsync(newTenant, cancellationToken);
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
 
-        await MediatorWrapper.Publish(new TenantCreatedIntegrationEvent(newTenant.Id, newTenant.Name), cancellationToken);
+        await _messageBus.PublishAsync(new TenantCreatedIntegrationEvent(newTenant.Id, newTenant.Name));
     }
 
     public async Task<JqueryDataTableResult> SearchAsync(SearchParamsInputDto inputDto, JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken)
@@ -146,6 +150,6 @@ public class TenantService : UseCaseService, ITenantService
 
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
 
-        await MediatorWrapper.Publish(new TenantUpdatedIntegrationEvent(tenant.Id, tenant.Name), cancellationToken);
+        await _messageBus.PublishAsync(new TenantUpdatedIntegrationEvent(tenant.Id, tenant.Name));
     }
 }
