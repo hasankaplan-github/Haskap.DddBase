@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Haskap.DddBase.Application.Dtos.Common;
 using Haskap.DddBase.Utilities.Guids;
 using System;
 using System.Collections.Generic;
@@ -44,5 +45,16 @@ public class File : ValueObject
         yield return OriginalName;
         yield return NewName;
         yield return Extension ?? string.Empty;
+    }
+
+    public FileOutputDto ToFileOutputDto()
+    {
+        return new()
+        {
+            Id = Id,
+            OriginalName = OriginalName,
+            NewName = NewName,
+            Extension = Extension
+        };
     }
 }

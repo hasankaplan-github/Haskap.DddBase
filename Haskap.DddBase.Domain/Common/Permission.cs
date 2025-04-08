@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Haskap.DddBase.Application.Dtos.Common;
 
 namespace Haskap.DddBase.Domain.Common;
 public class Permission : ValueObject
@@ -20,5 +21,13 @@ public class Permission : ValueObject
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Name;
+    }
+
+    public PermissionOutputDto ToPermissionOutputDto()
+    {
+        return new()
+        {
+            Name = Name
+        };
     }
 }

@@ -9,9 +9,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddUseCaseServices(this IServiceCollection services, IConfiguration configuration)
     {
-        //services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly));
-        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
-
         services.AddTransient<ITenantService, TenantService>();
 
         return services;

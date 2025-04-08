@@ -9,8 +9,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddUseCaseServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
-
         services.AddTransient<IModuleService, ModuleService>();
 
         return services;

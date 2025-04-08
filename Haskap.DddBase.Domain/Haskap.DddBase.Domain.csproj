@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Domain.Shared\Haskap.DddBase.Domain.Shared.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
   </ItemGroup>

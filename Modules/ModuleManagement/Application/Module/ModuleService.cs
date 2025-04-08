@@ -5,7 +5,6 @@ using Haskap.DddBase.Utilities.Module;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ModuleManagement.Application.Dtos.Module;

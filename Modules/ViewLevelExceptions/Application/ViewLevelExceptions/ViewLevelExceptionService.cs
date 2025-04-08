@@ -1,30 +1,20 @@
-﻿using AutoMapper;
-using Haskap.DddBase.Application.UseCaseServices;
-using Haskap.DddBase.Domain;
+﻿using Haskap.DddBase.Application.UseCaseServices;
+using Haskap.DddBase.Utilities.Guids;
+using Microsoft.EntityFrameworkCore;
 using Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
 using Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
 using Modules.ViewLevelExceptions.Domain;
 using Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
-using Haskap.DddBase.Utilities.Guids;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modules.ViewLevelExceptions.Application.UseCaseServices.ViewLevelExceptions;
 public class ViewLevelExceptionService : UseCaseService, IViewLevelExceptionService
 {
     private readonly IViewLevelExceptionsDbContext _viewLevelExceptionsDbContext;
-    private readonly IMapper _mapper;
 
     public ViewLevelExceptionService(
-        IViewLevelExceptionsDbContext viewLevelExceptionsDbContext,
-        IMapper mapper)
+        IViewLevelExceptionsDbContext viewLevelExceptionsDbContext)
     {
         _viewLevelExceptionsDbContext = viewLevelExceptionsDbContext;
-        _mapper = mapper;
     }
 
     
@@ -42,7 +32,7 @@ public class ViewLevelExceptionService : UseCaseService, IViewLevelExceptionServ
             .Where(x => x.Id == id)
             .FirstOrDefaultAsync();
 
-        var output = _mapper.Map<ViewLevelExceptionOutputDto>(exception);
+        var output = exception.ToViewLevelExceptionOutputDto();
 
         return output;
     }

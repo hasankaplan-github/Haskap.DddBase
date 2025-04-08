@@ -1,30 +1,25 @@
-﻿using AutoMapper;
-using Haskap.DddBase.Application.Dtos.Common.DataTable;
+﻿using Haskap.DddBase.Application.Dtos.Common.DataTable;
 using Haskap.DddBase.Application.UseCaseServices;
+using Haskap.DddBase.Utilities.Guids;
+using Microsoft.EntityFrameworkCore;
 using Modules.Tenants.Application.Contracts.Tenants;
 using Modules.Tenants.Application.Dtos.Tenants;
 using Modules.Tenants.Domain;
 using Modules.Tenants.Domain.TenantAggregate;
 using Modules.Tenants.IntegrationEvents;
-using Haskap.DddBase.Utilities.Guids;
-using Microsoft.EntityFrameworkCore;
-using Haskap.DddBase.Domain;
 using Wolverine;
 
 namespace Modules.Tenants.Application.UseCaseServices.Tenants;
 public class TenantService : UseCaseService, ITenantService
 {
     private readonly ITenantsDbContext _tenantsDbContext;
-    private readonly IMapper _mapper;
     private readonly IMessageBus _messageBus;
 
     public TenantService(
         ITenantsDbContext tenantsDbContext,
-        IMapper mapper,
         IMessageBus messageBus)
     {
         _tenantsDbContext = tenantsDbContext;
-        _mapper = mapper;
         _messageBus = messageBus;
     }
 
@@ -47,8 +42,10 @@ public class TenantService : UseCaseService, ITenantService
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
 
-        var output = _mapper.Map<List<TenantOutputDto>>(tenants);
-        output = output.Prepend(new TenantOutputDto { Id = null, Name = "Host" }).ToList();
+        var output = tenants
+            .Select(x => x.ToTenantOutputDto())
+            .Prepend(new TenantOutputDto { Id = null, Name = "Host" })
+            .ToList();
 
         return output;
     }
@@ -112,7 +109,7 @@ public class TenantService : UseCaseService, ITenantService
             .Take(take)
             .ToListAsync(cancellationToken);
 
-        var tenantOutputDtos = _mapper.Map<List<TenantOutputDto>>(tenants);
+        var tenantOutputDtos = tenants.Select(x => x.ToTenantOutputDto()).ToList();
 
         return new JqueryDataTableResult
         {
@@ -135,7 +132,7 @@ public class TenantService : UseCaseService, ITenantService
             .Where(x => x.Id == tenantId)
             .FirstAsync(cancellationToken);
 
-        var output = _mapper.Map<TenantOutputDto>(tenant);
+        var output = tenant.ToTenantOutputDto();
 
         return output;
     }
