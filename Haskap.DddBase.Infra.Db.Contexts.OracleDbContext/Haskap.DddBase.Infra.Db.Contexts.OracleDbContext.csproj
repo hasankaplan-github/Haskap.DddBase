@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.60" />
-    <PackageReference Include="System.Formats.Asn1" Version="9.0.3" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.80" />
+    <PackageReference Include="System.Formats.Asn1" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
