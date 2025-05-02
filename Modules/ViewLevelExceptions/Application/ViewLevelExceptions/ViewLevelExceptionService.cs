@@ -3,6 +3,7 @@ using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
 using Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
+using Modules.ViewLevelExceptions.Application.Mappings;
 using Modules.ViewLevelExceptions.Domain;
 using Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
 

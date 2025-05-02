@@ -4,6 +4,7 @@ using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Modules.Tenants.Application.Contracts.Tenants;
 using Modules.Tenants.Application.Dtos.Tenants;
+using Modules.Tenants.Application.Mappings;
 using Modules.Tenants.Domain;
 using Modules.Tenants.Domain.TenantAggregate;
 using Modules.Tenants.IntegrationEvents;

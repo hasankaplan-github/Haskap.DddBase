@@ -1,13 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Haskap.DddBase.Domain;
-using Modules.Tenants.Domain.TenantAggregate.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Modules.Tenants.Application.Dtos.Tenants;
+using Modules.Tenants.Domain.TenantAggregate.Exceptions;
 
 namespace Modules.Tenants.Domain.TenantAggregate;
 public class Tenant : AggregateRoot<Guid>, ISoftDeletable
@@ -43,14 +37,5 @@ public class Tenant : AggregateRoot<Guid>, ISoftDeletable
     public void MarkAsDeleted()
     {
         IsDeleted = true;
-    }
-
-    public TenantOutputDto ToTenantOutputDto()
-    {
-        return new()
-        {
-            Id = Id,
-            Name = Name
-        };
     }
 }
