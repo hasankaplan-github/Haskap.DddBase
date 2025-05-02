@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Tenants.Application.Contracts.Tenants;
-using Modules.Tenants.Application.UseCaseServices.Tenants;
+using Modules.Tenants.Application.Tenants;
 
-namespace Modules.Tenants.Application.UseCaseServices;
+namespace Modules.Tenants.Application;
 
 public static class DependencyInjection
 {

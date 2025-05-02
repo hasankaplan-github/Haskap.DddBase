@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ViewLevelExceptions.Application.Contracts;
-using Modules.ViewLevelExceptions.Application.UseCaseServices;
+using Modules.ViewLevelExceptions.Application;
 using Modules.ViewLevelExceptions.Infra;
 
 namespace Modules.ViewLevelExceptions.Module;

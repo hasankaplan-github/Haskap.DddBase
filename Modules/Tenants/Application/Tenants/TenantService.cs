@@ -1,5 +1,5 @@
 ﻿using Haskap.DddBase.Application.Dtos.Common.DataTable;
-using Haskap.DddBase.Application.UseCaseServices;
+using Haskap.DddBase.Application;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Modules.Tenants.Application.Contracts.Tenants;
@@ -10,7 +10,7 @@ using Modules.Tenants.Domain.TenantAggregate;
 using Modules.Tenants.IntegrationEvents;
 using Wolverine;
 
-namespace Modules.Tenants.Application.UseCaseServices.Tenants;
+namespace Modules.Tenants.Application.Tenants;
 public class TenantService : UseCaseService, ITenantService
 {
     private readonly ITenantsDbContext _tenantsDbContext;

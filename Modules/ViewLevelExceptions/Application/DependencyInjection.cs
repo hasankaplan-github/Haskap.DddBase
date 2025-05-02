@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
-using Modules.ViewLevelExceptions.Application.UseCaseServices.ViewLevelExceptions;
+using Modules.ViewLevelExceptions.Application.ViewLevelExceptions;
 
-namespace Modules.ViewLevelExceptions.Application.UseCaseServices;
+namespace Modules.ViewLevelExceptions.Application;
 
 public static class DependencyInjection
 {

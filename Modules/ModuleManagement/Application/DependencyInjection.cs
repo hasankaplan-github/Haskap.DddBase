@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.ModuleManagement.Application.Contracts.Module;
-using Modules.ModuleManagement.Application.UseCaseServices.Module;
+using Modules.ModuleManagement.Application.Module;
 
-namespace Modules.ModuleManagement.Application.UseCaseServices;
+namespace Modules.ModuleManagement.Application;
 
 public static class DependencyInjection
 {

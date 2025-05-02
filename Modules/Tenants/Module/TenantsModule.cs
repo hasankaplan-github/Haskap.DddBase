@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.Tenants.Application.Contracts;
-using Modules.Tenants.Application.UseCaseServices;
+using Modules.Tenants.Application;
 using Modules.Tenants.Infra;
 
 namespace Modules.Tenants.Module;

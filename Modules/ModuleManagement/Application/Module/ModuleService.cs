@@ -1,4 +1,4 @@
-﻿using Haskap.DddBase.Application.UseCaseServices;
+﻿using Haskap.DddBase.Application;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Guids;
 using Haskap.DddBase.Utilities.Module;
@@ -11,7 +11,7 @@ using Modules.ModuleManagement.Application.Dtos.Module;
 using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
 
-namespace Modules.ModuleManagement.Application.UseCaseServices.Module;
+namespace Modules.ModuleManagement.Application.Module;
 
 public class ModuleService : UseCaseService, IModuleService
 {

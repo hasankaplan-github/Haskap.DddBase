@@ -1,4 +1,4 @@
-﻿using Haskap.DddBase.Application.UseCaseServices;
+﻿using Haskap.DddBase.Application;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
@@ -7,7 +7,7 @@ using Modules.ViewLevelExceptions.Application.Mappings;
 using Modules.ViewLevelExceptions.Domain;
 using Modules.ViewLevelExceptions.Domain.ViewLevelExceptionAggregate;
 
-namespace Modules.ViewLevelExceptions.Application.UseCaseServices.ViewLevelExceptions;
+namespace Modules.ViewLevelExceptions.Application.ViewLevelExceptions;
 public class ViewLevelExceptionService : UseCaseService, IViewLevelExceptionService
 {
     private readonly IViewLevelExceptionsDbContext _viewLevelExceptionsDbContext;
