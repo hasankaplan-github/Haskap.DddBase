@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WolverineFx" Version="3.12.2" />
+    <PackageReference Include="WolverineFx" Version="3.13.2" />
   </ItemGroup>
 
   <ItemGroup>
