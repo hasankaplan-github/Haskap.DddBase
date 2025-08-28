@@ -1,16 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Haskap.DddBase.Domain;
-public abstract class AbstractValidator<T> : IValidatableObject
+
+public interface IValidator<T>
 {
-    public T Value { get; set; }
+    IServiceProvider? ServiceProvider { get; set; }
+    IDictionary<object, object?>? Items { get; set; }
 
-    public IEnumerable<ValidationResult> Validate(T value, IServiceProvider? serviceProvider = null, IDictionary<object, object?>? items = null)
+    IEnumerable<ValidationResult> Validate(T value);
+}
+
+public abstract class AbstractValidator<T> : IValidator<T>
+{
+    public IServiceProvider? ServiceProvider { get; set; }
+    public IDictionary<object, object?>? Items { get; set; }
+
+    protected AbstractValidator(
+        IServiceProvider? serviceProvider = null,
+        IDictionary<object, object?>? items = null)
     {
-        Value = value;
-
-        return Validate(new ValidationContext(this, serviceProvider, items));
+        ServiceProvider = serviceProvider;
+        Items = items;
     }
 
-    public abstract IEnumerable<ValidationResult> Validate(ValidationContext validationContext);
+    public abstract IEnumerable<ValidationResult> Validate(T value);
 }
