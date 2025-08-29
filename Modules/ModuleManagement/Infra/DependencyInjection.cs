@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.ModuleManagement.Application.Contracts.Module;
-using Modules.ModuleManagement.Application.Dtos.Module;
 using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
 using Modules.ModuleManagement.Infra.Db.Contexts.ModuleManagementDbContext;

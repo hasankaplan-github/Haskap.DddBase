@@ -1,6 +1,5 @@
 ﻿using Haskap.DddBase.Domain;
 using Microsoft.EntityFrameworkCore;
-using Modules.AuditLog.Domain.AuditHistoryLogAggregate;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
 
 namespace Modules.ModuleManagement.Domain;

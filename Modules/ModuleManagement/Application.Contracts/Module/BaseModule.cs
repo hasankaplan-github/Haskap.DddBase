@@ -1,5 +1,8 @@
-﻿using Haskap.DddBase.Domain.Providers;
+﻿using Haskap.DddBase.Domain;
+using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Module;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Modules.ModuleManagement.Domain.ModuleAggregate.Exceptions;
 
 namespace Modules.ModuleManagement.Application.Contracts.Module;
@@ -35,6 +38,27 @@ public abstract class BaseModule<TModule> : IModule
         if (!await IsEnabledAsync(cancellationToken))
         {
             throw new ModuleIsDisabledException(ModuleName, requestPath);
+        }
+    }
+
+    public class DatabaseMigrator : IModuleDatabaseMigrator
+    {
+        public async Task MigrateAsync(IServiceScope scope, CancellationToken cancellationToken = default)
+        {
+            var domainAssemblyName = typeof(TModule).Namespace!.TrimEnd(['M', 'o', 'd', 'u', 'l', 'e']) + "Domain";
+            var domainAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == domainAssemblyName);
+
+            if (domainAssembly is null)
+            {
+                return;
+            }
+
+            var dbContextInterfaceTypes = domainAssembly.GetTypes().Where(t => t.IsInterface && t.GetInterface(typeof(IUnitOfWork).Name) != null) ?? Enumerable.Empty<Type>();
+            foreach (var dbContextInterfaceType in dbContextInterfaceTypes)
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService(dbContextInterfaceType) as DbContext;
+                await dbContext!.Database.MigrateAsync(cancellationToken);
+            }
         }
     }
 }

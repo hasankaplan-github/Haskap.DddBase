@@ -3,8 +3,8 @@ using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.ModuleManagement.Application.Contracts.Module;
-using Modules.Tenants.Application.Contracts;
 using Modules.Tenants.Application;
+using Modules.Tenants.Application.Contracts;
 using Modules.Tenants.Infra;
 
 namespace Modules.Tenants.Module;
