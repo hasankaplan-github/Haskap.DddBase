@@ -19,19 +19,19 @@ public class ModuleService : UseCaseService, IModuleService
     private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
     private readonly IMemoryCache _memoryCache;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     public ModuleService(
         IModuleManagementDbContext moduleManagementDbContext,
         ICurrentTenantProvider currentTenantProvider,
         IBaseCacheKeyProvider baseCacheKeyProvider,
         IMemoryCache memoryCache,
-        IServiceProvider serviceProvider)
+        IServiceScopeFactory serviceScopeFactory)
     {
         _moduleManagementDbContext = moduleManagementDbContext;
         _currentTenantProvider = currentTenantProvider;
         _baseCacheKeyProvider = baseCacheKeyProvider;
         _memoryCache = memoryCache;
-        _serviceProvider = serviceProvider;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)
@@ -47,7 +47,8 @@ public class ModuleService : UseCaseService, IModuleService
 
     public IReadOnlyList<string> GetModuleNames()
     {
-        var modules = _serviceProvider.GetServices<IModule>();
+        using var scope = _serviceScopeFactory.CreateScope();
+        var modules = scope.ServiceProvider.GetServices<IModule>();
         var moduleNames = modules
             .Select(x => x.ModuleName)
             .ToList();

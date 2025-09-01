@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Haskap.DddBase.Infra.Events;
 
-public class EventPublisher(IServiceProvider serviceProvider, ILogger<EventPublisher> logger)
+public class EventPublisher(IServiceScopeFactory serviceScopeFactory, ILogger<EventPublisher> logger)
     : IEventPublisher
 {
     /// <summary>
@@ -30,7 +30,8 @@ public class EventPublisher(IServiceProvider serviceProvider, ILogger<EventPubli
         try
         {
             // Resolve all handlers for this event type
-            var handlers = serviceProvider.GetServices<IEventHandler<TEvent>>().ToArray();
+            using var scope = serviceScopeFactory.CreateScope();
+            var handlers = scope.ServiceProvider.GetServices<IEventHandler<TEvent>>().ToArray();
 
             if (handlers.Length == 0)
             {
