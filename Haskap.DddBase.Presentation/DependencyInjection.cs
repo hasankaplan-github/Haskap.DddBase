@@ -1,6 +1,8 @@
 ﻿using Haskap.DddBase.Domain.Common;
 using Haskap.DddBase.Domain.Common.Exceptions;
+using Haskap.DddBase.Domain.Events;
 using Haskap.DddBase.Domain.Shared.Consts;
+using Haskap.DddBase.Infra.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,5 +48,11 @@ public static class DependencyInjection
                 throw new TooManyRequestsException((int)retryAfter.TotalSeconds);
             };
         });
+    }
+
+    public static IServiceCollection AddEventPublisher(this IServiceCollection services)
+    {
+        services.AddSingleton<IEventPublisher, EventPublisher>();
+        return services;
     }
 }

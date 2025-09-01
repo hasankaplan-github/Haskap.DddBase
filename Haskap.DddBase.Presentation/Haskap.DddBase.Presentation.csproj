@@ -11,6 +11,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\Haskap.DddBase.Domain.Shared\Haskap.DddBase.Domain.Shared.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\Haskap.DddBase.Infra\Haskap.DddBase.Infra.csproj" />
     <ProjectReference Include="..\Modules\ViewLevelExceptions\Application.Contracts\Application.Contracts.csproj" />
     <ProjectReference Include="..\Modules\ViewLevelExceptions\Application.Dtos\Application.Dtos.csproj" />
   </ItemGroup>

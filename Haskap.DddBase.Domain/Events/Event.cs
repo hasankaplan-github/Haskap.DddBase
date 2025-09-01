@@ -1,6 +1,6 @@
-namespace Haskap.DddBase.Domain;
+namespace Haskap.DddBase.Domain.Events;
 
-public record Event
+public record Event : IEvent
 {
     public DateTime UtcCreatedOn { get; protected set; }
     public Guid Id { get; protected set; }

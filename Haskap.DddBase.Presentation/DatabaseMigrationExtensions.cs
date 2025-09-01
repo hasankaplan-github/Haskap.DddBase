@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Haskap.DddBase.Presentation;
-public static class ApplicationBuilderExtensions
+public static class DatabaseMigrationExtensions
 {
     public static async Task<IApplicationBuilder> MigrateModulesDatabasesAsync(this IApplicationBuilder builder, CancellationToken cancellationToken = default)
     {

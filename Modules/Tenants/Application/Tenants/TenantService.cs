@@ -8,20 +8,20 @@ using Modules.Tenants.Application.Mappings;
 using Modules.Tenants.Domain;
 using Modules.Tenants.Domain.TenantAggregate;
 using Modules.Tenants.IntegrationEvents;
-using Wolverine;
+using Haskap.DddBase.Domain.Events;
 
 namespace Modules.Tenants.Application.Tenants;
 public class TenantService : UseCaseService, ITenantService
 {
     private readonly ITenantsDbContext _tenantsDbContext;
-    private readonly IMessageBus _messageBus;
+    private readonly IEventPublisher _eventPublisher;
 
     public TenantService(
         ITenantsDbContext tenantsDbContext,
-        IMessageBus messageBus)
+        IEventPublisher eventPublisher)
     {
         _tenantsDbContext = tenantsDbContext;
-        _messageBus = messageBus;
+        _eventPublisher = eventPublisher;
     }
 
     public async Task DeleteAsync(DeleteInputDto inputDto, CancellationToken cancellationToken)
@@ -34,7 +34,7 @@ public class TenantService : UseCaseService, ITenantService
 
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
 
-        await _messageBus.PublishAsync(new TenantSoftDeletedIntegrationEvent(toBeDeleted.Id));
+        await _eventPublisher.PublishAsync(new TenantSoftDeletedIntegrationEvent(toBeDeleted.Id), cancellationToken);
     }
 
     public async Task<List<TenantOutputDto>> GetAllForLoginViewAsync(CancellationToken cancellationToken)
@@ -58,7 +58,7 @@ public class TenantService : UseCaseService, ITenantService
         await _tenantsDbContext.Tenant.AddAsync(newTenant, cancellationToken);
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
 
-        await _messageBus.PublishAsync(new TenantCreatedIntegrationEvent(newTenant.Id, newTenant.Name));
+        await _eventPublisher.PublishAsync(new TenantCreatedIntegrationEvent(newTenant.Id, newTenant.Name), cancellationToken);
     }
 
     public async Task<JqueryDataTableResult> SearchAsync(SearchParamsInputDto inputDto, JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken)
@@ -148,6 +148,6 @@ public class TenantService : UseCaseService, ITenantService
 
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
 
-        await _messageBus.PublishAsync(new TenantUpdatedIntegrationEvent(tenant.Id, tenant.Name));
+        await _eventPublisher.PublishAsync(new TenantUpdatedIntegrationEvent(tenant.Id, tenant.Name), cancellationToken);
     }
 }
