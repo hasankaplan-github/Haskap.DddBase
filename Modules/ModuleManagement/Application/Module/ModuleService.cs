@@ -19,20 +19,19 @@ public class ModuleService : UseCaseService, IModuleService
     private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
     private readonly IMemoryCache _memoryCache;
-    private readonly IServiceCollection _services;
-
+    private readonly IServiceProvider _serviceProvider;
     public ModuleService(
         IModuleManagementDbContext moduleManagementDbContext,
         ICurrentTenantProvider currentTenantProvider,
         IBaseCacheKeyProvider baseCacheKeyProvider,
         IMemoryCache memoryCache,
-        IServiceCollection services)
+        IServiceProvider serviceProvider)
     {
         _moduleManagementDbContext = moduleManagementDbContext;
         _currentTenantProvider = currentTenantProvider;
         _baseCacheKeyProvider = baseCacheKeyProvider;
         _memoryCache = memoryCache;
-        _services = services;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)
@@ -42,13 +41,16 @@ public class ModuleService : UseCaseService, IModuleService
         var modules = await GetModulesAsync(tenantId, cancellationToken);
 
         return modules.Where(x => x.Name == moduleName)
-            .Select(x => x.IsEnabled)
-            .First();
+            .First()
+            .IsEnabled;
     }
 
     public IReadOnlyList<string> GetModuleNames()
     {
-        var moduleNames = _services.Where(x => x.ServiceType.GetInterfaces().Contains(typeof(IModule))).Select(x => x.ImplementationType!.Name).ToList();
+        var modules = _serviceProvider.GetServices<IModule>();
+        var moduleNames = modules
+            .Select(x => x.ModuleName)
+            .ToList();
 
         return moduleNames.AsReadOnly();
     }

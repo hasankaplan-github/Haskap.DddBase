@@ -12,6 +12,7 @@ public static class ModuleExtensions
             //.First(x => x.Name == $"I{moduleImplementationType.Name}");
 
         services.AddScoped(moduleInterfaceType, moduleImplementationType);
+        services.AddScoped(typeof(IModule), moduleImplementationType);
 
         //var moduleDatabaseMigratorType = moduleImplementationType
         //    //.BaseType!
