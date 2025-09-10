@@ -36,7 +36,7 @@ public static class DependencyInjection
 
                 var moduleService = serviceProvider.GetRequiredService<IModuleService>();
 
-                var enabledModules = moduleService.GetModuleNames().Select(x => new EnabledModule(GuidGenerator.CreateSimpleGuid(), x)).ToList();
+                var enabledModules = moduleService.GetModuleNamesRegisteredInSystem().Select(x => new EnabledModule(GuidGenerator.CreateSimpleGuid(), x)).ToList();
 
                 dbContext.Set<EnabledModule>().AddRange(enabledModules);
                 dbContext.SaveChanges();
@@ -52,7 +52,7 @@ public static class DependencyInjection
 
                 var moduleService = serviceProvider.GetRequiredService<IModuleService>();
 
-                var enabledModules = moduleService.GetModuleNames().Select(x => new EnabledModule(GuidGenerator.CreateSimpleGuid(), x)).ToList();
+                var enabledModules = moduleService.GetModuleNamesRegisteredInSystem().Select(x => new EnabledModule(GuidGenerator.CreateSimpleGuid(), x)).ToList();
 
                 dbContext.Set<EnabledModule>().AddRange(enabledModules);
                 await dbContext.SaveChangesAsync(cancellationToken);

@@ -8,7 +8,7 @@ using Modules.ModuleManagement.Domain.ModuleAggregate.Exceptions;
 namespace Modules.ModuleManagement.Application.Contracts.Module;
 
 public abstract class BaseModule<TModule> : IModule
-    where TModule : class
+    where TModule : IModule
 {
     protected readonly IModuleService ModuleService;
     protected readonly ICurrentTenantProvider CurrentTenantProvider;

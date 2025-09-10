@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using Haskap.DddBase.Domain;
-using Haskap.DddBase.Domain.Attributes.AuditHistoryLogAttributes;
 
 namespace Modules.ModuleManagement.Domain.ModuleAggregate;
 

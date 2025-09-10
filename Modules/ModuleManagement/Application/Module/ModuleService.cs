@@ -35,6 +35,7 @@ public class ModuleService : UseCaseService, IModuleService
     }
 
     public async Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)
+        where TModule : IModule
     {
         var moduleName = typeof(TModule).Name;
 
@@ -45,7 +46,7 @@ public class ModuleService : UseCaseService, IModuleService
             .IsEnabled;
     }
 
-    public IReadOnlyList<string> GetModuleNames()
+    public IReadOnlyList<string> GetModuleNamesRegisteredInSystem()
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var modules = scope.ServiceProvider.GetServices<IModule>();
@@ -78,9 +79,9 @@ public class ModuleService : UseCaseService, IModuleService
                 .Select(x => x.Name)
                 .ToListAsync(cancellationToken);
 
-            var moduleNames = GetModuleNames();
+            var registeredModuleNames = GetModuleNamesRegisteredInSystem();
 
-            return moduleNames
+            return registeredModuleNames
                 .Select(x => new ModuleOutputDto
                 {
                     Name = x,
@@ -94,7 +95,7 @@ public class ModuleService : UseCaseService, IModuleService
 
     public async Task UpdateEnabledModulesAsync(UpdateEnabledModulesInputDto input, CancellationToken cancellationToken)
     {
-        DetectInvalidModuleNamesAndThrowIfAnyAsync([.. input.CheckedModuleNames ?? Enumerable.Empty<string>(), .. input.UncheckedModuleNames ?? Enumerable.Empty<string>()]);
+        DetectInvalidModuleNamesAndThrowIfAny([.. input.CheckedModuleNames ?? Enumerable.Empty<string>(), .. input.UncheckedModuleNames ?? Enumerable.Empty<string>()]);
 
         using var _ = _currentTenantProvider.ChangeCurrentTenant(input.TenantId);
 
@@ -130,9 +131,9 @@ public class ModuleService : UseCaseService, IModuleService
         }
 
 
-        void DetectInvalidModuleNamesAndThrowIfAnyAsync(List<string> updatedModuleNames)
+        void DetectInvalidModuleNamesAndThrowIfAny(List<string> updatedModuleNames)
         {
-            var validModuleNames = GetModuleNames();
+            var validModuleNames = GetModuleNamesRegisteredInSystem();
             var hasInvalidModuleName = updatedModuleNames.Any(x => !validModuleNames.Contains(x));
 
             if (hasInvalidModuleName)

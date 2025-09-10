@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Haskap.DddBase.Utilities.Module;
+﻿namespace Haskap.DddBase.Utilities.Module;
 public interface IModule
 {
     string ModuleName { get; }
