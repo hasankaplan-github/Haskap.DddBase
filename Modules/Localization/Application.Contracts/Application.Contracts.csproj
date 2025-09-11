@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\..\..\Outputs</BaseOutputPath>
+    <AssemblyName>Modules.Localization.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Modules.Localization.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>
