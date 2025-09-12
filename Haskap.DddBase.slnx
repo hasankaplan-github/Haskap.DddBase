@@ -1,0 +1,63 @@
+<Solution>
+  <Folder Name="/Application/">
+    <Project Path="Haskap.DddBase.Application.Contracts/Haskap.DddBase.Application.Contracts.csproj" />
+    <Project Path="Haskap.DddBase.Application.Dtos/Haskap.DddBase.Application.Dtos.csproj" />
+    <Project Path="Haskap.DddBase.Application/Haskap.DddBase.Application.csproj" />
+  </Folder>
+  <Folder Name="/Domian/">
+    <Project Path="Haskap.DddBase.Domain.Shared/Haskap.DddBase.Domain.Shared.csproj" />
+    <Project Path="Haskap.DddBase.Domain/Haskap.DddBase.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Haskap.DddBase.Infra.Db.Contexts.EfCoreContext/Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.csproj" />
+    <Project Path="Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext/Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext.csproj" />
+    <Project Path="Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext/Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj" />
+    <Project Path="Haskap.DddBase.Infra.Db.Contexts.OracleDbContext/Haskap.DddBase.Infra.Db.Contexts.OracleDbContext.csproj" />
+    <Project Path="Haskap.DddBase.Infra/Haskap.DddBase.Infra.csproj" />
+  </Folder>
+  <Folder Name="/Modules/" />
+  <Folder Name="/Modules/AuditLog/">
+    <Project Path="Modules/AuditLog/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/AuditLog/Domain/Domain.csproj" />
+    <Project Path="Modules/AuditLog/Infra/Infra.csproj" />
+    <Project Path="Modules/AuditLog/Module/Module.csproj" />
+  </Folder>
+  <Folder Name="/Modules/Localization/">
+    <Project Path="Modules/Localization/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/Localization/Module/Module.csproj" />
+    <Project Path="Modules/Localization/Presentation/Presentation.csproj" />
+  </Folder>
+  <Folder Name="/Modules/ModuleManagement/">
+    <Project Path="Modules/ModuleManagement/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/ModuleManagement/Application.Dtos/Application.Dtos.csproj" />
+    <Project Path="Modules/ModuleManagement/Application/Application.csproj" />
+    <Project Path="Modules/ModuleManagement/Domain/Domain.csproj" />
+    <Project Path="Modules/ModuleManagement/Infra/Infra.csproj" />
+    <Project Path="Modules/ModuleManagement/IntegrationEvents/IntegrationEvents.csproj" />
+    <Project Path="Modules/ModuleManagement/Module/Module.csproj" />
+  </Folder>
+  <Folder Name="/Modules/Tenants/">
+    <Project Path="Modules/Tenants/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/Tenants/Application.Dtos/Application.Dtos.csproj" />
+    <Project Path="Modules/Tenants/Application/Application.csproj" />
+    <Project Path="Modules/Tenants/Domain/Domain.csproj" />
+    <Project Path="Modules/Tenants/Infra/Infra.csproj" />
+    <Project Path="Modules/Tenants/IntegrationEvents/IntegrationEvents.csproj" />
+    <Project Path="Modules/Tenants/Module/Module.csproj" />
+  </Folder>
+  <Folder Name="/Modules/ViewLevelExceptions/">
+    <Project Path="Modules/ViewLevelExceptions/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/ViewLevelExceptions/Application.Dtos/Application.Dtos.csproj" />
+    <Project Path="Modules/ViewLevelExceptions/Application/Application.csproj" />
+    <Project Path="Modules/ViewLevelExceptions/Domain/Domain.csproj" />
+    <Project Path="Modules/ViewLevelExceptions/Infra/Infra.csproj" />
+    <Project Path="Modules/ViewLevelExceptions/IntegrationEvents/IntegrationEvents.csproj" />
+    <Project Path="Modules/ViewLevelExceptions/Module/Module.csproj" />
+  </Folder>
+  <Folder Name="/Presentation/">
+    <Project Path="Haskap.DddBase.Presentation/Haskap.DddBase.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/Utilities/">
+    <Project Path="Haskap.DddBase.Utilities/Haskap.DddBase.Utilities.csproj" />
+  </Folder>
+</Solution>
