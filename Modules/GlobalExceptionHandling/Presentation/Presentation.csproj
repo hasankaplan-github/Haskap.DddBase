@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\..\..\Outputs</BaseOutputPath>
+    <AssemblyName>Modules.GlobalExceptionHandling.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Modules.GlobalExceptionHandling.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Presentation\Haskap.DddBase.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
+    <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

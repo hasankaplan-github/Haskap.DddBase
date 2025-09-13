@@ -10,12 +10,14 @@ namespace Modules.Localization.Presentation.Middlewares;
 public class CheckLocalizationMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IOptions<RequestLocalizationOptions> _requestLocalizationOptionsOptions;
+    private readonly RequestLocalizationOptions _requestLocalizationOptions;
 
-    public CheckLocalizationMiddleware(RequestDelegate next, IOptions<RequestLocalizationOptions> requestLocalizationOptionsOptions)
+    public CheckLocalizationMiddleware(
+        RequestDelegate next,
+        IOptions<RequestLocalizationOptions> requestLocalizationOptionsOptions)
     {
         _next = next;
-        _requestLocalizationOptionsOptions = requestLocalizationOptionsOptions;
+        _requestLocalizationOptions = requestLocalizationOptionsOptions.Value;
     }
 
     public async Task Invoke(
@@ -24,7 +26,7 @@ public class CheckLocalizationMiddleware
     {
         if (!await localizationModule.IsEnabledAsync(UtilityMethods.FindTenant(httpContext)))
         {
-            SetCurrentThreadCulture(_requestLocalizationOptionsOptions.Value.DefaultRequestCulture.Culture);
+            SetCurrentThreadCulture(_requestLocalizationOptions.DefaultRequestCulture.Culture);
         }
 
         await _next(httpContext);

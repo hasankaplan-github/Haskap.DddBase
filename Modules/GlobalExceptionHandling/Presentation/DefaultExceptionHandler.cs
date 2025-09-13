@@ -1,22 +1,16 @@
 ﻿using Haskap.DddBase.Domain;
+using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Extensions.Hosting;
-using Modules.ViewLevelExceptions.Application.Dtos.ViewLevelExceptions;
-using Modules.ViewLevelExceptions.Application.Contracts.ViewLevelExceptions;
+using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Text.Json;
 
-namespace Haskap.DddBase.Presentation.GlobalExceptionHandling;
+namespace Modules.GlobalExceptionHandling.Presentation;
+
 public class DefaultExceptionHandler : IExceptionHandler
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
@@ -61,24 +55,15 @@ public class DefaultExceptionHandler : IExceptionHandler
         if (UtilityMethods.IsAjaxRequest(httpContext.Request))
         {
             // using static System.Net.Mime.MediaTypeNames;
-            httpContext.Response.ContentType = Text.Plain;
+            //httpContext.Response.ContentType = Text.Plain;
             await httpContext.Response.WriteAsJsonAsync(errorEnvelope);
-        }
-        else
-        {
-            var input = new SaveAndGetIdInputDto
-            {
-                Message = errorEnvelope.ExceptionMessage ?? string.Empty,
-                StackTrace = errorEnvelope.ExceptionStackTrace,
-                HttpStatusCode = httpStatusCode
-            };
-            using var scope = _serviceScopeFactory.CreateScope();
-            var viewLevelExceptionService = scope.ServiceProvider.GetRequiredService<IViewLevelExceptionService>();
-            var errorId = await viewLevelExceptionService.SaveAndGetIdAsync(input);
 
-            httpContext.Response.Redirect($"/Home/Error?errorId={errorId}");
+            return true;
         }
+        
+        httpContext.Items["Exception"] = exception;
+        httpContext.Items["Envelope"] = errorEnvelope;
 
-        return true;
+        return false;
     }
 }

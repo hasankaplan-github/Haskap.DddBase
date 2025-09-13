@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <BaseOutputPath>..\..\..\Outputs</BaseOutputPath>
-    <AssemblyName>Modules.ViewLevelExceptions.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Modules.ViewLevelExceptions.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Modules.GlobalExceptionHandling.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Modules.GlobalExceptionHandling.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,8 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ModuleManagement\Application.Contracts\Application.Contracts.csproj" />
-    <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Infra\Infra.csproj" />
+    <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

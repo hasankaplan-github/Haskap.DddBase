@@ -2,16 +2,14 @@
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Modules.GlobalExceptionHandling.Application.Contracts;
 using Modules.ModuleManagement.Application.Contracts.Module;
-using Modules.ViewLevelExceptions.Application.Contracts;
-using Modules.ViewLevelExceptions.Application;
-using Modules.ViewLevelExceptions.Infra;
 
-namespace Modules.ViewLevelExceptions.Module;
+namespace Modules.GlobalExceptionHandling.Module;
 
-public class ViewLevelExceptionsModule : BaseModule<ViewLevelExceptionsModule>, IViewLevelExceptionsModule
+public class GlobalExceptionHandlingModule : BaseModule<GlobalExceptionHandlingModule>, IGlobalExceptionHandlingModule
 {
-    public ViewLevelExceptionsModule(
+    public GlobalExceptionHandlingModule(
         IModuleService moduleService,
         ICurrentTenantProvider currentTenantProvider)
         : base(moduleService, currentTenantProvider)
@@ -22,8 +20,8 @@ public class ViewLevelExceptionsModule : BaseModule<ViewLevelExceptionsModule>, 
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddUseCaseServices(configuration);
-            services.AddInfra(configuration, connectionStringName, migrationAssembly);
+            //services.AddUseCaseServices(configuration);
+            //services.AddInfra(configuration, connectionStringName, migrationAssembly);
             return services;
         }
     }
