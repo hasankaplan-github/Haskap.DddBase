@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
     <ProjectReference Include="..\..\ModuleManagement\Application.Contracts\Application.Contracts.csproj" />
     <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
+    <ProjectReference Include="..\Infra\Infra.csproj" />
     <ProjectReference Include="..\Presentation\Presentation.csproj" />
   </ItemGroup>
 

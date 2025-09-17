@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\..\..\Outputs</BaseOutputPath>
+    <AssemblyName>Modules.Localization.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Modules.Localization.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.9" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj" />
+    <ProjectReference Include="..\..\AuditLog\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\AuditLog\Infra\Infra.csproj" />
+    <ProjectReference Include="..\..\Tenants\Infra\Infra.csproj" />
+    <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Haskap.DddBase.Domain.Providers;
+﻿namespace Haskap.DddBase.Domain.Providers;
 public interface IBaseCacheKeyProvider
 {
     string GetAllPermissionsCacheKey(Guid userId);
@@ -13,4 +7,5 @@ public interface IBaseCacheKeyProvider
     string GetModuleStatusesCacheKey(Guid? tenantId);
     string GetUserCancellationTokenSourceCacheKey(Guid userId);
     string GetTenantCancellationTokenSourceCacheKey(Guid? tenantId);
+    string GetSelectedCultureCacheKey(Guid userId);
 }

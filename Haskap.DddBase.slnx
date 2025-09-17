@@ -35,6 +35,8 @@
   </Folder>
   <Folder Name="/Modules/Localization/">
     <Project Path="Modules/Localization/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/Localization/Domain/Domain.csproj" />
+    <Project Path="Modules/Localization/Infra/Infra.csproj" />
     <Project Path="Modules/Localization/Module/Module.csproj" />
     <Project Path="Modules/Localization/Presentation/Presentation.csproj" />
   </Folder>
