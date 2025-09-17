@@ -31,7 +31,7 @@ public class DefaultExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = (int)errorEnvelope.HttpStatusCode;
 
-        if (UtilityMethods.IsAjaxRequest(httpContext.Request))
+        if (httpContext.Request.IsAjaxRequest())
         {
             // using static System.Net.Mime.MediaTypeNames;
             //httpContext.Response.ContentType = Text.Plain;

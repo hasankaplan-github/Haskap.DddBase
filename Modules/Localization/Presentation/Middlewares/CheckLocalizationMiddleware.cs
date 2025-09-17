@@ -24,7 +24,7 @@ public class CheckLocalizationMiddleware
         HttpContext httpContext,
         ILocalizationModule localizationModule)
     {
-        if (!await localizationModule.IsEnabledAsync(UtilityMethods.FindTenant(httpContext)))
+        if (!await localizationModule.IsEnabledAsync(httpContext.FindTenantId()))
         {
             SetCurrentThreadCulture(_requestLocalizationOptions.DefaultRequestCulture.Culture);
         }

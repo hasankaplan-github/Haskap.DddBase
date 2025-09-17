@@ -21,7 +21,7 @@ public class MultiTenancyMiddleware
     {
         globalQueryFilterGenericProvider.AddFilterProvider<IHasMultiTenant>(multiTenancyGlobalQueryFilterProvider);
 
-        using (currentTenantProvider.ChangeCurrentTenant(UtilityMethods.FindTenant(httpContext)))
+        using (currentTenantProvider.ChangeCurrentTenant(httpContext.FindTenantId()))
         {
             await _next(httpContext);
         }

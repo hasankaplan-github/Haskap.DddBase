@@ -35,7 +35,7 @@ public class ModuleService : UseCaseService, IModuleService
     }
 
     public async Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)
-        where TModule : IModule
+        where TModule : class, IModule
     {
         var moduleName = typeof(TModule).Name;
 
