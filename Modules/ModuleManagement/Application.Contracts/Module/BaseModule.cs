@@ -1,9 +1,9 @@
 ﻿using Haskap.DddBase.Domain;
+using Haskap.DddBase.Domain.Common.Exceptions;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.ModuleManagement.Domain.ModuleAggregate.Exceptions;
 
 namespace Modules.ModuleManagement.Application.Contracts.Module;
 

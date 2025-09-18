@@ -1,9 +1,12 @@
 ﻿using Haskap.DddBase.Domain;
+using Haskap.DddBase.Domain.Common.Exceptions;
 using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Modules.GlobalExceptionHandling.Application.Contracts;
 
 namespace Modules.GlobalExceptionHandling.Presentation;
 
@@ -22,6 +25,12 @@ public class DefaultExceptionHandler : IExceptionHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
+        var globalExceptionHandlingModule = httpContext.RequestServices.GetRequiredService<IGlobalExceptionHandlingModule>();
+        if(!await globalExceptionHandlingModule.IsEnabledAsync(httpContext.FindTenantId(), cancellationToken))
+        {
+            exception = new ModuleIsDisabledException(globalExceptionHandlingModule.GetType().Name, httpContext.Request.Path.Value ?? string.Empty);
+        }
+
         var errorEnvelope = Envelope.FromException(exception);
 
         if (!_environment.IsDevelopment())

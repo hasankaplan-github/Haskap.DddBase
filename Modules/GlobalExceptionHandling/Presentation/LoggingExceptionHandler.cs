@@ -1,8 +1,11 @@
 ﻿using Haskap.DddBase.Domain;
+using Haskap.DddBase.Domain.Common.Exceptions;
+using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Modules.GlobalExceptionHandling.Application.Contracts;
 using System.Text.Json;
 
 namespace Modules.GlobalExceptionHandling.Presentation;
@@ -10,14 +13,10 @@ namespace Modules.GlobalExceptionHandling.Presentation;
 public class LoggingExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<LoggingExceptionHandler> _logger;
-    private readonly IWebHostEnvironment _environment;
 
-    public LoggingExceptionHandler(
-        ILogger<LoggingExceptionHandler> logger,
-        IWebHostEnvironment environment)
+    public LoggingExceptionHandler(ILogger<LoggingExceptionHandler> logger)
     {
         _logger = logger;
-        _environment = environment;
     }
 
 
@@ -26,6 +25,12 @@ public class LoggingExceptionHandler : IExceptionHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
+        var globalExceptionHandlingModule = httpContext.RequestServices.GetRequiredService<IGlobalExceptionHandlingModule>();
+        if (!await globalExceptionHandlingModule.IsEnabledAsync(httpContext.FindTenantId(), cancellationToken))
+        {
+            exception = new ModuleIsDisabledException(globalExceptionHandlingModule.GetType().Name, httpContext.Request.Path.Value ?? string.Empty);
+        }
+
         var errorEnvelope = Envelope.FromException(exception);
 
         var jsonSerializerOptions = new JsonSerializerOptions

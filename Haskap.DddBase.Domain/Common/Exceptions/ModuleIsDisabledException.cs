@@ -1,8 +1,7 @@
-﻿using Haskap.DddBase.Domain;
-using Haskap.DddBase.Domain.Shared.Resources;
+﻿using Haskap.DddBase.Domain.Shared.Resources;
 using System.Net;
 
-namespace Modules.ModuleManagement.Domain.ModuleAggregate.Exceptions;
+namespace Haskap.DddBase.Domain.Common.Exceptions;
 public class ModuleIsDisabledException : DomainException
 {
     public ModuleIsDisabledException(string moduleName, string requestPath)
