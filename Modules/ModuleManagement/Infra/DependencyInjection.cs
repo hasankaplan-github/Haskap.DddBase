@@ -27,7 +27,7 @@ public static class DependencyInjection
 
             options.UseSeeding((dbContext, _) =>
             {
-                var exists = dbContext.Set<EnabledModule>().Any();
+                var exists = dbContext.Set<EnabledModule>().Where(x => x.TenantId == null).Any();
 
                 if (exists)
                 {
@@ -43,7 +43,7 @@ public static class DependencyInjection
             })
             .UseAsyncSeeding(async (dbContext, _, cancellationToken) =>
             {
-                var exists = await dbContext.Set<EnabledModule>().AnyAsync(cancellationToken);
+                var exists = await dbContext.Set<EnabledModule>().Where(x => x.TenantId == null).AnyAsync(cancellationToken);
 
                 if (exists)
                 {
