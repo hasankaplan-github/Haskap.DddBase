@@ -14,8 +14,21 @@ public static class ClaimsPrincipalExtensions
         return Guid.TryParse(user?.FindFirst(AccountConsts.LoginIdClaimType)?.Value, out loginId);
     }
 
-    public static bool TryFindTenantId(this ClaimsPrincipal? user, out Guid tenantId)
+    public static bool TryFindTenantId(this ClaimsPrincipal? user, out Guid? tenantId)
     {
-        return Guid.TryParse(user?.FindFirst(TenantConsts.IdClaimType)?.Value, out tenantId);
+        if (user is null)
+        {
+            tenantId = null;
+            return false;
+        }
+
+        if (Guid.TryParse(user.FindFirst(TenantConsts.IdClaimType)?.Value, out Guid tempTenantId))
+        {
+            tenantId = tempTenantId;
+            return true;
+        }
+
+        tenantId = null;
+        return true;
     }
 }
