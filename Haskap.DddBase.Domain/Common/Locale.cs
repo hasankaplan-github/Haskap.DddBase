@@ -1,0 +1,110 @@
+﻿using System.Dynamic;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+
+namespace Haskap.DddBase.Domain.Common;
+
+public class Locale : ValueObject
+{
+    public string Value { get; private set; }
+
+    public CultureInfo CultureInfo => new CultureInfo(Value);
+
+    private Locale()
+    {
+    }
+
+    public Locale(string value)
+    {
+        Value = IsValidLocale(value) ? value : throw new CultureNotFoundException();
+    }
+
+    public static bool IsValidLocale(string value)
+    {
+        try
+        {
+            _ = new CultureInfo(value);
+            return true;
+        }
+        catch (CultureNotFoundException)
+        {
+            return false;
+        }
+    }
+
+    public static bool RemoveDefinedLocale(Locale locale, [CallerArgumentExpression(nameof(locale))] string? definedLocalePropertyName = null)
+    {
+        return DefinedLocales.RemoveLocale(definedLocalePropertyName);
+    }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+    
+
+    public static Locale CurrentLocale => new(CultureInfo.CurrentCulture.Name);
+    public static Locale CurrentUiLocale => new(CultureInfo.CurrentUICulture.Name);
+
+
+    public static dynamic DefinedLocales = new InnerDefinedLocales();
+
+    class InnerDefinedLocales : DynamicObject
+    {
+        private readonly Dictionary<string, Locale> _locales = new();
+
+        public override bool TryGetMember(GetMemberBinder binder, out object? result)
+        {
+            if (_locales.TryGetValue(binder.Name, out var locale))
+            {
+                result = locale;
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object? value)
+        {
+            if (value is Locale locale)
+            {
+                _locales[binder.Name] = locale;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveLocale(string propertyName)
+        {
+            propertyName = propertyName.Split('.')[^1]; // In case the caller uses CallerArgumentExpression, we need to extract the actual name.
+
+            return _locales.Remove(propertyName);
+        }
+    }
+}
+
+/* Example of usage:
+ * 
+Locale.DefinedLocales.TrTr = new Locale("tr-TR");
+Locale.DefinedLocales.EnUs = new Locale("en-US");
+Locale.DefinedLocales.Default = Locale.DefinedLocales.TrTr;
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    List<CultureInfo> allCultures = [
+        Locale.DefinedLocales.TrTr.CultureInfo,
+        Locale.DefinedLocales.EnUs.CultureInfo
+    ];
+
+    options.DefaultRequestCulture = new RequestCulture(Locale.DefinedLocales.Default.CultureInfo);
+    options.SupportedCultures = allCultures;
+    options.SupportedUICultures = allCultures;
+});
+
+...
+
+app.UseRequestLocalization();
+ * 
+ */
