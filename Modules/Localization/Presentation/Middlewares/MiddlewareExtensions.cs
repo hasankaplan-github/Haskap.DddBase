@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Haskap.DddBase.Domain.Common;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Modules.Localization.Application.Contracts;
+using System.Globalization;
 
 namespace Modules.Localization.Presentation.Middlewares;
 public static class MiddlewareExtensions
@@ -9,7 +14,14 @@ public static class MiddlewareExtensions
         var newOptions = new RequestLocalizationOptions();
         optionsAction(newOptions);
 
-        builder.UseMiddleware<ReconfigureRequestLocalizationOptionsMiddleware>(Options.Create(newOptions));
+        using var scope = builder.ApplicationServices.CreateScope();
+
+        var localizationService = scope.ServiceProvider.GetService(typeof(ILocalizationService)) as ILocalizationService;
+
+        AddSupportedCultures(newOptions, localizationService!).GetAwaiter().GetResult();
+        SetDefaultLocale(newOptions, localizationService!).GetAwaiter().GetResult();
+        AddDbRequestCultureProvider(newOptions).GetAwaiter().GetResult();
+
         builder.UseRequestLocalization(newOptions);
         builder.UseMiddleware<CheckLocalizationModuleMiddleware>();
 
@@ -18,12 +30,49 @@ public static class MiddlewareExtensions
 
     public static IApplicationBuilder UseCustomRequestLocalization(this IApplicationBuilder builder)
     {
-        var newOptions = new RequestLocalizationOptions();
+        using var scope = builder.ApplicationServices.CreateScope();
 
-        builder.UseMiddleware<ReconfigureRequestLocalizationOptionsMiddleware>(Options.Create(newOptions));
+        var localizationService = scope.ServiceProvider.GetService(typeof(ILocalizationService)) as ILocalizationService;
+        var options = (scope.ServiceProvider.GetService(typeof(IOptions<RequestLocalizationOptions>)) as IOptions<RequestLocalizationOptions>)!.Value;
+
+        AddSupportedCultures(options, localizationService!).GetAwaiter().GetResult();
+        SetDefaultLocale(options, localizationService!).GetAwaiter().GetResult();
+        AddDbRequestCultureProvider(options).GetAwaiter().GetResult();
+
         builder.UseRequestLocalization();
         builder.UseMiddleware<CheckLocalizationModuleMiddleware>();
 
         return builder;
+    }
+
+    private static async Task AddSupportedCultures(RequestLocalizationOptions options, ILocalizationService localizationService)
+    {
+        List<CultureInfo> supportedCultures = [
+            ..options.SupportedCultures ?? Enumerable.Empty<CultureInfo>(),
+            ..(await localizationService.GetActiveSupportedLocalesAsync()).Select(x => new CultureInfo(x.LocaleValue))
+        ];
+
+        options.SupportedCultures = supportedCultures;
+        options.SupportedUICultures = supportedCultures;
+    }
+
+    private static async Task SetDefaultLocale(RequestLocalizationOptions options, ILocalizationService localizationService)
+    {
+        var defaultLocale = await localizationService.GetDefaultLocaleAsync();
+
+        if (defaultLocale is not null)
+        {
+            Locale.Default = new Locale(defaultLocale.Value);
+            options.DefaultRequestCulture = new RequestCulture(defaultLocale.Value);
+        }
+        else
+        {
+            Locale.Default = new Locale(options.DefaultRequestCulture.Culture.Name);
+        }
+    }
+
+    private static async Task AddDbRequestCultureProvider(RequestLocalizationOptions options)
+    {
+        options.AddInitialRequestCultureProvider(new DbRequestCultureProvider() { Options = options });
     }
 }

@@ -8,8 +8,11 @@ public class LocalizationEntityTypeConfiguration : BaseEntityTypeConfiguration<D
     {
         base.Configure(builder);
 
-        builder.OwnsOne(x => x.Locale);
+        builder.OwnsOne(x => x.Locale, x =>
+        {
+            x.HasIndex(l => l.Value);
+        });
 
-        builder.HasIndex(x => new { x.Locale.Value, x.Key });
+        builder.HasIndex(x => x.Key);
     }
 }
