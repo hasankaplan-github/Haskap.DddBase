@@ -35,6 +35,8 @@
   </Folder>
   <Folder Name="/Modules/Localization/">
     <Project Path="Modules/Localization/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/Localization/Application.Dtos/Application.Dtos.csproj" Id="1bed8227-5a38-4035-857f-00afd9bef724" />
+    <Project Path="Modules/Localization/Application/Application.csproj" Id="15e82d3e-699e-4ccb-a0bf-fb207f59a9a7" />
     <Project Path="Modules/Localization/Domain/Domain.csproj" />
     <Project Path="Modules/Localization/Infra/Infra.csproj" />
     <Project Path="Modules/Localization/Module/Module.csproj" />

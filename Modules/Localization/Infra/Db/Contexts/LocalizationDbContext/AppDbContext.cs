@@ -2,7 +2,8 @@
 using Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext;
 using Microsoft.EntityFrameworkCore;
 using Modules.Localization.Domain;
-using Modules.Localization.Domain.SelectedCultureAggregate;
+using Modules.Localization.Domain.SelectedLocaleAggregate;
+using Modules.Localization.Domain.SupportedLocaleAggregate;
 
 namespace Modules.Localization.Infra.Db.Contexts.LocalizationDbContext;
 public class AppDbContext : BaseEfCoreNpgsqlDbContext, ILocalizationDbContext
@@ -27,5 +28,7 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, ILocalizationDbContext
         base.OnModelCreating(builder);
     }
 
-    public DbSet<SelectedCulture> SelectedCulture { get; set; }
+    public DbSet<SelectedLocale> SelectedLocale { get; set; }
+    public DbSet<Domain.LocalizationAggregate.Localization> Localization { get; set; }
+    public DbSet<SupportedLocale> SupportedLocale { get; set; }
 }

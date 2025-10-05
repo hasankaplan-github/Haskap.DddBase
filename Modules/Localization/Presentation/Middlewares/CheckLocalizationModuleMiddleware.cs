@@ -1,23 +1,18 @@
-﻿using Haskap.DddBase.Presentation;
-using Microsoft.AspNetCore.Builder;
+﻿using Haskap.DddBase.Domain.Common;
+using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using Modules.Localization.Application.Contracts;
 using System.Globalization;
 
 namespace Modules.Localization.Presentation.Middlewares;
 
-public class CheckLocalizationMiddleware
+public class CheckLocalizationModuleMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly RequestLocalizationOptions _requestLocalizationOptions;
 
-    public CheckLocalizationMiddleware(
-        RequestDelegate next,
-        IOptions<RequestLocalizationOptions> requestLocalizationOptionsOptions)
+    public CheckLocalizationModuleMiddleware(RequestDelegate next)
     {
         _next = next;
-        _requestLocalizationOptions = requestLocalizationOptionsOptions.Value;
     }
 
     public async Task Invoke(
@@ -26,7 +21,7 @@ public class CheckLocalizationMiddleware
     {
         if (!await localizationModule.IsEnabledAsync(httpContext.FindTenantId()))
         {
-            SetCurrentThreadCulture(_requestLocalizationOptions.DefaultRequestCulture.Culture);
+            SetCurrentThreadCulture(Locale.Default!.CultureInfo);
         }
 
         await _next(httpContext);

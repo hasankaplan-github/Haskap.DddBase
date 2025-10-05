@@ -2,6 +2,7 @@
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Modules.Localization.Application;
 using Modules.Localization.Application.Contracts;
 using Modules.Localization.Infra;
 using Modules.ModuleManagement.Application.Contracts.Module;
@@ -21,7 +22,7 @@ public class LocalizationModule : BaseModule<LocalizationModule>, ILocalizationM
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            //services.AddUseCaseServices(configuration);
+            services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             //services.AddPresentation(configuration);
             return services;
