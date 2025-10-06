@@ -45,15 +45,15 @@ public class Locale : ValueObject
 
     public static Locale CurrentLocale => new(CultureInfo.CurrentCulture.Name);
     public static Locale CurrentUiLocale => new(CultureInfo.CurrentUICulture.Name);
-    private static Locale? _default = null;
-    public static Locale? Default
-    {
-        get => _default;
-        set
-        {
-            _default = value ?? throw new ArgumentNullException(nameof(Default));
-        }
-    }
+    //private static Locale? _default = null;
+    public static Locale? Default = null;
+    //{
+    //    get => _default;
+    //    set
+    //    {
+    //        _default = value ?? throw new ArgumentNullException(nameof(Default));
+    //    }
+    //}
 
 
     public static dynamic DefinedLocales = new InnerDefinedLocales();
@@ -98,7 +98,7 @@ public class Locale : ValueObject
  * 
 Locale.DefinedLocales.TrTr = new Locale("tr-TR");
 Locale.DefinedLocales.EnUs = new Locale("en-US");
-Locale.DefinedLocales.Default = Locale.DefinedLocales.TrTr;
+Locale.Default = Locale.DefinedLocales.TrTr;
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -107,7 +107,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
         Locale.DefinedLocales.EnUs.CultureInfo
     ];
 
-    options.DefaultRequestCulture = new RequestCulture(Locale.DefinedLocales.Default.CultureInfo);
+    options.DefaultRequestCulture = new RequestCulture(Locale.Default.CultureInfo);
     options.SupportedCultures = allCultures;
     options.SupportedUICultures = allCultures;
 });

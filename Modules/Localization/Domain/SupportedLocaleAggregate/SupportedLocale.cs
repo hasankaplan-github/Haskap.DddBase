@@ -40,5 +40,6 @@ public class SupportedLocale : AggregateRoot
     public void UnsetAsDefault()
     {
         IsDefault = false;
+        Locale.Default = null;
     }
 }

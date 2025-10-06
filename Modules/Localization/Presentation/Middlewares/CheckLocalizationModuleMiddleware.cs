@@ -21,7 +21,7 @@ public class CheckLocalizationModuleMiddleware
     {
         if (!await localizationModule.IsEnabledAsync(httpContext.FindTenantId()))
         {
-            SetCurrentThreadCulture(Locale.Default!.CultureInfo);
+            SetCurrentThreadCulture(Locale.Default?.CultureInfo ?? new CultureInfo("en-US"));
         }
 
         await _next(httpContext);
