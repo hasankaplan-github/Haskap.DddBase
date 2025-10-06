@@ -45,7 +45,15 @@ public class Locale : ValueObject
 
     public static Locale CurrentLocale => new(CultureInfo.CurrentCulture.Name);
     public static Locale CurrentUiLocale => new(CultureInfo.CurrentUICulture.Name);
-    public static Locale? Default = null;
+    private static Locale? _default = null;
+    public static Locale? Default
+    {
+        get => _default;
+        set
+        {
+            _default = value ?? throw new ArgumentNullException(nameof(Default));
+        }
+    }
 
 
     public static dynamic DefinedLocales = new InnerDefinedLocales();
