@@ -227,7 +227,7 @@ public class LocalizationService : UseCaseService, ILocalizationService
             throw new InvalidOperationException($"Locale '{localeValue}' is already supported and active.");
         }
 
-        var supportedLocale = new SupportedLocale(GuidGenerator.CreateSimpleGuid(), newLocale, isActive: true, isDefault: false);
+        var supportedLocale = new SupportedLocale(GuidGenerator.CreateSimpleGuid(), newLocale);
         await _localizationDbContext.SupportedLocale.AddAsync(supportedLocale, cancellationToken);
         await _localizationDbContext.SaveChangesAsync(cancellationToken);
     }
