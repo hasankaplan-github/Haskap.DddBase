@@ -4,9 +4,7 @@ using Haskap.DddBase.Domain.Common;
 using Microsoft.Extensions.Localization;
 using Modules.Localization.Application.Contracts;
 using Modules.Localization.Domain;
-using Modules.Localization.Domain.LocalizationAggregate;
 using System.Globalization;
-using System.Linq;
 
 namespace Modules.Localization.Application;
 
@@ -23,7 +21,7 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
             var format = GetStringSafely(name, null);
             var value = string.Format(CultureInfo.CurrentCulture, format ?? name, arguments);
 
-            return new LocalizedString(name, value, resourceNotFound: format == null);
+            return new LocalizedString(name, value, resourceNotFound: format == null, searchedLocation: "Database");
         }
     }
 
@@ -35,7 +33,7 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 
             var value = GetStringSafely(name, null);
 
-            return new LocalizedString(name, value ?? name, resourceNotFound: value == null);
+            return new LocalizedString(name, value ?? name, resourceNotFound: value == null, searchedLocation: "Database");
         }
     }
 
@@ -111,7 +109,7 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
         foreach (var localizationByKey in localizations)
         {
             var localization = localizationByKey.Localization;
-            yield return new LocalizedString(localizationByKey.Key, localization?.Value ?? localizationByKey.Key, resourceNotFound: localization is null);
+            yield return new LocalizedString(localizationByKey.Key, localization?.Value ?? localizationByKey.Key, resourceNotFound: localization is null, searchedLocation: "Database");
         }
     }
 
