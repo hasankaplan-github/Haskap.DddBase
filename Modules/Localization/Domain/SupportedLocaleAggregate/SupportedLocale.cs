@@ -11,14 +11,14 @@ public class SupportedLocale : AggregateRoot
     private SupportedLocale()
     {}
 
-    public SupportedLocale(Guid id, Locale locale, bool isActive, bool isDefault)
+    public SupportedLocale(Guid id, Locale locale)
         : base(id)
     {
         Guard.Against.Null(locale, nameof(locale));
 
         Locale = locale;
-        IsActive = isActive;
-        IsDefault = isDefault;
+        IsActive = true;
+        IsDefault = false;
     }
 
     public void Activate()
