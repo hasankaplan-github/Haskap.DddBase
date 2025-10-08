@@ -8,7 +8,29 @@ public class Locale : ValueObject
 {
     public string Value { get; private set; }
 
-    public CultureInfo CultureInfo => new CultureInfo(Value);
+    public CultureInfo CultureInfo 
+    {
+        get
+        {
+            return new CultureInfo(Value);
+        }
+    
+    }
+
+    public string FlagIconCssClass
+    {
+        get
+        {
+            try
+            {
+                return "flag-icon flag-icon-" + new RegionInfo(Value).TwoLetterISORegionName.ToLower();
+            }
+            catch
+            {
+                return "flag-icon flag-icon-un";
+            }
+        }
+    }
 
     private Locale()
     {
@@ -26,7 +48,7 @@ public class Locale : ValueObject
             _ = new CultureInfo(value);
             return true;
         }
-        catch (CultureNotFoundException)
+        catch
         {
             return false;
         }

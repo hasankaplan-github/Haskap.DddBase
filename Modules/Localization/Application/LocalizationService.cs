@@ -161,26 +161,89 @@ public class LocalizationService : UseCaseService, ILocalizationService
     {
         return await _localizationDbContext.SupportedLocale
             .Where(x => x.IsActive)
-            .Select(x => new SupportedLocaleOutputDto
-            {
-                LocaleValue = x.Locale.Value,
-                IsActive = x.IsActive,
-                IsDefault = x.IsDefault
-            })
+            .Select(x => x.ToSupportedLocaleOutputDto())
             .ToListAsync(cancellationToken);
     }
 
     public async Task<IList<SupportedLocaleOutputDto>> GetAllSupportedLocalesAsync(CancellationToken cancellationToken = default)
     {
         return await _localizationDbContext.SupportedLocale
-            .Select(x => new SupportedLocaleOutputDto
-            {
-                LocaleValue = x.Locale.Value,
-                IsActive = x.IsActive,
-                IsDefault = x.IsDefault
-            })
+            .Select(x => x.ToSupportedLocaleOutputDto())
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<JqueryDataTableResult> ListSupportedLocalesAsync(JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken = default)
+    {
+        var query = _localizationDbContext.SupportedLocale.AsQueryable();
+
+        var totalCount = await query.CountAsync(cancellationToken);
+        var filteredCount = totalCount;
+
+        if (jqueryDataTableParam.Order.Any())
+        {
+            var direction = jqueryDataTableParam.Order[0].Dir;
+            var columnIndex = jqueryDataTableParam.Order[0].Column;
+
+            if (columnIndex == 0)
+            {
+                if (direction == "asc")
+                {
+                    query = query.OrderBy(x => x.Locale.Value);
+                }
+                else
+                {
+                    query = query.OrderByDescending(x => x.Locale.Value);
+                }
+            }
+            else if (columnIndex == 1)
+            {
+                if (direction == "asc")
+                {
+                    query = query.OrderBy(x => x.IsActive);
+                }
+                else
+                {
+                    query = query.OrderByDescending(x => x.IsActive);
+                }
+            }
+            else if (columnIndex == 2)
+            {
+                if (direction == "asc")
+                {
+                    query = query.OrderBy(x => x.IsDefault);
+                }
+                else
+                {
+                    query = query.OrderByDescending(x => x.IsDefault);
+                }
+            }
+        }
+        else
+        {
+            query = query.OrderBy(x => x.Locale.Value);
+        }
+
+        var skip = jqueryDataTableParam.Start;
+        var take = jqueryDataTableParam.Length;
+
+        var supportedLocales = await query
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync(cancellationToken);
+
+        var supportedLocaleOutputDtos = supportedLocales.Select(x => x.ToSupportedLocaleOutputDto()).ToList();
+
+        return new JqueryDataTableResult
+        {
+            // this is what datatables wants sending back
+            draw = jqueryDataTableParam.Draw,
+            recordsTotal = totalCount,
+            recordsFiltered = filteredCount,
+            data = supportedLocaleOutputDtos
+        };
+    }
+
+
 
     public async Task SetDefaultLocaleAsync(string localeValue, CancellationToken cancellationToken = default)
     {

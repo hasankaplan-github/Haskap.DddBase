@@ -2,4 +2,5 @@
 public class LocaleOutputDto
 {
     public string Value { get; set; }
+    public string FlagIconCssClass { get; set; }
 }

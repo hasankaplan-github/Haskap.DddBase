@@ -1,5 +1,6 @@
 ﻿using Haskap.DddBase.Application.Contracts;
 using Haskap.DddBase.Application.Dtos.Common;
+using Haskap.DddBase.Application.Dtos.Common.DataTable;
 using Modules.Localization.Application.Dtos;
 
 namespace Modules.Localization.Application.Contracts;
@@ -17,4 +18,5 @@ public interface ILocalizationService : IUseCaseService
     Task DeactivateSupportedLocaleAsync(string localeValue, CancellationToken cancellationToken = default);
     Task<LocaleOutputDto?> GetDefaultLocaleAsync(CancellationToken cancellationToken = default);
     Task<SelectedLocaleOutputDto?> GetSelectedLocaleForUser(Guid userId, CancellationToken cancellationToken = default);
+    Task<JqueryDataTableResult> ListSupportedLocalesAsync(JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken = default);
 }

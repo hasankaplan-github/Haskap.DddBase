@@ -9,4 +9,8 @@
     <RootNamespace>Modules.Localization.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
+  </ItemGroup>
+
 </Project>

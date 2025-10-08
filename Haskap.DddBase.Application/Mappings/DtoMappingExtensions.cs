@@ -22,4 +22,13 @@ public static class DtoMappingExtensions
             Name = permission.Name
         };
     }
+
+    public static LocaleOutputDto ToLocaleOutputDto(this Locale locale)
+    {
+        return new()
+        {
+            Value = locale.Value,
+            FlagIconCssClass = locale.FlagIconCssClass,
+        };
+    }
 }

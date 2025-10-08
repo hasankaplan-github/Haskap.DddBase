@@ -18,7 +18,7 @@ public static class MiddlewareExtensions
 
         var localizationService = scope.ServiceProvider.GetService(typeof(ILocalizationService)) as ILocalizationService;
 
-        AddSupportedCultures(newOptions, localizationService!).GetAwaiter().GetResult();
+        AddActiveSupportedCultures(newOptions, localizationService!).GetAwaiter().GetResult();
         SetDefaultLocale(newOptions, localizationService!).GetAwaiter().GetResult();
         AddDbRequestCultureProvider(newOptions).GetAwaiter().GetResult();
 
@@ -35,7 +35,7 @@ public static class MiddlewareExtensions
         var localizationService = scope.ServiceProvider.GetService(typeof(ILocalizationService)) as ILocalizationService;
         var options = (scope.ServiceProvider.GetService(typeof(IOptions<RequestLocalizationOptions>)) as IOptions<RequestLocalizationOptions>)!.Value;
 
-        AddSupportedCultures(options, localizationService!).GetAwaiter().GetResult();
+        AddActiveSupportedCultures(options, localizationService!).GetAwaiter().GetResult();
         SetDefaultLocale(options, localizationService!).GetAwaiter().GetResult();
         AddDbRequestCultureProvider(options).GetAwaiter().GetResult();
 
@@ -45,15 +45,14 @@ public static class MiddlewareExtensions
         return builder;
     }
 
-    private static async Task AddSupportedCultures(RequestLocalizationOptions options, ILocalizationService localizationService)
+    private static async Task AddActiveSupportedCultures(RequestLocalizationOptions options, ILocalizationService localizationService)
     {
-        List<CultureInfo> supportedCultures = [
-            ..options.SupportedCultures ?? Enumerable.Empty<CultureInfo>(),
-            ..(await localizationService.GetActiveSupportedLocalesAsync()).Select(x => new CultureInfo(x.LocaleValue))
-        ];
+        var activeSupportedCultures = (await localizationService.GetActiveSupportedLocalesAsync())
+            .Select(x => new CultureInfo(x.Locale.Value))
+            .ToList();
 
-        options.SupportedCultures = supportedCultures;
-        options.SupportedUICultures = supportedCultures;
+        options.SupportedCultures = activeSupportedCultures;
+        options.SupportedUICultures = activeSupportedCultures;
     }
 
     private static async Task SetDefaultLocale(RequestLocalizationOptions options, ILocalizationService localizationService)
