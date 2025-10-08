@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DuplicateTenantNameException" xml:space="preserve">
+  <data name="ExceptionMessage:Tenants:DuplicateTenantNameException" xml:space="preserve">
     <value>Bu isim zaten kayıtlı, farklı bir isim deneyin!</value>
   </data>
-  <data name="ForbiddenOperationException" xml:space="preserve">
+  <data name="ExceptionMessage:Shared:ForbiddenOperationException" xml:space="preserve">
     <value>Bu işlem için "{0}" yetkisine sahip olmanız gerekmektedir! Yöneticiniz ile görüşünüz.</value>
   </data>
-  <data name="ModuleIsDisabledException" xml:space="preserve">
+  <data name="ExceptionMessage:Shared:ModuleIsDisabledException" xml:space="preserve">
     <value>Bu özellik, "{0}" modülünün etkinleştirilmiş olmasını gerektirmektedir. Adres: "{1}"</value>
   </data>
-  <data name="TooManyRequestsException" xml:space="preserve">
+  <data name="ExceptionMessage:Shared:TooManyRequestsException" xml:space="preserve">
     <value>Kısa zaman içinde çok fazla istek geldi. {0} saniye sonra tekrar deneyin.</value>
   </data>
 </root>

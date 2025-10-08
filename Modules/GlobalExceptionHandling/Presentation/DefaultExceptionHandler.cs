@@ -1,12 +1,16 @@
 ﻿using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Common.Exceptions;
+using Haskap.DddBase.Domain.Shared.Resources;
 using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
 using Modules.GlobalExceptionHandling.Application.Contracts;
+using Modules.Localization.Application.Contracts;
+using System.Net;
 
 namespace Modules.GlobalExceptionHandling.Presentation;
 
@@ -19,7 +23,6 @@ public class DefaultExceptionHandler : IExceptionHandler
         _environment = environment;
     }
 
-
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
@@ -31,7 +34,7 @@ public class DefaultExceptionHandler : IExceptionHandler
             exception = new ModuleIsDisabledException(globalExceptionHandlingModule.GetType().Name, httpContext.Request.Path.Value ?? string.Empty);
         }
 
-        var errorEnvelope = Envelope.FromException(exception);
+        var errorEnvelope = exception.ToEnvelope(httpContext);
 
         if (!_environment.IsDevelopment())
         {

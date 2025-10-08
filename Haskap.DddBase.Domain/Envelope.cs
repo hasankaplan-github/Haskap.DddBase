@@ -1,5 +1,4 @@
-﻿using Haskap.DddBase.Domain.Shared.Resources;
-using System.Net;
+﻿using System.Net;
 
 namespace Haskap.DddBase.Domain;
 public class Envelope<T>
@@ -47,20 +46,6 @@ public sealed class Envelope : Envelope<object>
     public static Envelope Error(string? exceptionMessage, string? exceptionStackTrace, string? exceptionType, HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError)
     {
         return new Envelope(exceptionMessage, exceptionStackTrace, exceptionType, httpStatusCode);
-    }
-
-    public static Envelope FromException(Exception exception)
-    {
-        if (exception == null) throw new ArgumentNullException(nameof(exception));
-
-        var httpStatusCode = exception switch
-        {
-            DomainException domainException => domainException.HttpStatusCode,
-            _ => HttpStatusCode.BadRequest
-        };
-        var errorEnvelope = Error(exception.Message, exception.StackTrace, exception.GetType().ToString(), httpStatusCode);
-
-        return errorEnvelope;
     }
 
     public void ClearExceptionStackTrace()

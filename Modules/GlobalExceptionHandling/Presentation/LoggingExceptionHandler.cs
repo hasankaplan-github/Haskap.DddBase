@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Modules.GlobalExceptionHandling.Application.Contracts;
+using Modules.Localization.Application.Contracts;
+using System.Net;
 using System.Text.Json;
 
 namespace Modules.GlobalExceptionHandling.Presentation;
@@ -19,7 +21,6 @@ public class LoggingExceptionHandler : IExceptionHandler
         _logger = logger;
     }
 
-
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
@@ -31,7 +32,7 @@ public class LoggingExceptionHandler : IExceptionHandler
             exception = new ModuleIsDisabledException(globalExceptionHandlingModule.GetType().Name, httpContext.Request.Path.Value ?? string.Empty);
         }
 
-        var errorEnvelope = Envelope.FromException(exception);
+        var errorEnvelope = exception.ToEnvelope(httpContext);
 
         var jsonSerializerOptions = new JsonSerializerOptions
         {

@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DuplicateTenantNameException" xml:space="preserve">
+  <data name="ExceptionMessage:Tenants:DuplicateTenantNameException" xml:space="preserve">
     <value>This name already exists, try another!</value>
   </data>
-  <data name="ForbiddenOperationException" xml:space="preserve">
+  <data name="ExceptionMessage:Shared:ForbiddenOperationException" xml:space="preserve">
     <value>For this operation you need to have "{0}" permission! Contact your administrator.</value>
   </data>
-  <data name="ModuleIsDisabledException" xml:space="preserve">
+  <data name="ExceptionMessage:Shared:ModuleIsDisabledException" xml:space="preserve">
     <value>This feature requires "{0}" module to be enabled. Path: "{1}"</value>
   </data>
-  <data name="TooManyRequestsException" xml:space="preserve">
+  <data name="ExceptionMessage:Shared:TooManyRequestsException" xml:space="preserve">
     <value>Too many requests have came in a short time period. Retry again after {0} seconds.</value>
   </data>
 </root>
