@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Haskap.DddBase.Application;
 using Haskap.DddBase.Domain.Common;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using Modules.Localization.Application.Contracts;
 using Modules.Localization.Domain;
@@ -11,12 +12,21 @@ namespace Modules.Localization.Application;
 public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 {
     private readonly ILocalizationDbContext _localizationDbContext;
+    private readonly IMemoryCache _memoryCache;
 
     public LocalizedString this[string name, params object[] arguments]
     {
         get
         {
             Guard.Against.Null(name);
+
+            var localizedValue = GetLocalizedValueFromCache(name, Locale.CurrentUiLocale);
+
+            if (localizedValue is not null)
+            {
+                var formattedValue = string.Format(CultureInfo.CurrentCulture, localizedValue.Value, arguments);
+                return new LocalizedString(name, formattedValue, localizedValue.ResourceNotFound, searchedLocation: localizedValue.SearchedLocation);
+            }
 
             var format = GetStringSafely(name, null);
             var value = string.Format(CultureInfo.CurrentCulture, format ?? name, arguments);
@@ -31,15 +41,25 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
         {
             Guard.Against.Null(name);
 
+            var localizedValue = GetLocalizedValueFromCache(name, Locale.CurrentUiLocale);
+
+            if (localizedValue is not null)
+            {
+                return localizedValue;
+            }
+
             var value = GetStringSafely(name, null);
 
             return new LocalizedString(name, value ?? name, resourceNotFound: value == null, searchedLocation: "Database");
         }
     }
 
-    public DbStringLocalizer(ILocalizationDbContext localizationDbContext)
+    public DbStringLocalizer(
+        ILocalizationDbContext localizationDbContext,
+        IMemoryCache memoryCache)
     {
         _localizationDbContext = localizationDbContext;
+        _memoryCache = memoryCache;
     }
 
     protected string? GetStringSafely(string name, Locale? locale)
@@ -48,14 +68,23 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 
         var keyLocale = locale ?? Locale.CurrentUiLocale;
 
-        return GetLocalizedValueFromCache(name, keyLocale) ??
-            GetLocalizedValueFromDb(name, keyLocale) ??
+        return GetLocalizedValueFromDb(name, keyLocale) ??
             GetDefaultLocalizedValueFromDb(name, keyLocale);
     }
 
-    private string? GetLocalizedValueFromCache(string key, Locale locale)
+    private LocalizedString? GetLocalizedValueFromCache(string key, Locale locale)
     {
-        return null;
+        if(!_memoryCache.TryGetValue(locale, out Dictionary<string, LocalizedString>? localizations))
+        {
+            return null;
+        }
+
+        if(!localizations!.TryGetValue(key, out var localizedString))
+        {
+            return null;
+        }
+
+        return localizedString;
     }
 
     private string? GetLocalizedValueFromDb(string key, Locale locale)
