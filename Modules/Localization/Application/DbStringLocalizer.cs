@@ -92,17 +92,24 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 
         var localeValues = locales.Select(l => l.Value).ToList();
 
+        var shouldIncludeDefaultLocale = Locale.Default != null && !localeValues.Contains(Locale.Default.Value);
+
         var localizations = (from localizationKey in _localizationDbContext.Localization.Select(x => x.Key).Distinct()
+                             
                              join localizationByKey in _localizationDbContext.Localization
                                  .Where(x => localeValues.Contains(x.Locale.Value))
                                  on localizationKey equals localizationByKey.Key into j
-
                              from localizationByKey in j.DefaultIfEmpty()
+
+                             join defaultLocalizationByKey in _localizationDbContext.Localization
+                                 .Where(x => shouldIncludeDefaultLocale && x.Locale.Value == Locale.Default.Value)
+                                 on localizationKey equals defaultLocalizationByKey.Key into dj
+                             from defaultLocalizationByKey in dj.DefaultIfEmpty()
 
                              select new
                              {
                                  Key = localizationKey,
-                                 Localization = localizationByKey
+                                 Localization = localizationByKey ?? defaultLocalizationByKey
                              })
                  .ToList();
 
