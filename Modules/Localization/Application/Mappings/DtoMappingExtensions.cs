@@ -11,7 +11,7 @@ public static class DtoMappingExtensions
         {
             Id = localization.Id,
             Key = localization.Key,
-            LocaleValue = localization.Locale.Value,
+            Locale = localization.Locale.ToLocaleOutputDto(),
             Value = localization.Value
         };
     }

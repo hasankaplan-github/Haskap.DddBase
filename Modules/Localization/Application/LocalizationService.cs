@@ -27,6 +27,14 @@ public class LocalizationService : UseCaseService, ILocalizationService
         _memoryCache = memoryCache;
     }
 
+    public async Task<LocalizationOutputDto> GetLocalizationByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _localizationDbContext.Localization
+            .Where(x => x.Id == id)
+            .Select(x => x.ToLocalizationOutputDto())
+            .FirstAsync(cancellationToken);
+    }
+
     public async Task InvalidateAllLocalesCachesAsync(CancellationToken cancellationToken = default)
     {
         var supportedLocales = await _localizationDbContext.SupportedLocale
@@ -47,6 +55,8 @@ public class LocalizationService : UseCaseService, ILocalizationService
 
     public async Task AddLocalizationAsync(AddLocalizationInputDto input, CancellationToken cancellationToken = default)
     {
+        var newLocale = new Locale(input.LocaleValue);
+
         var localization = await _localizationDbContext.Localization
             .Where(x => x.Locale.Value == input.LocaleValue && x.Key == input.Key)
             .FirstOrDefaultAsync(cancellationToken);
@@ -56,7 +66,7 @@ public class LocalizationService : UseCaseService, ILocalizationService
             throw new InvalidOperationException($"Localization with key '{input.Key}' and locale '{input.LocaleValue}' already exists.");
         }
 
-        localization = new Domain.LocalizationAggregate.Localization(GuidGenerator.CreateSimpleGuid(), input.Key, new Locale(input.LocaleValue), input.Value);
+        localization = new Domain.LocalizationAggregate.Localization(GuidGenerator.CreateSimpleGuid(), input.Key, newLocale, input.Value);
         await _localizationDbContext.Localization.AddAsync(localization, cancellationToken);
         await _localizationDbContext.SaveChangesAsync(cancellationToken);
     }
@@ -68,7 +78,7 @@ public class LocalizationService : UseCaseService, ILocalizationService
             .FirstAsync(cancellationToken);
 
         localization.UpdateValue(input.NewValue);
-        localization.UpdateLocale(new Locale(input.NewLocaleValue));
+        localization.UpdateKey(input.NewKey);
 
         await _localizationDbContext.SaveChangesAsync(cancellationToken);
     }
@@ -84,7 +94,7 @@ public class LocalizationService : UseCaseService, ILocalizationService
     }
 
 
-    public async Task<JqueryDataTableResult> SearchAsync(SearchParamsInputDto input, JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken)
+    public async Task<JqueryDataTableResult> SearchAsync(SearchParamsInputDto input, JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken = default)
     {
         var query = _localizationDbContext.Localization.AsQueryable();
 
@@ -116,7 +126,7 @@ public class LocalizationService : UseCaseService, ILocalizationService
             filteredCount = await query.CountAsync(cancellationToken);
         }
 
-        if (jqueryDataTableParam.Order.Any())
+        if (jqueryDataTableParam.Order?.Any() == true)
         {
             var direction = jqueryDataTableParam.Order[0].Dir;
             var columnIndex = jqueryDataTableParam.Order[0].Column;
@@ -125,22 +135,22 @@ public class LocalizationService : UseCaseService, ILocalizationService
             {
                 if (direction == "asc")
                 {
-                    query = query.OrderBy(x => x.Key);
+                    query = query.OrderBy(x => x.Locale.Value);
                 }
                 else
                 {
-                    query = query.OrderByDescending(x => x.Key);
+                    query = query.OrderByDescending(x => x.Locale.Value);
                 }
             }
             else if (columnIndex == 1)
             {
                 if (direction == "asc")
                 {
-                    query = query.OrderBy(x => x.Locale.Value);
+                    query = query.OrderBy(x => x.Key);
                 }
                 else
                 {
-                    query = query.OrderByDescending(x => x.Locale.Value);
+                    query = query.OrderByDescending(x => x.Key);
                 }
             }
             else if (columnIndex == 2)

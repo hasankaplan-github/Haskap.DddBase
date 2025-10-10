@@ -15,7 +15,7 @@ public class Localization : AggregateRoot
     public Localization(Guid id, string key, Locale locale, string value)
         : base(id)
     {
-        Guard.Against.NullOrEmpty(key, nameof(key));
+        Guard.Against.NullOrWhiteSpace(key, nameof(key));
         Guard.Against.Null(locale, nameof(locale));
 
         Key = key;
@@ -28,10 +28,10 @@ public class Localization : AggregateRoot
         Value = value;
     }
 
-    public void UpdateLocale(Locale locale)
+    public void UpdateKey(string key)
     {
-        Guard.Against.Null(locale, nameof(locale));
+        Guard.Against.NullOrWhiteSpace(key, nameof(key));
 
-        Locale = locale;
+        Key = key;
     }
 }
