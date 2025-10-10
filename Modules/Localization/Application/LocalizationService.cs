@@ -4,6 +4,7 @@ using Haskap.DddBase.Application.Dtos.Common.DataTable;
 using Haskap.DddBase.Domain.Common;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Modules.Localization.Application.Contracts;
 using Modules.Localization.Application.Dtos;
 using Modules.Localization.Application.Mappings;
@@ -15,10 +16,33 @@ namespace Modules.Localization.Application;
 public class LocalizationService : UseCaseService, ILocalizationService
 {
     private readonly ILocalizationDbContext _localizationDbContext;
+    private readonly IMemoryCache _memoryCache;
 
-    public LocalizationService(ILocalizationDbContext localizationDbContext)
+
+    public LocalizationService(
+        ILocalizationDbContext localizationDbContext,
+        IMemoryCache memoryCache)
     {
         _localizationDbContext = localizationDbContext;
+        _memoryCache = memoryCache;
+    }
+
+    public async Task InvalidateAllLocalesCachesAsync(CancellationToken cancellationToken = default)
+    {
+        var supportedLocales = await _localizationDbContext.SupportedLocale
+            .AsNoTracking()
+            .Select(x => x.Locale)
+            .ToListAsync(cancellationToken);
+
+        foreach (var locale in supportedLocales)
+        {
+            _memoryCache.Remove(locale);
+        }
+    }
+
+    public async Task InvalidateLocaleCacheAsync(string localeValue, CancellationToken cancellationToken = default)
+    {
+        _memoryCache.Remove(new Locale(localeValue));
     }
 
     public async Task AddLocalizationAsync(AddLocalizationInputDto input, CancellationToken cancellationToken = default)

@@ -19,4 +19,6 @@ public interface ILocalizationService : IUseCaseService
     Task<LocaleOutputDto?> GetDefaultLocaleAsync(CancellationToken cancellationToken = default);
     Task<SelectedLocaleOutputDto?> GetSelectedLocaleForUser(Guid userId, CancellationToken cancellationToken = default);
     Task<JqueryDataTableResult> ListSupportedLocalesAsync(JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken = default);
+    Task InvalidateLocaleCacheAsync(string localeValue, CancellationToken cancellationToken = default);
+    Task InvalidateAllLocalesCachesAsync(CancellationToken cancellationToken = default);
 }
