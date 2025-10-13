@@ -74,6 +74,6 @@ public static class MiddlewareExtensions
 
     private static async Task AddDbRequestCultureProvider(RequestLocalizationOptions options)
     {
-        options.RequestCultureProviders.Append(new DbRequestCultureProvider() { Options = options });
+        options.RequestCultureProviders.Add(new DbRequestCultureProvider() { Options = options });
     }
 }
