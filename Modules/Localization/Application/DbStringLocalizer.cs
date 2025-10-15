@@ -21,7 +21,7 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
         {
             Guard.Against.Null(name);
 
-            var localizedValue = GetLocalizedValueFromCache(name, Locale.CurrentUiLocale);
+            var localizedValue = GetLocalizedValueFromCache(name);
 
             if (localizedValue is not null)
             {
@@ -42,7 +42,7 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
         {
             Guard.Against.Null(name);
 
-            var localizedValue = GetLocalizedValueFromCache(name, Locale.CurrentUiLocale);
+            var localizedValue = GetLocalizedValueFromCache(name);
 
             if (localizedValue is not null)
             {
@@ -67,22 +67,43 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 
     protected string? GetStringSafely(string name, Locale? locale)
     {
-        if (!_localizationModule.IsEnabledAsync().GetAwaiter().GetResult())
-        {
-            return null;
-        }
-
         Guard.Against.Null(name);
 
         var keyLocale = locale ?? Locale.CurrentUiLocale;
+
+        if (!_localizationModule.IsEnabledAsync().GetAwaiter().GetResult())
+        {
+            if (Locale.Default is null)
+            {
+                return null;
+            }
+            else
+            {
+                keyLocale = Locale.Default;
+            }
+        }
 
         return GetLocalizedValueFromDb(name, keyLocale) ??
             GetDefaultLocalizedValueFromDb(name, keyLocale);
     }
 
-    private LocalizedString? GetLocalizedValueFromCache(string key, Locale locale)
+    private LocalizedString? GetLocalizedValueFromCache(string key)
     {
-        if(!_memoryCache.TryGetValue(locale, out Dictionary<string, LocalizedString>? localizations))
+        var keyLocale = Locale.CurrentUiLocale;
+
+        if (!_localizationModule.IsEnabledAsync().GetAwaiter().GetResult())
+        {
+            if (Locale.Default is null)
+            {
+                return null;
+            }
+            else
+            {
+                keyLocale = Locale.Default;
+            }
+        }
+
+        if (!_memoryCache.TryGetValue(keyLocale, out Dictionary<string, LocalizedString>? localizations))
         {
             return null;
         }
@@ -121,12 +142,19 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 
     protected IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures, Locale locale)
     {
+        Guard.Against.Null(locale);
+
         if (!_localizationModule.IsEnabledAsync().GetAwaiter().GetResult())
         {
-            yield break;
+            if (Locale.Default is null)
+            {
+                yield break;
+            }
+            else
+            {
+                locale = Locale.Default;
+            }
         }
-
-        Guard.Against.Null(locale);
 
         var locales = includeParentCultures
             ? GetLocaleHierarchy(locale)

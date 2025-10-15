@@ -1,5 +1,7 @@
 ﻿using Haskap.DddBase.Domain.Common;
+using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Http;
+using Modules.Localization.Application.Contracts;
 using System.Threading.Channels;
 
 namespace Modules.Localization.Presentation.Middlewares;
@@ -17,9 +19,21 @@ public class WriteCurrentLocaleMiddleware
         _currentLocaleChannel = currentLocaleChannel;
     }
 
-    public async Task Invoke(HttpContext httpContext)
+    public async Task Invoke(
+        HttpContext httpContext,
+        ILocalizationModule localizationModule)
     {
-        await _currentLocaleChannel.Writer.WriteAsync(Locale.CurrentUiLocale);
+        if (!await localizationModule.IsEnabledAsync(httpContext.FindTenantId()))
+        {
+            if (Locale.Default is not null)
+            {
+                await _currentLocaleChannel.Writer.WriteAsync(Locale.Default);
+            }
+        }
+        else
+        {
+            await _currentLocaleChannel.Writer.WriteAsync(Locale.CurrentUiLocale);
+        }
 
         await _next(httpContext);
     }

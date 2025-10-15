@@ -6,13 +6,6 @@ using System.Globalization;
 namespace Modules.Localization.Application;
 public class CommonStringLocalizer : ICommonStringLocalizer
 {
-    private readonly ILocalizationModule _localizationModule;
-
-    public CommonStringLocalizer(ILocalizationModule localizationModule)
-    {
-        _localizationModule = localizationModule;
-    }
-
     public LocalizedString this[string name]
     {
         get
@@ -43,11 +36,6 @@ public class CommonStringLocalizer : ICommonStringLocalizer
     {
         searchedLocations = null;
 
-        if (!_localizationModule.IsEnabledAsync().GetAwaiter().GetResult())
-        {
-            return null;
-        }
-
         if (Localizers == null || !Localizers.Any())
         {
             return null;
@@ -68,11 +56,6 @@ public class CommonStringLocalizer : ICommonStringLocalizer
 
     public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
     {
-        if (!_localizationModule.IsEnabledAsync().GetAwaiter().GetResult())
-        {
-            return [];
-        }
-
         if (Localizers == null || !Localizers.Any())
         {
             return [];
