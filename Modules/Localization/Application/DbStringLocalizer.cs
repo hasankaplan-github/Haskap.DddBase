@@ -13,6 +13,7 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 {
     private readonly ILocalizationDbContext _localizationDbContext;
     private readonly IMemoryCache _memoryCache;
+    private readonly ILocalizationModule _localizationModule;
 
     public LocalizedString this[string name, params object[] arguments]
     {
@@ -56,14 +57,21 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 
     public DbStringLocalizer(
         ILocalizationDbContext localizationDbContext,
-        IMemoryCache memoryCache)
+        IMemoryCache memoryCache,
+        ILocalizationModule localizationModule)
     {
         _localizationDbContext = localizationDbContext;
         _memoryCache = memoryCache;
+        _localizationModule = localizationModule;
     }
 
     protected string? GetStringSafely(string name, Locale? locale)
     {
+        if (!_localizationModule.IsEnabledAsync().GetAwaiter().GetResult())
+        {
+            return null;
+        }
+
         Guard.Against.Null(name);
 
         var keyLocale = locale ?? Locale.CurrentUiLocale;
@@ -113,6 +121,11 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 
     protected IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures, Locale locale)
     {
+        if (!_localizationModule.IsEnabledAsync().GetAwaiter().GetResult())
+        {
+            yield break;
+        }
+
         Guard.Against.Null(locale);
 
         var locales = includeParentCultures
