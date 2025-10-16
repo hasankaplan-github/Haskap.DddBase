@@ -1,4 +1,5 @@
-﻿using Haskap.DddBase.Utilities.Guids;
+﻿using Haskap.DddBase.Infra.Interceptors;
+using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +8,6 @@ using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
 using Modules.ModuleManagement.Infra.Db.Contexts.ModuleManagementDbContext;
-using Modules.Tenants.Infra.Db.Interceptors;
 
 namespace Modules.ModuleManagement.Infra;
 public static class DependencyInjection

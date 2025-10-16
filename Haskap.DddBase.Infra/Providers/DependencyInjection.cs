@@ -1,13 +1,8 @@
 ﻿using Haskap.DddBase.Domain.Providers;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Infra.Providers;
-public static class ServiceCollectionExtensions
+public static class DependencyInjection
 {
     public static void AddBaseProviders(this IServiceCollection services)
     {

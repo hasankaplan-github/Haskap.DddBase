@@ -3,7 +3,7 @@ using Haskap.DddBase.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Modules.Tenants.Infra.Db.Interceptors;
+namespace Haskap.DddBase.Infra.Interceptors;
 
 // burada da TUserId nullable olan Guid? olarak verilecek.
 public class MultiTenancySaveChangesInterceptor : SaveChangesInterceptor

@@ -1,16 +1,11 @@
-﻿using Haskap.DddBase.Domain;
-using Haskap.DddBase.Domain.Common.Exceptions;
-using Haskap.DddBase.Domain.Shared.Resources;
+﻿using Haskap.DddBase.Domain.Common.Exceptions;
 using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Localization;
 using Modules.GlobalExceptionHandling.Application.Contracts;
-using Modules.Localization.Application.Contracts;
-using System.Net;
 
 namespace Modules.GlobalExceptionHandling.Presentation;
 

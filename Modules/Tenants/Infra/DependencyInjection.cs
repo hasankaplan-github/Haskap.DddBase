@@ -1,18 +1,15 @@
-﻿using Modules.Tenants.Domain;
-using Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.Tenants.Infra.Db.Interceptors;
+using Modules.Tenants.Domain;
+using Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
 
 namespace Modules.Tenants.Infra;
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
     {
-        services.AddScoped<MultiTenancySaveChangesInterceptor>();
-
         var connectionString = configuration.GetConnectionString(connectionStringName);
         services.AddDbContext<ITenantsDbContext, AppDbContext>((serviceProvider, options) =>
         {
