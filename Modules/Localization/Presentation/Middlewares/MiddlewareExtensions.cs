@@ -24,7 +24,7 @@ public static class MiddlewareExtensions
 
         builder.UseRequestLocalization(newOptions);
         builder.UseMiddleware<CheckLocalizationModuleMiddleware>();
-        builder.UseMiddleware<WriteCurrentLocaleMiddleware>();
+        builder.UseMiddleware<WriteCurrentLocalizationCacheKeyMiddleware>();
 
         return builder;
     }
@@ -42,7 +42,7 @@ public static class MiddlewareExtensions
 
         builder.UseRequestLocalization();
         builder.UseMiddleware<CheckLocalizationModuleMiddleware>();
-        builder.UseMiddleware<WriteCurrentLocaleMiddleware>();
+        builder.UseMiddleware<WriteCurrentLocalizationCacheKeyMiddleware>();
 
         return builder;
     }

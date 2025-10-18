@@ -2,6 +2,7 @@
 using Haskap.DddBase.Application.Dtos.Common;
 using Haskap.DddBase.Application.Dtos.Common.DataTable;
 using Haskap.DddBase.Domain.Common;
+using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -10,6 +11,7 @@ using Modules.Localization.Application.Dtos;
 using Modules.Localization.Application.Mappings;
 using Modules.Localization.Domain;
 using Modules.Localization.Domain.SupportedLocaleAggregate;
+using Modules.Tenants.Application.Dtos.Tenants;
 
 namespace Modules.Localization.Application;
 
@@ -17,14 +19,19 @@ public class LocalizationService : UseCaseService, ILocalizationService
 {
     private readonly ILocalizationDbContext _localizationDbContext;
     private readonly IMemoryCache _memoryCache;
-
+    private readonly ICurrentTenantProvider _currentTenantProvider;
+    private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
 
     public LocalizationService(
         ILocalizationDbContext localizationDbContext,
-        IMemoryCache memoryCache)
+        IMemoryCache memoryCache,
+        ICurrentTenantProvider currentTenantProvider,
+        IBaseCacheKeyProvider baseCacheKeyProvider)
     {
         _localizationDbContext = localizationDbContext;
         _memoryCache = memoryCache;
+        _currentTenantProvider = currentTenantProvider;
+        _baseCacheKeyProvider = baseCacheKeyProvider;
     }
 
     public async Task<LocalizationOutputDto> GetLocalizationByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -35,22 +42,31 @@ public class LocalizationService : UseCaseService, ILocalizationService
             .FirstAsync(cancellationToken);
     }
 
-    public async Task InvalidateAllLocalesCachesAsync(CancellationToken cancellationToken = default)
+    public async Task InvalidateAllLocalesCachesAsync(IList<Guid?> tenantIds, CancellationToken cancellationToken = default)
     {
         var supportedLocales = await _localizationDbContext.SupportedLocale
             .AsNoTracking()
             .Select(x => x.Locale)
             .ToListAsync(cancellationToken);
 
-        foreach (var locale in supportedLocales)
+        foreach (var tenantId in tenantIds)
         {
-            _memoryCache.Remove(locale);
+            foreach (var locale in supportedLocales)
+            {
+                var localizationCacheKey = _baseCacheKeyProvider.GetLocalizationCacheKey(tenantId, locale);
+                _memoryCache.Remove(localizationCacheKey);
+            }
         }
+        
     }
 
-    public async Task InvalidateLocaleCacheAsync(string localeValue, CancellationToken cancellationToken = default)
+    public async Task InvalidateLocaleCacheAsync(string localeValue, IList<Guid?> tenantIds, CancellationToken cancellationToken = default)
     {
-        _memoryCache.Remove(new Locale(localeValue));
+        foreach (var tenantId in tenantIds)
+        {
+            var localizationCacheKey = _baseCacheKeyProvider.GetLocalizationCacheKey(tenantId, new Locale(localeValue));
+            _memoryCache.Remove(localizationCacheKey);
+        }
     }
 
     public async Task AddLocalizationAsync(AddLocalizationInputDto input, CancellationToken cancellationToken = default)
@@ -94,7 +110,7 @@ public class LocalizationService : UseCaseService, ILocalizationService
     }
 
 
-    public async Task<JqueryDataTableResult> SearchAsync(SearchParamsInputDto input, JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken = default)
+    public async Task<JqueryDataTableResult> SearchAsync(Modules.Localization.Application.Dtos.SearchParamsInputDto input, JqueryDataTableParam jqueryDataTableParam, CancellationToken cancellationToken = default)
     {
         var query = _localizationDbContext.Localization.AsQueryable();
 

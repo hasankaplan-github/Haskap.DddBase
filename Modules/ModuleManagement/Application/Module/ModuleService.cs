@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
+using Modules.Localization.Application.Contracts;
 using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ModuleManagement.Application.Dtos.Module;
 using Modules.ModuleManagement.Domain;
@@ -20,18 +21,25 @@ public class ModuleService : UseCaseService, IModuleService
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
     private readonly IMemoryCache _memoryCache;
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly ILocalizationModule _localizationModule;
+    private readonly ILocalizationService _localizationService;
+
     public ModuleService(
         IModuleManagementDbContext moduleManagementDbContext,
         ICurrentTenantProvider currentTenantProvider,
         IBaseCacheKeyProvider baseCacheKeyProvider,
         IMemoryCache memoryCache,
-        IServiceScopeFactory serviceScopeFactory)
+        IServiceScopeFactory serviceScopeFactory,
+        ILocalizationModule localizationModule,
+        ILocalizationService localizationService)
     {
         _moduleManagementDbContext = moduleManagementDbContext;
         _currentTenantProvider = currentTenantProvider;
         _baseCacheKeyProvider = baseCacheKeyProvider;
         _memoryCache = memoryCache;
         _serviceScopeFactory = serviceScopeFactory;
+        _localizationModule = localizationModule;
+        _localizationService = localizationService;
     }
 
     public async Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)
@@ -117,6 +125,11 @@ public class ModuleService : UseCaseService, IModuleService
 
             await transaction.CommitAsync(cancellationToken);
 
+            if (ShouldInvalidateLocalizationCache(input))
+            {
+                await _localizationService.InvalidateAllLocalesCachesAsync([input.TenantId]);
+            }
+
             var cacheKey = _baseCacheKeyProvider.GetTenantCancellationTokenSourceCacheKey(input.TenantId);
             var existingTenantCts = _memoryCache.Get<CancellationTokenSource>(cacheKey);
             existingTenantCts?.Cancel();
@@ -130,6 +143,20 @@ public class ModuleService : UseCaseService, IModuleService
             throw;
         }
 
+        bool ShouldInvalidateLocalizationCache(UpdateEnabledModulesInputDto input)
+        {
+            if (input.CheckedModuleNames?.Contains(_localizationModule.ModuleName) == true)
+            {
+                return true;
+            }
+
+            if (input.UncheckedModuleNames?.Contains(_localizationModule.ModuleName) == true)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         void DetectInvalidModuleNamesAndThrowIfAny(List<string> updatedModuleNames)
         {

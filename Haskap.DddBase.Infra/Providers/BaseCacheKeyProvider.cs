@@ -1,4 +1,5 @@
-﻿using Haskap.DddBase.Domain.Providers;
+﻿using Haskap.DddBase.Domain.Common;
+using Haskap.DddBase.Domain.Providers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -42,5 +43,10 @@ public class BaseCacheKeyProvider : IBaseCacheKeyProvider
     public string GetSelectedCultureCacheKey(Guid userId)
     {
         return $"SelectedCultureCacheKey_{userId}";
+    }
+
+    public string GetLocalizationCacheKey(Guid? tenantId, Locale locale)
+    {
+        return $"localization:{tenantId}:{locale.Value}";
     }
 }
