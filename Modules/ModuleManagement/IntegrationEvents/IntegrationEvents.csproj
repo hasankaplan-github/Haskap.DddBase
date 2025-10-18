@@ -9,4 +9,8 @@
     <RootNamespace>Modules.ModuleManagement.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

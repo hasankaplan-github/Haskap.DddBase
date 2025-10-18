@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Haskap.DddBase.Application;
 using Haskap.DddBase.Domain.Common;
+using Haskap.DddBase.Domain.Providers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using Modules.Localization.Application.Contracts;
@@ -14,6 +15,8 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
     private readonly ILocalizationDbContext _localizationDbContext;
     private readonly IMemoryCache _memoryCache;
     private readonly ILocalizationModule _localizationModule;
+    private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
+    private readonly ICurrentTenantProvider _currentTenantProvider;
 
     public LocalizedString this[string name, params object[] arguments]
     {
@@ -58,11 +61,15 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
     public DbStringLocalizer(
         ILocalizationDbContext localizationDbContext,
         IMemoryCache memoryCache,
-        ILocalizationModule localizationModule)
+        ILocalizationModule localizationModule,
+        IBaseCacheKeyProvider baseCacheKeyProvider,
+        ICurrentTenantProvider currentTenantProvider)
     {
         _localizationDbContext = localizationDbContext;
         _memoryCache = memoryCache;
         _localizationModule = localizationModule;
+        _baseCacheKeyProvider = baseCacheKeyProvider;
+        _currentTenantProvider = currentTenantProvider;
     }
 
     protected string? GetStringSafely(string name, Locale? locale)
@@ -103,7 +110,9 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
             }
         }
 
-        if (!_memoryCache.TryGetValue(keyLocale, out Dictionary<string, LocalizedString>? localizations))
+        var localizationCacheKey = _baseCacheKeyProvider.GetLocalizationCacheKey(_currentTenantProvider.CurrentTenantId, keyLocale);
+
+        if (!_memoryCache.TryGetValue(localizationCacheKey, out Dictionary<string, LocalizedString>? localizations))
         {
             return null;
         }

@@ -1,4 +1,5 @@
 ﻿using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Infra.Events;
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ public class LocalizationModule : BaseModule<LocalizationModule>, ILocalizationM
             services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             //services.AddPresentation(configuration);
+            services.RegisterHandlersFromAssembly(typeof(Application.DependencyInjection).Assembly);
             return services;
         }
     }

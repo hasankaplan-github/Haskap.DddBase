@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Infra\Haskap.DddBase.Infra.csproj" />
     <ProjectReference Include="..\..\..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
     <ProjectReference Include="..\..\ModuleManagement\Application.Contracts\Application.Contracts.csproj" />
     <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />

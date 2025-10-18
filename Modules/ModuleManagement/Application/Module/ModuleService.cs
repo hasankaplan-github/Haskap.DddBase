@@ -1,4 +1,5 @@
 ﻿using Haskap.DddBase.Application;
+using Haskap.DddBase.Domain.Events;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Utilities.Guids;
 using Haskap.DddBase.Utilities.Module;
@@ -6,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using Modules.Localization.Application.Contracts;
 using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ModuleManagement.Application.Dtos.Module;
 using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
+using Modules.ModuleManagement.IntegrationEvents;
 
 namespace Modules.ModuleManagement.Application.Module;
 
@@ -21,8 +22,7 @@ public class ModuleService : UseCaseService, IModuleService
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
     private readonly IMemoryCache _memoryCache;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly ILocalizationModule _localizationModule;
-    private readonly ILocalizationService _localizationService;
+    private readonly IEventPublisher _eventPublisher;
 
     public ModuleService(
         IModuleManagementDbContext moduleManagementDbContext,
@@ -30,16 +30,14 @@ public class ModuleService : UseCaseService, IModuleService
         IBaseCacheKeyProvider baseCacheKeyProvider,
         IMemoryCache memoryCache,
         IServiceScopeFactory serviceScopeFactory,
-        ILocalizationModule localizationModule,
-        ILocalizationService localizationService)
+        IEventPublisher eventPublisher)
     {
         _moduleManagementDbContext = moduleManagementDbContext;
         _currentTenantProvider = currentTenantProvider;
         _baseCacheKeyProvider = baseCacheKeyProvider;
         _memoryCache = memoryCache;
         _serviceScopeFactory = serviceScopeFactory;
-        _localizationModule = localizationModule;
-        _localizationService = localizationService;
+        _eventPublisher = eventPublisher;
     }
 
     public async Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)
@@ -113,29 +111,31 @@ public class ModuleService : UseCaseService, IModuleService
             var enabledModules = await _moduleManagementDbContext.EnabledModule
             .ToListAsync(cancellationToken);
 
-            UpdateEnabledModules(enabledModules, input.UncheckedModuleNames, input.CheckedModuleNames);
-
-            await _moduleManagementDbContext.EnabledModule
+            var updated = UpdateEnabledModules(enabledModules, input.UncheckedModuleNames, input.CheckedModuleNames);
+            if (updated)
+            {
+                await _moduleManagementDbContext.EnabledModule
                 .ExecuteDeleteAsync(cancellationToken);
 
-            _moduleManagementDbContext.EnabledModule
-                .AddRange(enabledModules);
+                _moduleManagementDbContext.EnabledModule
+                    .AddRange(enabledModules);
 
-            await _moduleManagementDbContext.SaveChangesAsync(cancellationToken);
+                await _moduleManagementDbContext.SaveChangesAsync(cancellationToken);
 
-            await transaction.CommitAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
 
-            if (ShouldInvalidateLocalizationCache(input))
-            {
-                await _localizationService.InvalidateAllLocalesCachesAsync([input.TenantId]);
+                var cacheKey = _baseCacheKeyProvider.GetTenantCancellationTokenSourceCacheKey(input.TenantId);
+                var existingTenantCts = _memoryCache.Get<CancellationTokenSource>(cacheKey);
+                existingTenantCts?.Cancel();
+
+                var tenantCts = new CancellationTokenSource();
+                _memoryCache.Set(cacheKey, tenantCts, new CancellationChangeToken(tenantCts.Token));
+
+                await _eventPublisher.PublishAsync(new EnabledModulesUpdatedIntegrationEvent(
+                    input.TenantId,
+                    input.UncheckedModuleNames,
+                    input.CheckedModuleNames), cancellationToken);
             }
-
-            var cacheKey = _baseCacheKeyProvider.GetTenantCancellationTokenSourceCacheKey(input.TenantId);
-            var existingTenantCts = _memoryCache.Get<CancellationTokenSource>(cacheKey);
-            existingTenantCts?.Cancel();
-
-            var tenantCts = new CancellationTokenSource();
-            _memoryCache.Set(cacheKey, tenantCts, new CancellationChangeToken(tenantCts.Token));
         }
         catch (Exception)
         {
@@ -143,20 +143,6 @@ public class ModuleService : UseCaseService, IModuleService
             throw;
         }
 
-        bool ShouldInvalidateLocalizationCache(UpdateEnabledModulesInputDto input)
-        {
-            if (input.CheckedModuleNames?.Contains(_localizationModule.ModuleName) == true)
-            {
-                return true;
-            }
-
-            if (input.UncheckedModuleNames?.Contains(_localizationModule.ModuleName) == true)
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         void DetectInvalidModuleNamesAndThrowIfAny(List<string> updatedModuleNames)
         {
@@ -170,11 +156,11 @@ public class ModuleService : UseCaseService, IModuleService
         }
     }
 
-    private void AddEnabledModules(List<EnabledModule> existingEnabledModules, IEnumerable<string>? checkedList)
+    private bool AddEnabledModules(List<EnabledModule> existingEnabledModules, IEnumerable<string>? checkedList)
     {
         if (checkedList?.Any() != true)
         {
-            return;
+            return false;
         }
 
         var toBeAdded = checkedList
@@ -187,18 +173,20 @@ public class ModuleService : UseCaseService, IModuleService
                 id: GuidGenerator.CreateSimpleGuid(),
                 enabledModuleName));
         }
+
+        return toBeAdded.Count > 0;
     }
 
-    private void RemoveEnabledModules(List<EnabledModule> existingEnabledModules, IEnumerable<string>? uncheckedList)
+    private bool RemoveEnabledModules(List<EnabledModule> existingEnabledModules, IEnumerable<string>? uncheckedList)
     {
         if (uncheckedList?.Any() != true)
         {
-            return;
+            return false;
         }
 
         if (!existingEnabledModules.Any())
         {
-            return;
+            return false;
         }
 
         var toBeDeleted = existingEnabledModules
@@ -209,12 +197,16 @@ public class ModuleService : UseCaseService, IModuleService
         {
             existingEnabledModules.RemoveAll(x => x.Name == module.Name);
         }
+
+        return toBeDeleted.Count > 0;
     }
 
-    private void UpdateEnabledModules(List<EnabledModule> existingEnabledModules, IEnumerable<string>? uncheckedList, IEnumerable<string>? checkedList)
+    private bool UpdateEnabledModules(List<EnabledModule> existingEnabledModules, IEnumerable<string>? uncheckedList, IEnumerable<string>? checkedList)
     {
-        RemoveEnabledModules(existingEnabledModules, uncheckedList);
+        var removed = RemoveEnabledModules(existingEnabledModules, uncheckedList);
 
-        AddEnabledModules(existingEnabledModules, checkedList);
+        var added = AddEnabledModules(existingEnabledModules, checkedList);
+
+        return removed || added;
     }
 }
