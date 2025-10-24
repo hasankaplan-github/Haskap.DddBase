@@ -16,11 +16,9 @@ public static class ExceptionExtensions
 
         if (exception is DomainException domainException)
         {
-            var commonStringLocalizer = httpContext.RequestServices.GetRequiredService<ICommonStringLocalizer>();
-            var dbStringLocalizer = httpContext.RequestServices.GetRequiredService<IDbStringLocalizer>();
+            LocalizedString localizedString = new LocalizedString(domainException.LocalizationKey, domainException.Message, resourceNotFound: true);
             var stringLocalizerFactory = httpContext.RequestServices.GetRequiredService<IStringLocalizerFactory>();
 
-            IList<IStringLocalizer> localizers = [];
             foreach (var resourceType in LocalizationResourceBase.LocalizationResourceTypes)
             {
                 //var stringLocalizer = stringLocalizerFactory.Create("Resources.ExceptionMessages", "Haskap.DddBase.Domain.Shared");
@@ -29,12 +27,25 @@ public static class ExceptionExtensions
                 {
                     continue;
                 }
-                localizers.Add(stringLocalizer);
-            }
-            localizers.Add(dbStringLocalizer);
-            commonStringLocalizer.SetStringLocalizers(localizers);
 
-            localizedMessage = commonStringLocalizer[domainException.LocalizationKey, domainException.LocalizationParams];
+                localizedString = stringLocalizer[domainException.LocalizationKey, domainException.LocalizationParams];
+                if (!localizedString.ResourceNotFound)
+                {
+                    break;
+                }
+            }
+
+            if (localizedString.ResourceNotFound)
+            {
+                var dbStringLocalizer = httpContext.RequestServices.GetService<IDbStringLocalizer>();
+
+                if (dbStringLocalizer is not null)
+                {
+                    localizedString = dbStringLocalizer[domainException.LocalizationKey, domainException.LocalizationParams];
+                }
+            }
+
+            localizedMessage = localizedString.ResourceNotFound ? localizedString.Name + ":" + localizedString.Value : localizedString.Value;
             httpStatusCode = domainException.HttpStatusCode;
         }
 
