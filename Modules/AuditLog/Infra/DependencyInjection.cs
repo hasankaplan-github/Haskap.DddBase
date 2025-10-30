@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Modules.AuditLog.Domain;
 using Modules.AuditLog.Infra.Db.Contexts.AuditLogDbContext;
 using Modules.AuditLog.Infra.Db.Interceptors;
+using Modules.Tenants.Domain.Providers;
 
 namespace Modules.AuditLog.Infra;
 public static class DependencyInjection
@@ -14,9 +15,12 @@ public static class DependencyInjection
         services.AddScoped<AuditHistoryLogSaveChangesInterceptor>();
         services.AddScoped<AuditSaveChangesInterceptor>();
 
-        var connectionString = configuration.GetConnectionString(connectionStringName);
+        //var connectionString = configuration.GetConnectionString(connectionStringName);
         services.AddDbContext<IAuditLogDbContext, AppDbContext>((serviceProvider, options) =>
         {
+            var tenantConnectionStringProvider = serviceProvider.GetService<ITenantConnectionStringProvider>();
+            var connectionString = tenantConnectionStringProvider?.GetCurrentTenantConnectionString(connectionStringName) ?? configuration.GetConnectionString(connectionStringName);
+
             options.UseNpgsql(connectionString, optionsBuilder =>
             {
                 optionsBuilder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "audit_log");

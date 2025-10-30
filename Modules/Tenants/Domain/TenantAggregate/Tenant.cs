@@ -7,16 +7,19 @@ namespace Modules.Tenants.Domain.TenantAggregate;
 public class Tenant : AggregateRoot<Guid>, ISoftDeletable
 {
     public string Name { get; private set; }
+    public int TenantOrder { get; private set; }
+    public string? ConnectionString { get; set; }
     public bool IsDeleted { get; set; }
 
     private Tenant()
     {
     }
 
-    public Tenant(Guid id, string name, DbSet<Tenant> tenantDbSet)
+    public Tenant(Guid id, string name, string? connectionString, DbSet<Tenant> tenantDbSet)
         : base(id)
     {
         SetName(name, tenantDbSet);
+        ConnectionString = connectionString;
     }
 
     public void SetName(string name, DbSet<Tenant> tenantDbSet)

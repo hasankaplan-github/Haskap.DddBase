@@ -13,7 +13,7 @@ public static class DatabaseMigrationExtensions
 
         foreach (var moduleDatabaseMigrator in moduleDatabaseMigrators)
         {
-            await moduleDatabaseMigrator.MigrateAsync(serviceScope, cancellationToken);
+            await moduleDatabaseMigrator.MigrateAsync(serviceScope.ServiceProvider, cancellationToken);
         }
 
         return builder;

@@ -1,4 +1,5 @@
 ﻿using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Infra.Events;
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,8 @@ public class TenantsModule : BaseModule<TenantsModule>, ITenantsModule
         {
             services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
+            services.RegisterHandlersFromAssembly(typeof(Application.DependencyInjection).Assembly);
+
             return services;
         }
     }

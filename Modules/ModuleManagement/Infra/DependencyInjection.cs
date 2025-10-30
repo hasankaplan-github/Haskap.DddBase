@@ -8,16 +8,19 @@ using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
 using Modules.ModuleManagement.Infra.Db.Contexts.ModuleManagementDbContext;
+using Modules.Tenants.Domain.Providers;
 
 namespace Modules.ModuleManagement.Infra;
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
     {
-        var connectionString = configuration.GetConnectionString(connectionStringName);
         services.AddDbContext<IModuleManagementDbContext, AppDbContext>((serviceProvider, options) =>
         {
-            options.UseNpgsql(connectionString, optionsBuilder => 
+            var tenantConnectionProvider = serviceProvider.GetService<ITenantConnectionStringProvider>();
+            var connectionString = tenantConnectionProvider?.GetCurrentTenantConnectionString(connectionStringName) ?? configuration.GetConnectionString(connectionStringName);
+
+            options.UseNpgsql(connectionString, optionsBuilder =>
             {
                 optionsBuilder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "module_management");
                 optionsBuilder.MigrationsAssembly(migrationAssembly);

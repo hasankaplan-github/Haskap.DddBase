@@ -1,10 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
-using Haskap.DddBase.Domain.Providers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext;
 

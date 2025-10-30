@@ -17,12 +17,13 @@ namespace Modules.ModuleManagement.Application.Module;
 
 public class ModuleService : UseCaseService, IModuleService
 {
-    private readonly IModuleManagementDbContext _moduleManagementDbContext;
+    private IModuleManagementDbContext _moduleManagementDbContext;
     private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
     private readonly IMemoryCache _memoryCache;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IEventPublisher _eventPublisher;
+    private readonly IDbContextProvider _dbContextProvider;
 
     public ModuleService(
         IModuleManagementDbContext moduleManagementDbContext,
@@ -30,7 +31,8 @@ public class ModuleService : UseCaseService, IModuleService
         IBaseCacheKeyProvider baseCacheKeyProvider,
         IMemoryCache memoryCache,
         IServiceScopeFactory serviceScopeFactory,
-        IEventPublisher eventPublisher)
+        IEventPublisher eventPublisher,
+        IDbContextProvider dbContextProvider)
     {
         _moduleManagementDbContext = moduleManagementDbContext;
         _currentTenantProvider = currentTenantProvider;
@@ -38,6 +40,7 @@ public class ModuleService : UseCaseService, IModuleService
         _memoryCache = memoryCache;
         _serviceScopeFactory = serviceScopeFactory;
         _eventPublisher = eventPublisher;
+        _dbContextProvider = dbContextProvider;
     }
 
     public async Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)
@@ -80,6 +83,7 @@ public class ModuleService : UseCaseService, IModuleService
             cacheEntry.AddExpirationToken(new CancellationChangeToken(tenantCts!.Token));
             cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
+            _moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
             var enabledModules = await _moduleManagementDbContext.EnabledModule
                 .Where(x => x.TenantId == tenantId)
                 .Select(x => x.Name)
@@ -104,7 +108,7 @@ public class ModuleService : UseCaseService, IModuleService
         DetectInvalidModuleNamesAndThrowIfAny([.. input.CheckedModuleNames ?? Enumerable.Empty<string>(), .. input.UncheckedModuleNames ?? Enumerable.Empty<string>()]);
 
         using var _ = _currentTenantProvider.ChangeCurrentTenant(input.TenantId);
-
+        _moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
         using var transaction = _moduleManagementDbContext.Database.CurrentTransaction ?? await _moduleManagementDbContext.Database.BeginTransactionAsync(cancellationToken);
         try
         {

@@ -1,5 +1,6 @@
 ﻿using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Domain.Shared;
 using Microsoft.AspNetCore.Http;
 
 namespace Haskap.DddBase.Presentation.Middlewares;
@@ -21,7 +22,7 @@ public class MultiTenancyMiddleware
     {
         globalQueryFilterGenericProvider.AddFilterProvider<IHasMultiTenant>(multiTenancyGlobalQueryFilterProvider);
 
-        using (currentTenantProvider.ChangeCurrentTenant(httpContext.FindTenantId()))
+        using (currentTenantProvider.ChangeCurrentTenant(AppConfig.IsMultiTenant ? httpContext.FindTenantId() : null))
         {
             await _next(httpContext);
         }

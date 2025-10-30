@@ -1,13 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using Haskap.DddBase.Domain;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Reflection;
+﻿using Haskap.DddBase.Domain;
+using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Domain.Shared;
+using Haskap.DddBase.Domain.Shared.Enums;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Linq.Expressions;
-using Haskap.DddBase.Domain.Providers;
+using System.Reflection;
 
 namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 
@@ -32,7 +30,7 @@ public class BaseContext : DbContext
         CurrentTenantProvider = currentTenantProvider;
         GlobalQueryFilterGenericProvider = globalQueryFilterGenericProvider;
     }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -62,10 +60,10 @@ public class BaseContext : DbContext
     protected virtual void ConfigureBaseProperties<TEntity>(ModelBuilder modelBuilder, IMutableEntityType mutableEntityType)
         where TEntity : class
     {
-        //if (mutableEntityType.IsOwned())
-        //{
-        //    return;
-        //}
+        if (mutableEntityType.IsOwned())
+        {
+            return;
+        }
 
         //if (!typeof(IEntity).IsAssignableFrom(typeof(TEntity)))
         //{
@@ -97,7 +95,7 @@ public class BaseContext : DbContext
             return true;
         }
 
-        if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)))
+        if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)) && AppConfig.IsMultiTenant && AppConfig.MultiTenancyType == MultiTenancyType.SharedDb)
         {
             return true;
         }
@@ -119,7 +117,7 @@ public class BaseContext : DbContext
             expression = x => !_softDeleteFilterIsEnabled || (x as ISoftDeletable).IsDeleted == false;
         }
 
-        if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)))
+        if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)) && AppConfig.IsMultiTenant && AppConfig.MultiTenancyType == MultiTenancyType.SharedDb)
         {
             Expression<Func<TEntity, bool>>? multiTenancyExpression = x => !_multiTenancyFilterIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId;
             expression = expression == null ? multiTenancyExpression : CombineExpressions(expression, multiTenancyExpression);

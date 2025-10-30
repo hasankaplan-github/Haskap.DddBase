@@ -9,6 +9,7 @@ using Modules.Tenants.Domain;
 using Modules.Tenants.Domain.TenantAggregate;
 using Modules.Tenants.IntegrationEvents;
 using Haskap.DddBase.Domain.Events;
+using Modules.Tenants.Domain.TenantAggregate.Events;
 
 namespace Modules.Tenants.Application.Tenants;
 public class TenantService : UseCaseService, ITenantService
@@ -24,6 +25,21 @@ public class TenantService : UseCaseService, ITenantService
         _eventPublisher = eventPublisher;
     }
 
+    public async Task<IList<TenantOutputDto>> GetByIdAsync(IList<Guid?> tenantIds, CancellationToken cancellationToken)
+    {
+        var tenants = await _tenantsDbContext.Tenant
+            .Where(x => tenantIds.Contains(x.Id))
+            .Select(x => x.ToTenantOutputDto())
+            .ToListAsync(cancellationToken);
+
+        if (tenantIds.Contains(null))
+        {
+            tenants.Add(new TenantOutputDto { Id = null, Name = "Host" });
+        }
+        
+        return tenants;
+    }
+
     public async Task DeleteAsync(DeleteInputDto inputDto, CancellationToken cancellationToken)
     {
         var toBeDeleted = await _tenantsDbContext.Tenant
@@ -37,27 +53,26 @@ public class TenantService : UseCaseService, ITenantService
         await _eventPublisher.PublishAsync(new TenantSoftDeletedIntegrationEvent(toBeDeleted.Id), cancellationToken);
     }
 
-    public async Task<List<TenantOutputDto>> GetAllForLoginViewAsync(CancellationToken cancellationToken)
+    public async Task<List<TenantOutputDto>> GetAllAsync(CancellationToken cancellationToken)
     {
-        var tenants = await _tenantsDbContext.Tenant
+        var tenants = (await _tenantsDbContext.Tenant
             .OrderBy(x => x.Name)
-            .ToListAsync(cancellationToken);
-
-        var output = tenants
             .Select(x => x.ToTenantOutputDto())
+            .ToListAsync(cancellationToken))
             .Prepend(new TenantOutputDto { Id = null, Name = "Host" })
             .ToList();
 
-        return output;
+        return tenants;
     }
 
     public async Task SaveNewAsync(SaveNewInputDto inputDto, CancellationToken cancellationToken)
     {
-        var newTenant = new Tenant(GuidGenerator.CreateSimpleGuid(), inputDto.Name, _tenantsDbContext.Tenant);
+        var newTenant = new Tenant(GuidGenerator.CreateSimpleGuid(), inputDto.Name, inputDto.ConnectionString, _tenantsDbContext.Tenant);
 
         await _tenantsDbContext.Tenant.AddAsync(newTenant, cancellationToken);
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
 
+        await _eventPublisher.PublishAsync(new TenantCreatedDomainEvent(newTenant.ToTenantOutputDto()), cancellationToken);
         await _eventPublisher.PublishAsync(new TenantCreatedIntegrationEvent(newTenant.Id, newTenant.Name), cancellationToken);
     }
 
@@ -145,6 +160,7 @@ public class TenantService : UseCaseService, ITenantService
             .FirstAsync(cancellationToken);
 
         tenant.SetName(inputDto.NewName, _tenantsDbContext.Tenant);
+        tenant.ConnectionString = inputDto.NewConnectionString;
 
         await _tenantsDbContext.SaveChangesAsync(cancellationToken);
 

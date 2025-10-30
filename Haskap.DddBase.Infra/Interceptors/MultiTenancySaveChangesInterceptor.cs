@@ -1,11 +1,11 @@
 ﻿using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Haskap.DddBase.Infra.Interceptors;
 
-// burada da TUserId nullable olan Guid? olarak verilecek.
 public class MultiTenancySaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly ICurrentTenantProvider? _currentTenantProvider;
@@ -19,6 +19,11 @@ public class MultiTenancySaveChangesInterceptor : SaveChangesInterceptor
 
     private void SetTenantId(DbContext dbContext)
     {
+        if (!AppConfig.IsMultiTenant)
+        {
+            return;
+        }
+
         var entityEntries = dbContext.ChangeTracker
                                         .Entries<IHasMultiTenant>()
                                         .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added)

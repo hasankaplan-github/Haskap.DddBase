@@ -1,10 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
-using Haskap.DddBase.Domain.Providers;
+﻿using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext;
+using Microsoft.EntityFrameworkCore;
 using Modules.Tenants.Domain;
 using Modules.Tenants.Domain.TenantAggregate;
 
@@ -22,8 +18,6 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, ITenantsDbContext
     {
     }
 
-    public DbSet<Tenant> Tenant { get; set; }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.HasDefaultSchema("tenants");
@@ -32,4 +26,6 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, ITenantsDbContext
 
         base.OnModelCreating(builder);
     }
+
+    public DbSet<Tenant> Tenant { get; set; }
 }

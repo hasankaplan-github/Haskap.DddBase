@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Haskap.DddBase.Utilities.Module;
+﻿namespace Haskap.DddBase.Utilities.Module;
 public interface IModuleDatabaseMigrator
 {
-    Task MigrateAsync(IServiceScope scope, CancellationToken cancellationToken = default);
+    Task MigrateAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken = default);
 }

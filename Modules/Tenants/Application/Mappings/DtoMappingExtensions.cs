@@ -9,7 +9,9 @@ public static class DtoMappingExtensions
         return new()
         {
             Id = tenant.Id,
-            Name = tenant.Name
+            Name = tenant.Name,
+            TenantOrder = tenant.TenantOrder,
+            ConnectionString = tenant.ConnectionString
         };
     }
 }

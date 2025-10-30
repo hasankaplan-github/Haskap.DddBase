@@ -43,7 +43,7 @@ public abstract class BaseModule<TModule> : IModule
 
     public class DatabaseMigrator : IModuleDatabaseMigrator
     {
-        public async Task MigrateAsync(IServiceScope scope, CancellationToken cancellationToken = default)
+        public async Task MigrateAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken = default)
         {
             var domainAssemblyName = typeof(TModule).Namespace!.TrimEnd(['M', 'o', 'd', 'u', 'l', 'e']) + "Domain";
             var domainAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == domainAssemblyName);
@@ -56,7 +56,7 @@ public abstract class BaseModule<TModule> : IModule
             var dbContextInterfaceTypes = domainAssembly.GetTypes().Where(t => t.IsInterface && t.GetInterface(typeof(IUnitOfWork).Name) != null) ?? Enumerable.Empty<Type>();
             foreach (var dbContextInterfaceType in dbContextInterfaceTypes)
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService(dbContextInterfaceType) as DbContext;
+                var dbContext = serviceProvider.GetRequiredService(dbContextInterfaceType) as DbContext;
                 await dbContext!.Database.MigrateAsync(cancellationToken);
             }
         }

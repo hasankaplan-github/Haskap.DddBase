@@ -4,17 +4,19 @@ using Microsoft.EntityFrameworkCore;
 using Modules.AuditLog.Domain;
 using Modules.AuditLog.Domain.AuditHistoryLogAggregate;
 using Modules.AuditLog.Infra.Db.Contexts.AuditLogDbContext.EntityTypeConfigurations;
+using Modules.Tenants.Domain.Providers;
 
 namespace Modules.AuditLog.Infra.Db.Contexts.AuditLogDbContext;
 
 public class AppDbContext : BaseEfCoreNpgsqlDbContext, IAuditLogDbContext
 {
     public AppDbContext(
-        DbContextOptions<AppDbContext> options, 
+        DbContextOptions<AppDbContext> options,
+        ICurrentTenantProvider? currentTenantProvider,
         IGlobalQueryFilterGenericProvider? globalQueryFilterGenericProvider)
         : base(
-            options, 
-            currentTenantProvider: null,
+            options,
+            currentTenantProvider,
             globalQueryFilterGenericProvider)
     {
     }

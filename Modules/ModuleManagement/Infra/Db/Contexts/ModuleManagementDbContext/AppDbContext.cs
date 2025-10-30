@@ -5,12 +5,13 @@ using Modules.AuditLog.Domain.AuditHistoryLogAggregate;
 using Modules.AuditLog.Infra.Db.Contexts.AuditLogDbContext.EntityTypeConfigurations;
 using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
+using Modules.Tenants.Domain.Providers;
 
 namespace Modules.ModuleManagement.Infra.Db.Contexts.ModuleManagementDbContext;
 public class AppDbContext : BaseEfCoreNpgsqlDbContext, IModuleManagementDbContext
 {
     public AppDbContext(
-        DbContextOptions<AppDbContext> options, 
+        DbContextOptions<AppDbContext> options,
         ICurrentTenantProvider? currentTenantProvider,
         IGlobalQueryFilterGenericProvider? globalQueryFilterGenericProvider)
         : base(
