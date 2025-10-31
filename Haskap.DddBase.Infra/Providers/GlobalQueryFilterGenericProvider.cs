@@ -29,4 +29,14 @@ public class GlobalQueryFilterGenericProvider : IGlobalQueryFilterGenericProvide
 
         return false;
     }
+
+    public IReadOnlyDictionary<Type, IGlobalQueryFilterProvider> GetAllProviders()
+    {
+        return _dictionary.AsReadOnly();
+    }
+
+    public void AddFilterProvider(Type filterType, IGlobalQueryFilterProvider provider)
+    {
+        _dictionary.TryAdd(filterType, provider);
+    }
 }

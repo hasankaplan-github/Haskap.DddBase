@@ -12,4 +12,6 @@ public interface IGlobalQueryFilterGenericProvider
     bool IsEnabled<TFilter>();
 
     void AddFilterProvider<TFilter>(IGlobalQueryFilterProvider provider);
+    void AddFilterProvider(Type filterType, IGlobalQueryFilterProvider provider);
+    IReadOnlyDictionary<Type, IGlobalQueryFilterProvider> GetAllProviders();
 }

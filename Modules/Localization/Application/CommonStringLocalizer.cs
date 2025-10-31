@@ -6,6 +6,8 @@ using System.Globalization;
 namespace Modules.Localization.Application;
 public class CommonStringLocalizer : ICommonStringLocalizer
 {
+    public IList<IStringLocalizer>? Localizers { get; private set; } = null;
+
     public LocalizedString this[string name]
     {
         get
@@ -17,6 +19,7 @@ public class CommonStringLocalizer : ICommonStringLocalizer
             return new LocalizedString(name, value ?? name, resourceNotFound: value == null, searchedLocations);
         }
     }
+
     public LocalizedString this[string name, params object[] arguments]
     {
         get
@@ -29,8 +32,6 @@ public class CommonStringLocalizer : ICommonStringLocalizer
             return new LocalizedString(name, value, resourceNotFound: format == null, searchedLocations);
         }
     }
-
-    public IList<IStringLocalizer>? Localizers { get; private set; } = null;
 
     protected string? GetStringSafely(string name, out string? searchedLocations)
     {

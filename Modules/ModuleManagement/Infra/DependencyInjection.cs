@@ -1,4 +1,5 @@
-﻿using Haskap.DddBase.Infra.Interceptors;
+﻿using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Infra.Interceptors;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -30,7 +31,14 @@ public static class DependencyInjection
 
             options.UseSeeding((dbContext, _) =>
             {
-                var exists = dbContext.Set<EnabledModule>().Where(x => x.TenantId == null).Any();
+                var currentTenantProvider = serviceProvider.GetRequiredService<ICurrentTenantProvider>();
+                if (!currentTenantProvider.IsHost)
+                {
+                    return;
+                }
+
+                //var exists = dbContext.Set<EnabledModule>().Where(x => x.TenantId == null).Any();
+                var exists = dbContext.Set<EnabledModule>().Any();
 
                 if (exists)
                 {
@@ -46,7 +54,14 @@ public static class DependencyInjection
             })
             .UseAsyncSeeding(async (dbContext, _, cancellationToken) =>
             {
-                var exists = await dbContext.Set<EnabledModule>().Where(x => x.TenantId == null).AnyAsync(cancellationToken);
+                var currentTenantProvider = serviceProvider.GetRequiredService<ICurrentTenantProvider>();
+                if (!currentTenantProvider.IsHost)
+                {
+                    return;
+                }
+
+                //var exists = await dbContext.Set<EnabledModule>().Where(x => x.TenantId == null).AnyAsync(cancellationToken);
+                var exists = await dbContext.Set<EnabledModule>().AnyAsync(cancellationToken);
 
                 if (exists)
                 {

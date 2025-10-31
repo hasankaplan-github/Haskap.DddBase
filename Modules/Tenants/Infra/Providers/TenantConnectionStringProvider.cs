@@ -2,7 +2,6 @@
 using Haskap.DddBase.Domain.Shared;
 using Haskap.DddBase.Domain.Shared.Enums;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Modules.Tenants.Application.Contracts.Tenants;
 using Modules.Tenants.Domain.Providers;
 
@@ -12,18 +11,15 @@ public class TenantConnectionStringProvider : ITenantConnectionStringProvider
 {
     private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly IConfiguration _configuration;
-    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ITenantService _tenantService;
 
     public TenantConnectionStringProvider(
         ICurrentTenantProvider currentTenantProvider,
         IConfiguration configuration,
-        IServiceScopeFactory serviceScopeFactory,
         ITenantService tenantService)
     {
         _currentTenantProvider = currentTenantProvider;
         _configuration = configuration;
-        _serviceScopeFactory = serviceScopeFactory;
         _tenantService = tenantService;
     }
 

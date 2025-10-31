@@ -1,11 +1,6 @@
 ﻿using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Providers;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Presentation.Middlewares;
 public class IsActiveMiddleware

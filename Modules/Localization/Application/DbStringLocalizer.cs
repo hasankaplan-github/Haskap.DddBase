@@ -18,6 +18,20 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
     private readonly ICurrentTenantProvider _currentTenantProvider;
 
+    public DbStringLocalizer(
+        ILocalizationDbContext localizationDbContext,
+        IMemoryCache memoryCache,
+        ILocalizationModule localizationModule,
+        IBaseCacheKeyProvider baseCacheKeyProvider,
+        ICurrentTenantProvider currentTenantProvider)
+    {
+        _localizationDbContext = localizationDbContext;
+        _memoryCache = memoryCache;
+        _localizationModule = localizationModule;
+        _baseCacheKeyProvider = baseCacheKeyProvider;
+        _currentTenantProvider = currentTenantProvider;
+    }
+
     public LocalizedString this[string name, params object[] arguments]
     {
         get
@@ -56,20 +70,6 @@ public class DbStringLocalizer : UseCaseService, IDbStringLocalizer
 
             return new LocalizedString(name, value ?? name, resourceNotFound: value == null, searchedLocation: "Database");
         }
-    }
-
-    public DbStringLocalizer(
-        ILocalizationDbContext localizationDbContext,
-        IMemoryCache memoryCache,
-        ILocalizationModule localizationModule,
-        IBaseCacheKeyProvider baseCacheKeyProvider,
-        ICurrentTenantProvider currentTenantProvider)
-    {
-        _localizationDbContext = localizationDbContext;
-        _memoryCache = memoryCache;
-        _localizationModule = localizationModule;
-        _baseCacheKeyProvider = baseCacheKeyProvider;
-        _currentTenantProvider = currentTenantProvider;
     }
 
     protected string? GetStringSafely(string name, Locale? locale)

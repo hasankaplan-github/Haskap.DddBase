@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Haskap.DddBase.Domain.Attributes.AuditHistoryLogAttributes;
 
-namespace Haskap.DddBase.Domain.Attributes.AuditHistoryLogAttributes
+[AttributeUsage(AttributeTargets.Property)]
+public class RemoveAuditHistoryLogAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class RemoveAuditHistoryLogAttribute : Attribute
-    {
-    }
 }
