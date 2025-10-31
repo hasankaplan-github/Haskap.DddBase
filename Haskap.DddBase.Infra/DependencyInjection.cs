@@ -1,10 +1,14 @@
-﻿using Haskap.DddBase.Domain.Providers;
+﻿using Haskap.DddBase.Domain.Events;
+using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Infra.Events;
+using Haskap.DddBase.Infra.Interceptors;
+using Haskap.DddBase.Infra.Providers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Haskap.DddBase.Infra.Providers;
+namespace Haskap.DddBase.Infra;
 public static class DependencyInjection
 {
-    public static void AddBaseProviders(this IServiceCollection services)
+    public static void AddBaseInfra(this IServiceCollection services)
     {
         //services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         //services.AddSingleton<IJwtProvider, JwtProvider>();
@@ -17,5 +21,9 @@ public static class DependencyInjection
         services.AddScoped<IGlobalQueryFilterGenericProvider, GlobalQueryFilterGenericProvider>();
         services.AddSingleton<IBaseCacheKeyProvider, BaseCacheKeyProvider>();
         services.AddScoped<IDbContextProvider, DbContextProvider>();
+
+        services.AddScoped<MultiTenancySaveChangesInterceptor>();
+
+        services.AddSingleton<IEventPublisher, EventPublisher>();
     }
 }
