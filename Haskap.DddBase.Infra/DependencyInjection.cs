@@ -13,7 +13,7 @@ public static class DependencyInjection
         //services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         //services.AddSingleton<IJwtProvider, JwtProvider>();
         services.AddScoped<ICurrentUserIdProvider, CurrentUserIdProvider>();
-        services.AddSingleton<IVisitIdProvider, VisitIdProvider>();
+        services.AddScoped<IVisitIdProvider, VisitIdProvider>();
         services.AddScoped<ICurrentTenantProvider, CurrentTenantProvider>();
         services.AddScoped<IMultiTenancyGlobalQueryFilterProvider, MultiTenancyGlobalQueryFilterProvider>();
         services.AddScoped<ISoftDeleteGlobalQueryFilterProvider, SoftDeleteGlobalQueryFilterProvider>();
