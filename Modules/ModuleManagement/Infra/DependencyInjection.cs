@@ -9,7 +9,6 @@ using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
 using Modules.ModuleManagement.Infra.Db.Contexts.ModuleManagementDbContext;
-using Modules.Tenants.Domain.Providers;
 
 namespace Modules.ModuleManagement.Infra;
 public static class DependencyInjection

@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Haskap.DddBase.Domain.Providers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Tenants.Domain;
-using Modules.Tenants.Domain.Providers;
 using Modules.Tenants.Infra.Db.Contexts.TenantsDbContext;
 using Modules.Tenants.Infra.Providers;
 

@@ -1,4 +1,4 @@
-﻿namespace Modules.Tenants.Domain.Providers;
+﻿namespace Haskap.DddBase.Domain.Providers;
 
 public interface ITenantConnectionStringProvider
 {

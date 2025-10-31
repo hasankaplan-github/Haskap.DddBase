@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Haskap.DddBase.Domain.Providers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.AuditLog.Domain;
 using Modules.AuditLog.Infra.Db.Contexts.AuditLogDbContext;
 using Modules.AuditLog.Infra.Db.Interceptors;
-using Modules.Tenants.Domain.Providers;
 
 namespace Modules.AuditLog.Infra;
 public static class DependencyInjection

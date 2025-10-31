@@ -17,7 +17,7 @@ namespace Modules.ModuleManagement.Application.Module;
 
 public class ModuleService : UseCaseService, IModuleService
 {
-    private IModuleManagementDbContext _moduleManagementDbContext;
+    private readonly IModuleManagementDbContext _moduleManagementDbContext;
     private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly IBaseCacheKeyProvider _baseCacheKeyProvider;
     private readonly IMemoryCache _memoryCache;
@@ -83,8 +83,8 @@ public class ModuleService : UseCaseService, IModuleService
             cacheEntry.AddExpirationToken(new CancellationChangeToken(tenantCts!.Token));
             cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
-            _moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
-            var enabledModules = await _moduleManagementDbContext.EnabledModule
+            var moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
+            var enabledModules = await moduleManagementDbContext.EnabledModule
                 .Where(x => x.TenantId == tenantId)
                 .Select(x => x.Name)
                 .ToListAsync(cancellationToken);
@@ -108,23 +108,23 @@ public class ModuleService : UseCaseService, IModuleService
         DetectInvalidModuleNamesAndThrowIfAny([.. input.CheckedModuleNames ?? Enumerable.Empty<string>(), .. input.UncheckedModuleNames ?? Enumerable.Empty<string>()]);
 
         using var _ = _currentTenantProvider.ChangeCurrentTenant(input.TenantId);
-        _moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
-        using var transaction = _moduleManagementDbContext.Database.CurrentTransaction ?? await _moduleManagementDbContext.Database.BeginTransactionAsync(cancellationToken);
+        var moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
+        using var transaction = await moduleManagementDbContext.Database.BeginTransactionAsync(cancellationToken);
         try
         {
-            var enabledModules = await _moduleManagementDbContext.EnabledModule
+            var enabledModules = await moduleManagementDbContext.EnabledModule
             .ToListAsync(cancellationToken);
 
             var updated = UpdateEnabledModules(enabledModules, input.UncheckedModuleNames, input.CheckedModuleNames);
             if (updated)
             {
-                await _moduleManagementDbContext.EnabledModule
+                await moduleManagementDbContext.EnabledModule
                 .ExecuteDeleteAsync(cancellationToken);
 
-                _moduleManagementDbContext.EnabledModule
+                moduleManagementDbContext.EnabledModule
                     .AddRange(enabledModules);
 
-                await _moduleManagementDbContext.SaveChangesAsync(cancellationToken);
+                await moduleManagementDbContext.SaveChangesAsync(cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
 
