@@ -49,10 +49,4 @@ public static class DependencyInjection
             };
         });
     }
-
-    public static IServiceCollection AddEventPublisher(this IServiceCollection services)
-    {
-        services.AddSingleton<IEventPublisher, EventPublisher>();
-        return services;
-    }
 }
