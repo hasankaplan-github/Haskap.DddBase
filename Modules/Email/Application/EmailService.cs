@@ -1,6 +1,7 @@
 ﻿using Haskap.DddBase.Application;
 using Haskap.DddBase.Application.Dtos.Common;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.DependencyInjection;
 using MimeKit;
 using Modules.Email.Application.Contracts;
 using Modules.Email.Application.Dtos;
@@ -8,6 +9,13 @@ using Modules.Email.Application.Dtos;
 namespace Modules.Email.Application;
 public class EmailService : UseCaseService, IEmailService
 {
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    public EmailService(IServiceScopeFactory serviceScopeFactory)
+    {
+        _serviceScopeFactory = serviceScopeFactory;
+    }
+
     public async Task SendInBulkAsync(SmtpClientSettingsDto smtpClientSettings, IList<EmailMessageInputDto> emailMessages, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(emailMessages, nameof(emailMessages));
@@ -121,5 +129,17 @@ public class EmailService : UseCaseService, IEmailService
         {
             throw new ArgumentException("To address cannot be null or empty!", nameof(emailMessage.To));
         }
+    }
+
+    public EmailMessageInputDto Resolve<TEmailResolver>(params IList<object> emailContentData)
+        where TEmailResolver : IEmailResolver
+    {
+        using var scope = _serviceScopeFactory.CreateScope();
+        var emailResolver = scope.ServiceProvider.GetRequiredService<TEmailResolver>() as IEmailResolver;
+        if (emailResolver is null)
+        {
+            throw new InvalidOperationException($"The email resolver of type {typeof(TEmailResolver).FullName} could not be resolved.");
+        }
+        return emailResolver.Resolve(emailContentData);
     }
 }
