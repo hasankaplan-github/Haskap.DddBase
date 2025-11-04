@@ -131,7 +131,7 @@ public class EmailService : UseCaseService, IEmailService
         }
     }
 
-    public EmailMessageInputDto Resolve<TEmailResolver>(params IList<object> emailContentData)
+    public EmailMessageInputDto Resolve<TEmailResolver>(IEmailParameters emailParameters)
         where TEmailResolver : IEmailResolver
     {
         using var scope = _serviceScopeFactory.CreateScope();
@@ -140,6 +140,6 @@ public class EmailService : UseCaseService, IEmailService
         {
             throw new InvalidOperationException($"The email resolver of type {typeof(TEmailResolver).FullName} could not be resolved.");
         }
-        return emailResolver.Resolve(emailContentData);
+        return emailResolver.Resolve(emailParameters);
     }
 }

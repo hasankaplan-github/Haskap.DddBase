@@ -3,5 +3,5 @@
 namespace Modules.Email.Application.Contracts;
 public interface IEmailResolver
 {
-    EmailMessageInputDto Resolve(params IList<object> emailContentData);
+    EmailMessageInputDto Resolve(IEmailParameters emailParameters);
 }

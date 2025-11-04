@@ -7,6 +7,6 @@ public interface IEmailService : IUseCaseService
 {
     Task SendInBulkAsync(SmtpClientSettingsDto smtpClientSettings, IList<EmailMessageInputDto> emailMessages, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken);
     Task SendAsync(SmtpClientSettingsDto smtpClientSettings, EmailMessageInputDto emailMessage, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken);
-    EmailMessageInputDto Resolve<TEmailResolver>(params IList<object> emailContentData)
+    EmailMessageInputDto Resolve<TEmailResolver>(IEmailParameters emailParameters)
         where TEmailResolver : IEmailResolver;
 }
