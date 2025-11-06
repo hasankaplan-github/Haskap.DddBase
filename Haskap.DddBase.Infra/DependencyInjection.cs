@@ -25,5 +25,7 @@ public static class DependencyInjection
         services.AddScoped<MultiTenancySaveChangesInterceptor>();
 
         services.AddSingleton<IEventPublisher, EventPublisher>();
+
+        services.AddSingleton<IHashProvider, HashProvider>();
     }
 }
