@@ -1,5 +1,5 @@
 ﻿using Haskap.DddBase.Domain;
-using Haskap.DddBase.Domain.Shared.Resources;
+using Haskap.DddBase.Domain.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -19,7 +19,7 @@ public static class ExceptionExtensions
             LocalizedString localizedString = new LocalizedString(domainException.LocalizationKey, domainException.Message, resourceNotFound: true);
             var stringLocalizerFactory = httpContext.RequestServices.GetRequiredService<IStringLocalizerFactory>();
 
-            foreach (var resourceType in LocalizationResourceBase.LocalizationResourceTypes)
+            foreach (var resourceType in AppConfig.LocalizationResourceTypes)
             {
                 //var stringLocalizer = stringLocalizerFactory.Create("Resources.ExceptionMessages", "Haskap.DddBase.Domain.Shared");
                 var stringLocalizer = stringLocalizerFactory.Create(resourceType);

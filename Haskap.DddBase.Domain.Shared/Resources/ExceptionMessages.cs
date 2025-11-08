@@ -1,4 +1,4 @@
 ﻿namespace Haskap.DddBase.Domain.Shared.Resources;
-public class ExceptionMessages : LocalizationResourceBase
+public class ExceptionMessages
 {
 }
