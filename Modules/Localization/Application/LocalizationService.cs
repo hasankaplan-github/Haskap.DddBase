@@ -57,7 +57,6 @@ public class LocalizationService : UseCaseService, ILocalizationService
                 _memoryCache.Remove(localizationCacheKey);
             }
         }
-        
     }
 
     public async Task InvalidateLocaleCacheAsync(string localeValue, IList<Guid?> tenantIds, CancellationToken cancellationToken = default)

@@ -3,6 +3,7 @@ using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Modules.Localization.Application.Contracts;
 
@@ -16,9 +17,9 @@ public class DbRequestCultureProvider : RequestCultureProvider
             return await NullProviderCultureResult;
         }
 
-        var localizationService = (httpContext.RequestServices.GetService(typeof(ILocalizationService)) as ILocalizationService)!;
-        var memoryCache = (httpContext.RequestServices.GetService(typeof(IMemoryCache)) as IMemoryCache)!;
-        var baseCacheKeyProvider = (httpContext.RequestServices.GetService(typeof(IBaseCacheKeyProvider)) as IBaseCacheKeyProvider)!;
+        var localizationService = httpContext.RequestServices.GetRequiredService<ILocalizationService>();
+        var memoryCache = httpContext.RequestServices.GetRequiredService<IMemoryCache>();
+        var baseCacheKeyProvider = httpContext.RequestServices.GetRequiredService<IBaseCacheKeyProvider>();
 
         var selectedLocale = await memoryCache.GetOrCreateAsync(baseCacheKeyProvider.GetSelectedCultureCacheKey(userId), async (cacheEntry) =>
         {

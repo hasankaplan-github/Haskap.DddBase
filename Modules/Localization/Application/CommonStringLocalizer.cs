@@ -1,12 +1,33 @@
 ﻿using Ardalis.GuardClauses;
+using Haskap.DddBase.Application.Contracts.Localization;
+using Haskap.DddBase.Domain.Shared;
 using Microsoft.Extensions.Localization;
 using Modules.Localization.Application.Contracts;
 using System.Globalization;
 
 namespace Modules.Localization.Application;
+
 public class CommonStringLocalizer : ICommonStringLocalizer
 {
-    public IList<IStringLocalizer>? Localizers { get; private set; } = null;
+    private readonly IStringLocalizerFactory _stringLocalizerFactory;
+    private readonly List<IStringLocalizer> _localizers = new();
+
+    public CommonStringLocalizer(
+        IStringLocalizerFactory stringLocalizerFactory,
+        IDbStringLocalizer dbStringLocalizer)
+    {
+        _stringLocalizerFactory = stringLocalizerFactory;
+        foreach (var resourceType in AppConfig.LocalizationResourceTypes)
+        {
+            var stringLocalizer = _stringLocalizerFactory.Create(resourceType);
+            if (stringLocalizer is not null)
+            {
+                _localizers.Add(stringLocalizer);
+            }
+        }
+
+        _localizers.Add(dbStringLocalizer);
+    }
 
     public LocalizedString this[string name]
     {
@@ -37,12 +58,12 @@ public class CommonStringLocalizer : ICommonStringLocalizer
     {
         searchedLocations = null;
 
-        if (Localizers == null || !Localizers.Any())
+        if (!_localizers.Any())
         {
             return null;
         }
 
-        foreach (var localizer in Localizers)
+        foreach (var localizer in _localizers)
         {           
             var localizedString = localizer[name];
             searchedLocations += (searchedLocations is null ? "" : ", ") + (localizedString.SearchedLocation ?? "Unknown");
@@ -57,24 +78,17 @@ public class CommonStringLocalizer : ICommonStringLocalizer
 
     public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
     {
-        if (Localizers == null || !Localizers.Any())
+        if (!_localizers.Any())
         {
             return [];
         }
 
         var allStrings = new List<LocalizedString>();
-        foreach (var localizer in Localizers)
+        foreach (var localizer in _localizers)
         {
             allStrings.AddRange(localizer.GetAllStrings(includeParentCultures));
         }
 
         return allStrings;
-    }
-
-    public void SetStringLocalizers(params IList<IStringLocalizer> localizers)
-    {
-        Guard.Against.Null(localizers);
-
-        Localizers = localizers;
     }
 }
