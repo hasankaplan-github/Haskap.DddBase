@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
   </ItemGroup>
 

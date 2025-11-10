@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Haskap.DddBase.Application;
+using Haskap.DddBase.Application.Contracts.Localization;
 using Haskap.DddBase.Domain.Common;
 using Haskap.DddBase.Domain.Providers;
 using Microsoft.Extensions.Caching.Memory;

@@ -1,4 +1,4 @@
-﻿using Haskap.DddBase.Domain.Common;
+﻿using Haskap.DddBase.Application.Contracts.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Localization.Application.Contracts;

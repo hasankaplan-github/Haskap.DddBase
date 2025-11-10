@@ -1,9 +1,9 @@
-﻿using Haskap.DddBase.Domain;
+﻿using Haskap.DddBase.Application.Contracts.Localization;
+using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
-using Modules.Localization.Application.Contracts;
 using System.Net;
 
 namespace Modules.GlobalExceptionHandling.Presentation;

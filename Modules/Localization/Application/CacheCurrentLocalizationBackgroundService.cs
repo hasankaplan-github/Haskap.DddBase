@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Haskap.DddBase.Application.Contracts.Localization;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Modules.Localization.Application.Contracts;
 using Modules.Localization.Application.Dtos;
 using System.Globalization;
 using System.Threading.Channels;
