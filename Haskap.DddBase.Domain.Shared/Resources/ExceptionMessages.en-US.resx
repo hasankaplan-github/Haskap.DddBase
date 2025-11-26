@@ -129,4 +129,10 @@
   <data name="ExceptionMessage:Shared:TooManyRequestsException" xml:space="preserve">
     <value>Too many requests have came in a short time period. Retry again after {0} seconds.</value>
   </data>
+  <data name="ExceptionMessage:Shared:EmailAddressIsEmptyException" xml:space="preserve">
+    <value>Email Address can not be empty!</value>
+  </data>
+  <data name="ExceptionMessage:Shared:EmailAddressIsInvalidException" xml:space="preserve">
+    <value>Invalid Email Address!</value>
+  </data>
 </root>

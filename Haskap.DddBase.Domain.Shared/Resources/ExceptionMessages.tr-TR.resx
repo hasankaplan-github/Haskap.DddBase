@@ -129,4 +129,10 @@
   <data name="ExceptionMessage:Shared:TooManyRequestsException" xml:space="preserve">
     <value>Kısa zaman içinde çok fazla istek geldi. {0} saniye sonra tekrar deneyin.</value>
   </data>
+  <data name="ExceptionMessage:Shared:EmailAddressIsEmptyException" xml:space="preserve">
+    <value>Email Adresi boş olamaz!</value>
+  </data>
+  <data name="ExceptionMessage:Shared:EmailAddressIsInvalidException" xml:space="preserve">
+    <value>Geçersiz Email Adresi!</value>
+  </data>
 </root>
