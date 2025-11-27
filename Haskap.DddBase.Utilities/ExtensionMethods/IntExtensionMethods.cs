@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace Haskap.DddBase.Utilities.ExtensionMethods;
+﻿namespace Haskap.DddBase.Utilities.ExtensionMethods;
 
 public static class IntExtensionMethods
 {

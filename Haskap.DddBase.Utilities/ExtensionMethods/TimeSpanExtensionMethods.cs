@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 
 namespace Haskap.DddBase.Utilities.ExtensionMethods;
 
 public static class TimeSpanExtensionMethods
 {
+    public static TaskAwaiter GetAwaiter(this TimeSpan timeSpan, CancellationToken cancellationToken = default)
+    {
+        return Task.Delay(timeSpan, cancellationToken).GetAwaiter();
+    }
+
     public static TaskAwaiter GetAwaiter(this TimeSpan timeSpan)
     {
         return Task.Delay(timeSpan).GetAwaiter();
