@@ -24,7 +24,6 @@
   </Folder>
   <Folder Name="/Modules/Email/">
     <Project Path="Modules/Email/Application.Contracts/Application.Contracts.csproj" />
-    <Project Path="Modules/Email/Application.Dtos/Application.Dtos.csproj" />
     <Project Path="Modules/Email/Application/Application.csproj" />
     <Project Path="Modules/Email/Module/Module.csproj" />
   </Folder>

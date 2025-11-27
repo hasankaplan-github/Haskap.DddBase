@@ -1,7 +1,7 @@
-﻿using Modules.Email.Application.Dtos;
+﻿using MimeKit;
 
 namespace Modules.Email.Application.Contracts;
 public interface IEmailResolver
 {
-    EmailMessageInputDto Resolve(IEmailParameters emailParameters);
+    MimeMessage Resolve(IEmailParameters emailParameters);
 }

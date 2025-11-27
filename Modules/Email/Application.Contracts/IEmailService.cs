@@ -1,12 +1,12 @@
 ﻿using Haskap.DddBase.Application.Contracts;
 using Haskap.DddBase.Application.Dtos.Common;
-using Modules.Email.Application.Dtos;
+using MimeKit;
 
 namespace Modules.Email.Application.Contracts;
 public interface IEmailService : IUseCaseService
 {
-    Task SendInBulkAsync(SmtpClientSettingsDto smtpClientSettings, IList<EmailMessageInputDto> emailMessages, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken);
-    Task SendAsync(SmtpClientSettingsDto smtpClientSettings, EmailMessageInputDto emailMessage, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken);
-    EmailMessageInputDto Resolve<TEmailResolver>(IEmailParameters emailParameters)
+    Task SendInBulkAsync(SmtpClientSettingsDto smtpClientSettings, IList<MimeMessage> emailMessages, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken);
+    Task SendAsync(SmtpClientSettingsDto smtpClientSettings, MimeMessage emailMessage, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken);
+    MimeMessage Resolve<TEmailResolver>(IEmailParameters emailParameters)
         where TEmailResolver : IEmailResolver;
 }
