@@ -25,6 +25,7 @@
   <Folder Name="/Modules/Email/">
     <Project Path="Modules/Email/Application.Contracts/Application.Contracts.csproj" />
     <Project Path="Modules/Email/Application/Application.csproj" />
+    <Project Path="Modules/Email/Domain.Shared/Domain.Shared.csproj" Id="0e3dbcbd-8a64-465e-a5fa-edb3767239c1" />
     <Project Path="Modules/Email/Module/Module.csproj" />
   </Folder>
   <Folder Name="/Modules/GlobalExceptionHandling/">

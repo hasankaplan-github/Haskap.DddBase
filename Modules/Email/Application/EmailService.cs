@@ -1,9 +1,9 @@
 ﻿using Haskap.DddBase.Application;
-using Haskap.DddBase.Application.Dtos.Common;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.DependencyInjection;
 using MimeKit;
 using Modules.Email.Application.Contracts;
+using Modules.Email.Domain.Shared.Consts;
 
 namespace Modules.Email.Application;
 public class EmailService : UseCaseService, IEmailService
@@ -15,7 +15,7 @@ public class EmailService : UseCaseService, IEmailService
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    public async Task SendInBulkAsync(SmtpClientSettingsDto smtpClientSettings, IList<MimeMessage> emailMessages, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken)
+    public async Task SendInBulkAsync(SmtpClientSettings smtpClientSettings, IList<MimeMessage> emailMessages, EmailAccount emailAccountToAuthenticate, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(emailMessages, nameof(emailMessages));
 
@@ -39,7 +39,7 @@ public class EmailService : UseCaseService, IEmailService
         await client.DisconnectAsync(true, cancellationToken);
     }
 
-    public async Task SendAsync(SmtpClientSettingsDto smtpClientSettings, MimeMessage emailMessage, EmailAccountDto emailAccountToAuthenticate, CancellationToken cancellationToken)
+    public async Task SendAsync(SmtpClientSettings smtpClientSettings, MimeMessage emailMessage, EmailAccount emailAccountToAuthenticate, CancellationToken cancellationToken)
     {
         ValidateEmailMessage(emailMessage);
 
@@ -77,6 +77,7 @@ public class EmailService : UseCaseService, IEmailService
         {
             throw new InvalidOperationException($"The email resolver of type {typeof(TEmailResolver).FullName} could not be resolved.");
         }
+
         return emailResolver.Resolve(emailParameters);
     }
 }
