@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Haskap.DddBase.Domain;
+﻿namespace Haskap.DddBase.Domain;
 
 //Inspired from https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/implement-value-objects
 
@@ -50,5 +46,10 @@ public abstract class ValueObject : IEquatable<ValueObject>
     public bool Equals(ValueObject? other)
     {
         return Equals((object?)other);
+    }
+
+    public virtual ValueObject ShallowCopy()
+    {
+        return (ValueObject)MemberwiseClone();
     }
 }
