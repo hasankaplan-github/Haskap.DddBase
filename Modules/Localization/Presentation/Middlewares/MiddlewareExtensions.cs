@@ -9,38 +9,39 @@ using System.Globalization;
 namespace Modules.Localization.Presentation.Middlewares;
 public static class MiddlewareExtensions
 {
-    public static IApplicationBuilder UseCustomRequestLocalization(this IApplicationBuilder builder, Action<RequestLocalizationOptions> optionsAction)
-    {
-        var newOptions = new RequestLocalizationOptions();
-        optionsAction(newOptions);
+    //public static IApplicationBuilder UseCustomRequestLocalization(this IApplicationBuilder builder, Action<RequestLocalizationOptions> optionsAction)
+    //{
+    //    var newOptions = new RequestLocalizationOptions();
+    //    optionsAction(newOptions);
 
-        using var scope = builder.ApplicationServices.CreateScope();
+    //    using var scope = builder.ApplicationServices.CreateScope();
 
-        var localizationService = scope.ServiceProvider.GetService(typeof(ILocalizationService)) as ILocalizationService;
+    //    var localizationService = scope.ServiceProvider.GetService(typeof(ILocalizationService)) as ILocalizationService;
 
-        AddActiveSupportedCultures(newOptions, localizationService!).GetAwaiter().GetResult();
-        SetDefaultLocale(newOptions, localizationService!).GetAwaiter().GetResult();
-        AddDbRequestCultureProvider(newOptions).GetAwaiter().GetResult();
+    //    AddActiveSupportedCultures(newOptions, localizationService!).GetAwaiter().GetResult();
+    //    SetDefaultLocale(newOptions, localizationService!).GetAwaiter().GetResult();
+    //    AddDbRequestCultureProvider(newOptions).GetAwaiter().GetResult();
 
-        builder.UseRequestLocalization(newOptions);
-        builder.UseMiddleware<CheckLocalizationModuleMiddleware>();
-        builder.UseMiddleware<WriteCurrentLocalizationCacheKeyMiddleware>();
+    //    builder.UseRequestLocalization(newOptions);
+    //    builder.UseMiddleware<CheckLocalizationModuleMiddleware>();
+    //    builder.UseMiddleware<WriteCurrentLocalizationCacheKeyMiddleware>();
 
-        return builder;
-    }
+    //    return builder;
+    //}
 
     public static IApplicationBuilder UseCustomRequestLocalization(this IApplicationBuilder builder)
     {
         using var scope = builder.ApplicationServices.CreateScope();
 
         var localizationService = scope.ServiceProvider.GetService(typeof(ILocalizationService)) as ILocalizationService;
-        var options = (scope.ServiceProvider.GetService(typeof(IOptions<RequestLocalizationOptions>)) as IOptions<RequestLocalizationOptions>)!.Value;
+        //var options = (scope.ServiceProvider.GetService(typeof(IOptions<RequestLocalizationOptions>)) as IOptions<RequestLocalizationOptions>)!.Value;
+        var newOptions = new RequestLocalizationOptions();
 
-        AddActiveSupportedCultures(options, localizationService!).GetAwaiter().GetResult();
-        SetDefaultLocale(options, localizationService!).GetAwaiter().GetResult();
-        AddDbRequestCultureProvider(options).GetAwaiter().GetResult();
+        AddActiveSupportedCultures(newOptions, localizationService!).GetAwaiter().GetResult();
+        SetDefaultLocale(newOptions, localizationService!).GetAwaiter().GetResult();
+        AddDbRequestCultureProvider(newOptions).GetAwaiter().GetResult();
 
-        builder.UseRequestLocalization();
+        builder.UseRequestLocalization(newOptions);
         builder.UseMiddleware<CheckLocalizationModuleMiddleware>();
         builder.UseMiddleware<WriteCurrentLocalizationCacheKeyMiddleware>();
 
