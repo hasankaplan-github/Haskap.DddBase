@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Modules.Localization.Application;
 using Modules.Localization.Application.Contracts;
 using Modules.Localization.Infra;
+using Modules.Localization.Presentation;
 using Modules.ModuleManagement.Application.Contracts.Module;
 
 namespace Modules.Localization.Module;
@@ -25,7 +26,7 @@ public class LocalizationModule : BaseModule<LocalizationModule>, ILocalizationM
         {
             services.AddUseCaseServices(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
-            //services.AddPresentation(configuration);
+            services.AddPresentation(configuration);
             services.RegisterHandlersFromAssembly(typeof(Application.DependencyInjection).Assembly);
             return services;
         }
