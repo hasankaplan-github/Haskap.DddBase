@@ -50,11 +50,10 @@ public class BaseContext : DbContext
 
 
     private static readonly MethodInfo ConfigureBasePropertiesMethodInfo
-       = typeof(BaseContext)
-           .GetMethod(
+       = typeof(BaseContext).GetMethod(
                nameof(ConfigureBaseProperties),
                BindingFlags.Instance | BindingFlags.NonPublic
-           );
+           )!;
 
     
     protected virtual void ConfigureBaseProperties<TEntity>(ModelBuilder modelBuilder, IMutableEntityType mutableEntityType)
