@@ -10,7 +10,7 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, ITenantsDbContext
 {
     public AppDbContext(
         DbContextOptions<AppDbContext> options, 
-        IGlobalQueryFilterGenericProvider? globalQueryFilterGenericProvider)
+        IGlobalQueryFilterManagerProvider? globalQueryFilterGenericProvider)
         : base(
             options, 
             currentTenantProvider: null,

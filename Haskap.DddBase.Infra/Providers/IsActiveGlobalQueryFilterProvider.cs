@@ -1,5 +1,5 @@
-﻿using Haskap.DddBase.Utilities;
-using Haskap.DddBase.Domain.Providers;
+﻿using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Utilities;
 
 namespace Haskap.DddBase.Infra.Providers;
 public class IsActiveGlobalQueryFilterProvider : IIsActiveGlobalQueryFilterProvider

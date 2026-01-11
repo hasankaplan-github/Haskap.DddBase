@@ -1,4 +1,4 @@
 ﻿namespace Haskap.DddBase.Domain.Providers;
-public interface IMultiTenancyGlobalQueryFilterProvider : IGlobalQueryFilterProvider
+public interface IMultiTenancyGlobalQueryFilterProvider : IGlobalQueryFilterProvider<IHasMultiTenant>
 {
 }

@@ -12,7 +12,7 @@ public class AppDbContext : BaseEfCoreNpgsqlDbContext, IAuditLogDbContext
     public AppDbContext(
         DbContextOptions<AppDbContext> options,
         ICurrentTenantProvider? currentTenantProvider,
-        IGlobalQueryFilterGenericProvider? globalQueryFilterGenericProvider)
+        IGlobalQueryFilterManagerProvider? globalQueryFilterGenericProvider)
         : base(
             options,
             currentTenantProvider,

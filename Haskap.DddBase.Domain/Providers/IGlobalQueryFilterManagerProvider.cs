@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Haskap.DddBase.Domain.Providers;
-public interface IGlobalQueryFilterGenericProvider
+﻿namespace Haskap.DddBase.Domain.Providers;
+public interface IGlobalQueryFilterManagerProvider
 {
     IDisposable Disable<TFilter>();
     IDisposable Enable<TFilter>();
@@ -14,4 +8,6 @@ public interface IGlobalQueryFilterGenericProvider
     void AddFilterProvider<TFilter>(IGlobalQueryFilterProvider provider);
     void AddFilterProvider(Type filterType, IGlobalQueryFilterProvider provider);
     IReadOnlyDictionary<Type, IGlobalQueryFilterProvider> GetAllProviders();
+    IGlobalQueryFilterProvider? GetFilterProvider(Type filterType);
+    IGlobalQueryFilterProvider? GetFilterProvider<TFilter>();
 }

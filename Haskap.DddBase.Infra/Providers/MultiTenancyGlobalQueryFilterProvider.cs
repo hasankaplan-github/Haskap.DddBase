@@ -6,11 +6,6 @@ public class MultiTenancyGlobalQueryFilterProvider : IMultiTenancyGlobalQueryFil
 {
     public bool IsEnabled { get; private set; } = true;
 
-    public MultiTenancyGlobalQueryFilterProvider()
-    {
-    }
-
-
     public IDisposable Disable()
     {
         var temp = IsEnabled;

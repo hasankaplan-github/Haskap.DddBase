@@ -17,7 +17,7 @@ public class MultiTenancyMiddleware
     public async Task Invoke(
         HttpContext httpContext,
         ICurrentTenantProvider currentTenantProvider,
-        IGlobalQueryFilterGenericProvider globalQueryFilterGenericProvider,
+        IGlobalQueryFilterManagerProvider globalQueryFilterGenericProvider,
         IMultiTenancyGlobalQueryFilterProvider multiTenancyGlobalQueryFilterProvider)
     {
         globalQueryFilterGenericProvider.AddFilterProvider<IHasMultiTenant>(multiTenancyGlobalQueryFilterProvider);

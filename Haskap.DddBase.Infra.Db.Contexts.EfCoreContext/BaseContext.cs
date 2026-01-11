@@ -12,23 +12,23 @@ namespace Haskap.DddBase.Infra.Db.Contexts.EfCoreContext;
 public class BaseContext : DbContext
 {
     protected ICurrentTenantProvider? CurrentTenantProvider;
-    protected IGlobalQueryFilterGenericProvider? GlobalQueryFilterGenericProvider;
+    protected IGlobalQueryFilterManagerProvider? GlobalQueryFilterManagerProvider;
 
 
     private Guid? _currentTenantId => CurrentTenantProvider?.CurrentTenantId;
-    private bool _multiTenancyFilterIsEnabled => GlobalQueryFilterGenericProvider?.IsEnabled<IHasMultiTenant>() ?? false;
-    private bool _softDeleteFilterIsEnabled => GlobalQueryFilterGenericProvider?.IsEnabled<ISoftDeletable>() ?? false;
-    private bool _isActiveFilterIsEnabled => GlobalQueryFilterGenericProvider?.IsEnabled<IIsActive>() ?? false;
+    private bool _multiTenancyFilterIsEnabled => GlobalQueryFilterManagerProvider?.IsEnabled<IHasMultiTenant>() ?? false;
+    private bool _softDeleteFilterIsEnabled => GlobalQueryFilterManagerProvider?.IsEnabled<ISoftDeletable>() ?? false;
+    private bool _isActiveFilterIsEnabled => GlobalQueryFilterManagerProvider?.IsEnabled<IIsActive>() ?? false;
 
 
     protected BaseContext(
         DbContextOptions options,
         ICurrentTenantProvider? currentTenantProvider,
-        IGlobalQueryFilterGenericProvider? globalQueryFilterGenericProvider)
+        IGlobalQueryFilterManagerProvider? globalQueryFilterManagerProvider)
         : base(options)
     {
         CurrentTenantProvider = currentTenantProvider;
-        GlobalQueryFilterGenericProvider = globalQueryFilterGenericProvider;
+        GlobalQueryFilterManagerProvider = globalQueryFilterManagerProvider;
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -80,10 +80,10 @@ public class BaseContext : DbContext
     {
         if (mutableEntityType.BaseType == null && ShouldFilterEntity<TEntity>(mutableEntityType))
         {
-            var filterExpression = CreateFilterExpression<TEntity>();
-            if (filterExpression != null)
+            var filterExpressions = CreateFilterExpressions<TEntity>();
+            foreach (var filterExpression in filterExpressions)
             {
-                modelBuilder.Entity<TEntity>().HasQueryFilter(filterExpression);
+                modelBuilder.Entity<TEntity>().HasQueryFilter(filterExpression.Key, filterExpression.Value);
             }
         }
     }
@@ -108,65 +108,75 @@ public class BaseContext : DbContext
         return false;
     }
 
-    protected virtual Expression<Func<TEntity, bool>>? CreateFilterExpression<TEntity>()
+    protected virtual IDictionary<string, Expression<Func<TEntity, bool>>> CreateFilterExpressions<TEntity>()
     {
-        Expression<Func<TEntity, bool>>? expression = null;
+        IDictionary<string, Expression<Func<TEntity, bool>>> filterExpressions = new Dictionary<string, Expression<Func<TEntity, bool>>>();
 
         if (typeof(ISoftDeletable).IsAssignableFrom(typeof(TEntity)))
         {
-            expression = x => !_softDeleteFilterIsEnabled || (x as ISoftDeletable).IsDeleted == false;
+            var softDeleteFilterProvider = GlobalQueryFilterManagerProvider?.GetFilterProvider<ISoftDeletable>();
+            if (softDeleteFilterProvider is not null)
+            {
+                Expression<Func<TEntity, bool>> softDeleteFilterExpression = x => !_softDeleteFilterIsEnabled || (x as ISoftDeletable).IsDeleted == false;
+                filterExpressions.Add(softDeleteFilterProvider!.Key, softDeleteFilterExpression);
+            }
         }
 
         if (typeof(IHasMultiTenant).IsAssignableFrom(typeof(TEntity)) && AppConfig.IsMultiTenant && AppConfig.MultiTenancyType == MultiTenancyType.SharedDb)
         {
-            Expression<Func<TEntity, bool>>? multiTenancyExpression = x => !_multiTenancyFilterIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId;
-            expression = expression == null ? multiTenancyExpression : CombineExpressions(expression, multiTenancyExpression);
+            var multiTenancyFilterProvider = GlobalQueryFilterManagerProvider?.GetFilterProvider<IHasMultiTenant>();
+            if (multiTenancyFilterProvider is not null)
+            {
+                Expression<Func<TEntity, bool>> multiTenancyFilterExpression = x => !_multiTenancyFilterIsEnabled || (x as IHasMultiTenant).TenantId == _currentTenantId;
+                filterExpressions.Add(multiTenancyFilterProvider!.Key, multiTenancyFilterExpression);
+            }
         }
 
         if (typeof(IIsActive).IsAssignableFrom(typeof(TEntity)))
         {
-            Expression<Func<TEntity, bool>> isActiveFilterExpression =
-                e => !_isActiveFilterIsEnabled || (e as IIsActive).IsActive == true; // EF.Property<bool>(e, "IsActive");
-            expression = expression == null
-                ? isActiveFilterExpression
-                : CombineExpressions(expression, isActiveFilterExpression);
-        }
-
-        return expression;
-    }
-
-    protected virtual Expression<Func<T, bool>> CombineExpressions<T>(Expression<Func<T, bool>> expression1, Expression<Func<T, bool>> expression2)
-    {
-        var parameter = Expression.Parameter(typeof(T));
-
-        var leftVisitor = new ReplaceExpressionVisitor(expression1.Parameters[0], parameter);
-        var left = leftVisitor.Visit(expression1.Body);
-
-        var rightVisitor = new ReplaceExpressionVisitor(expression2.Parameters[0], parameter);
-        var right = rightVisitor.Visit(expression2.Body);
-
-        return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
-    }
-
-    class ReplaceExpressionVisitor : ExpressionVisitor
-    {
-        private readonly Expression _oldValue;
-        private readonly Expression _newValue;
-
-        public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
-        {
-            _oldValue = oldValue;
-            _newValue = newValue;
-        }
-
-        public override Expression Visit(Expression node)
-        {
-            if (node == _oldValue)
+            var isActiveFilterProvider = GlobalQueryFilterManagerProvider?.GetFilterProvider<IIsActive>();
+            if (isActiveFilterProvider is not null)
             {
-                return _newValue;
+                Expression<Func<TEntity, bool>> isActiveFilterExpression = e => !_isActiveFilterIsEnabled || (e as IIsActive).IsActive == true; // EF.Property<bool>(e, "IsActive");
+                filterExpressions.Add(isActiveFilterProvider!.Key, isActiveFilterExpression);
             }
-
-            return base.Visit(node);
         }
+
+        return filterExpressions;
     }
+
+    //protected virtual Expression<Func<T, bool>> CombineExpressions<T>(Expression<Func<T, bool>> expression1, Expression<Func<T, bool>> expression2)
+    //{
+    //    var parameter = Expression.Parameter(typeof(T));
+
+    //    var leftVisitor = new ReplaceExpressionVisitor(expression1.Parameters[0], parameter);
+    //    var left = leftVisitor.Visit(expression1.Body);
+
+    //    var rightVisitor = new ReplaceExpressionVisitor(expression2.Parameters[0], parameter);
+    //    var right = rightVisitor.Visit(expression2.Body);
+
+    //    return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
+    //}
+
+    //class ReplaceExpressionVisitor : ExpressionVisitor
+    //{
+    //    private readonly Expression _oldValue;
+    //    private readonly Expression _newValue;
+
+    //    public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
+    //    {
+    //        _oldValue = oldValue;
+    //        _newValue = newValue;
+    //    }
+
+    //    public override Expression Visit(Expression node)
+    //    {
+    //        if (node == _oldValue)
+    //        {
+    //            return _newValue;
+    //        }
+
+    //        return base.Visit(node);
+    //    }
+    //}
 }

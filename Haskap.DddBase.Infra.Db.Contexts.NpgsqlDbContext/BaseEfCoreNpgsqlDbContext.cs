@@ -9,11 +9,11 @@ public class BaseEfCoreNpgsqlDbContext : BaseContext
     protected BaseEfCoreNpgsqlDbContext(
         DbContextOptions options, 
         ICurrentTenantProvider? currentTenantProvider,
-        IGlobalQueryFilterGenericProvider? globalQueryFilterGenericProvider)
+        IGlobalQueryFilterManagerProvider? globalQueryFilterManagerProvider)
         : base(
             options, 
             currentTenantProvider,
-            globalQueryFilterGenericProvider)
+            globalQueryFilterManagerProvider)
     {
     }
 

@@ -18,7 +18,7 @@ public static class DependencyInjection
         services.AddScoped<IMultiTenancyGlobalQueryFilterProvider, MultiTenancyGlobalQueryFilterProvider>();
         services.AddScoped<ISoftDeleteGlobalQueryFilterProvider, SoftDeleteGlobalQueryFilterProvider>();
         services.AddScoped<IIsActiveGlobalQueryFilterProvider, IsActiveGlobalQueryFilterProvider>();
-        services.AddScoped<IGlobalQueryFilterGenericProvider, GlobalQueryFilterGenericProvider>();
+        services.AddScoped<IGlobalQueryFilterManagerProvider, GlobalQueryFilterManagerProvider>();
         services.AddSingleton<IBaseCacheKeyProvider, BaseCacheKeyProvider>();
         services.AddScoped<IDbContextProvider, DbContextProvider>();
 

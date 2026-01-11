@@ -8,17 +8,17 @@ public class DbContextProvider : IDbContextProvider, IDisposable
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ICurrentTenantProvider _currentTenantProvider;
-    private readonly IGlobalQueryFilterGenericProvider _globalQueryFilterGenericProvider;
+    private readonly IGlobalQueryFilterManagerProvider _globalQueryFilterManagerProvider;
     private readonly Stack<IServiceScope> _scopes = new();
     private bool _disposedValue;
 
     public DbContextProvider(
         ICurrentTenantProvider currentTenantProvider,
-        IGlobalQueryFilterGenericProvider globalQueryFilterGenericProvider,
+        IGlobalQueryFilterManagerProvider globalQueryFilterManagerProvider,
         IServiceScopeFactory serviceScopeFactory)
     {
         _currentTenantProvider = currentTenantProvider;
-        _globalQueryFilterGenericProvider = globalQueryFilterGenericProvider;
+        _globalQueryFilterManagerProvider = globalQueryFilterManagerProvider;
         _serviceScopeFactory = serviceScopeFactory;
     }
 
@@ -30,8 +30,8 @@ public class DbContextProvider : IDbContextProvider, IDisposable
 
         var currentTenantProvider = scope.ServiceProvider.GetRequiredService<ICurrentTenantProvider>();
         currentTenantProvider.ChangeCurrentTenant(_currentTenantProvider.CurrentTenantId);
-        var globalQueryFilterGenericProvider = scope.ServiceProvider.GetRequiredService<IGlobalQueryFilterGenericProvider>();
-        foreach (var filterProvider in _globalQueryFilterGenericProvider.GetAllProviders())
+        var globalQueryFilterGenericProvider = scope.ServiceProvider.GetRequiredService<IGlobalQueryFilterManagerProvider>();
+        foreach (var filterProvider in _globalQueryFilterManagerProvider.GetAllProviders())
         {
             globalQueryFilterGenericProvider.AddFilterProvider(filterProvider.Key, filterProvider.Value);
         }

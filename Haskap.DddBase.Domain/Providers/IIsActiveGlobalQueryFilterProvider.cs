@@ -1,4 +1,4 @@
 ﻿namespace Haskap.DddBase.Domain.Providers;
-public interface IIsActiveGlobalQueryFilterProvider : IGlobalQueryFilterProvider
+public interface IIsActiveGlobalQueryFilterProvider : IGlobalQueryFilterProvider<IIsActive>
 {
 }

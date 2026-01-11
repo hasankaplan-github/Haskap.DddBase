@@ -19,7 +19,7 @@ public class SoftDeleteMiddleware
 
     public async Task Invoke(
         HttpContext httpContext, 
-        IGlobalQueryFilterGenericProvider globalQueryFilterGenericProvider,
+        IGlobalQueryFilterManagerProvider globalQueryFilterGenericProvider,
         ISoftDeleteGlobalQueryFilterProvider softDeleteGlobalQueryFilterProvider)
     {
         globalQueryFilterGenericProvider.AddFilterProvider<ISoftDeletable>(softDeleteGlobalQueryFilterProvider);
