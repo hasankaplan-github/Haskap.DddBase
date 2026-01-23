@@ -22,6 +22,11 @@
     <Project Path="Modules/AuditLog/Infra/Infra.csproj" />
     <Project Path="Modules/AuditLog/Module/Module.csproj" />
   </Folder>
+  <Folder Name="/Modules/Bpm/">
+    <Project Path="Modules/Bpm/Domain.Shared/Domain.Shared.csproj" Id="18906399-81c0-4d97-acef-37846d9af031" />
+    <Project Path="Modules/Bpm/Domain/Domain.csproj" Id="9259640c-870d-4c00-8add-9b0b6939391e" />
+    <Project Path="Modules/Bpm/Infra/Infra.csproj" Id="532550a2-9cbf-41ab-b3b1-2725008a6712" />
+  </Folder>
   <Folder Name="/Modules/Email/">
     <Project Path="Modules/Email/Application.Contracts/Application.Contracts.csproj" />
     <Project Path="Modules/Email/Application/Application.csproj" />
