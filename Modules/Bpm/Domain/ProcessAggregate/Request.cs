@@ -1,9 +1,10 @@
 ﻿using Ardalis.GuardClauses;
+using Haskap.DddBase.Domain;
 using Haskap.DddBase.Utilities.Guids;
 
 namespace Modules.Bpm.Domain.ProcessAggregate;
 
-public class Request : Entity
+public class Request : Entity, IHasMultiTenant
 {
     public Guid ProcessId { get; private set; }
     public Guid? OwnerUserId { get; private set; }
@@ -13,13 +14,13 @@ public class Request : Entity
     private List<Progress> _progresses = new();
     public IReadOnlyList<Progress> Progresses => _progresses.AsReadOnly();
     public Guid? DataId { get; set; }
-
+    public Guid? TenantId { get; set; }
 
     private Request()
     {
     }
 
-    public Request(
+    internal Request(
         Guid id,
         Guid processId,
         Guid? ownerUserId,

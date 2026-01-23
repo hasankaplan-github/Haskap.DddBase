@@ -1,9 +1,10 @@
 ﻿using Ardalis.GuardClauses;
+using Haskap.DddBase.Domain;
 using Haskap.DddBase.Utilities.Guids;
 
 namespace Modules.Bpm.Domain.ProcessAggregate;
 
-public class Process : AggregateRoot
+public class Process : AggregateRoot, IHasMultiTenant
 {
     public string Name { get; private set; }
     public string? Description { get; set; }
@@ -14,6 +15,8 @@ public class Process : AggregateRoot
 
     private List<Request> _requests = new();
     public IReadOnlyList<Request> Requests => _requests.AsReadOnly();
+
+    public Guid? TenantId { get; set; }
 
     private Process()
     {
