@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\..\..\Outputs</BaseOutputPath>
+    <AssemblyName>Modules.Bpm.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Modules.Bpm.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Application\Haskap.DddBase.Application.csproj" />
+    <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
+    <ProjectReference Include="..\Application.Dtos\Application.Dtos.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>
