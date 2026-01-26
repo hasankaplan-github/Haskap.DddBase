@@ -22,33 +22,31 @@ public class Request : Entity, IHasMultiTenant
 
     internal Request(
         Guid id,
-        Guid processId,
         Guid? ownerUserId,
         State currentState,
         Guid? dataId)
         : base(id)
     {
-        ProcessId = processId;
         OwnerUserId = ownerUserId;
         SetCurrentState(currentState);
         DataId = dataId;
     }
 
-    public Guid MakeProgress(Path path, Guid? ownerUserId, Guid? dataId)
+    public Progress MakeProgress(Path path, Guid? ownerUserId, Guid? dataId)
     {
         SetCurrentState(path.ToState);
 
-        var progressId = AddProgress(path, ownerUserId, dataId);
+        var progress = AddProgress(path, ownerUserId, dataId);
 
-        return progressId;
+        return progress;
     }
 
-    private Guid AddProgress(Path path, Guid? ownerUserId, Guid? dataId)
+    private Progress AddProgress(Path path, Guid? ownerUserId, Guid? dataId)
     {
         var progress = new Progress(GuidGenerator.CreateSimpleGuid(), path, ownerUserId, dataId);
         _progresses.Add(progress);
 
-        return progress.Id;
+        return progress;
     }
 
     private void SetCurrentState(State currentState)

@@ -19,5 +19,10 @@ public class ProcessEntityTypeConfiguration : BaseEntityTypeConfiguration<Proces
             .WithOne()
             .HasForeignKey(x => x.ProcessId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.States)
+            .WithOne()
+            .HasForeignKey(x => x.ProcessId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

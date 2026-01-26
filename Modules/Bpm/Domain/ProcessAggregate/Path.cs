@@ -18,6 +18,7 @@ public class Path : Entity
 
     public string? ViewName { get; set; }
 
+
     private List<PathRole> _roles = new();
     public IReadOnlyList<PathRole> Roles => _roles.AsReadOnly();
 
