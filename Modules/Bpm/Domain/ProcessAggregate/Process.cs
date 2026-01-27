@@ -46,12 +46,23 @@ public class Process : AggregateRoot, IHasMultiTenant
         _paths.Add(path);
     }
 
-    public IReadOnlyList<Path> GetAvailablePathsOfRequest(Guid requestId, List<Guid> userRoleIds)
+    public IReadOnlyList<Path> GetAvailablePathsOfRequest(Guid? requestId, List<Guid> userRoleIds)
     {
-        var request = _requests.Where(x => x.Id == requestId).First();
+        var currentStateId = _states
+            .Where(x => x.StateType == StateType.StartState)
+            .Select(x => x.Id)
+            .First();
+
+        if (requestId is not null)
+        {
+            currentStateId = _requests
+                .Where(x => x.Id == requestId)
+                .Select(x => x.CurrentStateId)
+                .First();
+        }
 
         var availablePaths = _paths
-            .Where(x => x.FromStateId == request.CurrentStateId &&
+            .Where(x => x.FromStateId == currentStateId &&
                 (x.Roles.Any(role => role.RoleId == null) ||
                 x.Roles.Any(y => userRoleIds.Contains(y.RoleId!.Value))))
             .ToList()
