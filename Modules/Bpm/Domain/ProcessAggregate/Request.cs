@@ -49,7 +49,7 @@ public class Request : Entity, IHasMultiTenant
         return progress;
     }
 
-    private void SetCurrentState(State currentState)
+    public void SetCurrentState(State currentState)
     {
         Guard.Against.Null(currentState);
 

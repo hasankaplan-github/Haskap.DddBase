@@ -71,7 +71,7 @@ public class Process : AggregateRoot, IHasMultiTenant
         return availablePaths;
     }
 
-    public Progress MakeProgress(Guid? requestId, Guid commandId, List<Guid> userRoleIds, Guid? ownerUserId, Guid? requestDataId, Guid? progressDataId, CancellationToken cancellationToken)
+    public Progress MakeProgress(Guid? requestId, Guid commandId, List<Guid> userRoleIds, Guid? ownerUserId, Guid? requestDataId, Guid? progressDataId)
     {
         Request request;
 
@@ -119,7 +119,7 @@ public class Process : AggregateRoot, IHasMultiTenant
         return path;
     }
 
-    private Request InitRequest(Guid? ownerUserId, Guid? dataId)
+    public Request InitRequest(Guid? ownerUserId, Guid? dataId)
     {
         var startState = _states.First(x => x.StateType == StateType.StartState);
 
