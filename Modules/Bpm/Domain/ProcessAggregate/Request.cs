@@ -10,9 +10,8 @@ public class Request : Entity, IHasMultiTenant
     public Guid? OwnerUserId { get; private set; }
     public Guid CurrentStateId { get; private set; }
     public State CurrentState { get; private set; }
-
-    private List<Progress> _progresses = new();
     public IReadOnlyList<Progress> Progresses => _progresses.AsReadOnly();
+    private List<Progress> _progresses = new();
     public Guid? DataId { get; set; }
     public Guid? TenantId { get; set; }
 
