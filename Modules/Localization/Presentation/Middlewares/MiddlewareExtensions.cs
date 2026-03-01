@@ -13,7 +13,7 @@ public static class MiddlewareExtensions
     public static IApplicationBuilder UseCustomRequestLocalization(this IApplicationBuilder builder)
     {
         var scope = builder.ApplicationServices.CreateScope();
-        var options = scope.ServiceProvider.GetService(typeof(IOptions<RequestLocalizationOptions>)) as IOptions<RequestLocalizationOptions>;
+        var options = scope.ServiceProvider.GetService<IOptions<RequestLocalizationOptions>>();
         var localizationService = scope.ServiceProvider.GetRequiredService<ILocalizationService>();
 
         RefreshRequestLocalizationOptionsAsync(options!.Value, localizationService).GetAwaiter().GetResult();

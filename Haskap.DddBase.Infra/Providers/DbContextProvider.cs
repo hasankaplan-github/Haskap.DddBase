@@ -24,16 +24,15 @@ public class DbContextProvider : IDbContextProvider, IDisposable
 
     public TDbContext GetDbContext<TDbContext>() where TDbContext : IUnitOfWork
     {
-        
         var scope = _serviceScopeFactory.CreateScope();
         _scopes.Push(scope);
 
         var currentTenantProvider = scope.ServiceProvider.GetRequiredService<ICurrentTenantProvider>();
         currentTenantProvider.ChangeCurrentTenant(_currentTenantProvider.CurrentTenantId);
-        var globalQueryFilterGenericProvider = scope.ServiceProvider.GetRequiredService<IGlobalQueryFilterManagerProvider>();
+        var globalQueryFilterManagerProvider = scope.ServiceProvider.GetRequiredService<IGlobalQueryFilterManagerProvider>();
         foreach (var filterProvider in _globalQueryFilterManagerProvider.GetAllProviders())
         {
-            globalQueryFilterGenericProvider.AddFilterProvider(filterProvider.Key, filterProvider.Value);
+            globalQueryFilterManagerProvider.AddFilterProvider(filterProvider.Key, filterProvider.Value);
         }
 
         return scope.ServiceProvider.GetRequiredService<TDbContext>();
