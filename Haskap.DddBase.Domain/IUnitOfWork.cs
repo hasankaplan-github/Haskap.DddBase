@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Haskap.DddBase.Domain;
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable, IAsyncDisposable
 {
     DatabaseFacade Database {  get; }
     ChangeTracker ChangeTracker { get; }

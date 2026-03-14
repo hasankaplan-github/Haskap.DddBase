@@ -2,6 +2,7 @@
 using Haskap.DddBase.Domain;
 using Haskap.DddBase.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Modules.Tenants.Application.Contracts.Tenants;
 using System.Collections.Concurrent;
@@ -12,19 +13,22 @@ public class MultiTenantQueryRunnerService : UseCaseService, IMultiTenantQueryRu
 {
     private readonly ITenantService _tenantService;
     private readonly ILogger<MultiTenantQueryRunnerService> _logger;
-    private readonly IDbContextProvider _dbContextProvider;
+    //private readonly IDbContextProvider _dbContextProvider;
+    private readonly IServiceProvider _serviceProvider;
     private readonly ICurrentTenantProvider _currentTenantProvider;
 
     public MultiTenantQueryRunnerService(
         ITenantService tenantService,
         ILogger<MultiTenantQueryRunnerService> logger,
-        IDbContextProvider dbContextProvider,
-        ICurrentTenantProvider currentTenantProvider)
+        //IDbContextProvider dbContextProvider,
+        ICurrentTenantProvider currentTenantProvider,
+        IServiceProvider serviceProvider)
     {
         _tenantService = tenantService;
         _logger = logger;
-        _dbContextProvider = dbContextProvider;
+        //_dbContextProvider = dbContextProvider;
         _currentTenantProvider = currentTenantProvider;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task<IList<TResult>> QueryAllTenantsAsync<TResult, TDbContext>(
@@ -42,7 +46,11 @@ public class MultiTenantQueryRunnerService : UseCaseService, IMultiTenantQueryRu
             try
             {
                 _currentTenantProvider.ChangeCurrentTenant(tenant.Id);
-                var db = _dbContextProvider.GetDbContext<TDbContext>();
+
+                //var db = _dbContextProvider.GetDbContext<TDbContext>();
+                var dbContextFctory = _serviceProvider.GetRequiredService<IMyDbContextFactory<TDbContext>>();
+                await using var db = await dbContextFctory.CreateDbContextAsync(ct);
+
                 db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 // optional: set a per-tenant command timeout
                 //db.Database.SetCommandTimeout(TimeSpan.FromSeconds(30));
