@@ -1,6 +1,6 @@
 ﻿using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Infra;
 using Haskap.DddBase.Infra.Interceptors;
-using Haskap.DddBase.Infra.Providers;
 using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -16,7 +16,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
     {
-        services.AddDbContextFactory<AppDbContext>((serviceProvider, options) =>
+        services.AddMyDbContextFactory<IModuleManagementDbContext, AppDbContext>((serviceProvider, options) =>
         {
             var tenantConnectionProvider = serviceProvider.GetService<ITenantConnectionStringProvider>();
             var connectionString = tenantConnectionProvider?.GetCurrentTenantConnectionString(connectionStringName) ?? configuration.GetConnectionString(connectionStringName);
@@ -75,9 +75,7 @@ public static class DependencyInjection
                 dbContext.Set<EnabledModule>().AddRange(enabledModules);
                 await dbContext.SaveChangesAsync(cancellationToken);
             });
-        }, ServiceLifetime.Scoped);
-        services.AddScoped<IMyDbContextFactory<IModuleManagementDbContext>, MyDbContextFactory<IModuleManagementDbContext, AppDbContext>>();
-        services.AddScoped<IModuleManagementDbContext, AppDbContext>();
+        });
 
         return services;
     }

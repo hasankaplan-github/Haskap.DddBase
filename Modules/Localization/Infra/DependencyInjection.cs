@@ -1,5 +1,4 @@
-﻿using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Infra.Providers;
+﻿using Haskap.DddBase.Infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
     {
         var connectionString = configuration.GetConnectionString(connectionStringName);
-        services.AddDbContextFactory<AppDbContext>((serviceProvider, options) =>
+        services.AddMyDbContextFactory<ILocalizationDbContext, AppDbContext>((serviceProvider, options) =>
         {
             options.UseNpgsql(connectionString, optionsBuilder => 
             {
@@ -22,9 +21,7 @@ public static class DependencyInjection
             });
             options.UseSnakeCaseNamingConvention();
             //options.AddMultiTenancyInterceptors(serviceProvider);
-        }, ServiceLifetime.Scoped);
-        services.AddScoped<IMyDbContextFactory<ILocalizationDbContext>, MyDbContextFactory<ILocalizationDbContext, AppDbContext>>();
-        services.AddScoped<ILocalizationDbContext, AppDbContext>();
+        });
 
         return services;
     }

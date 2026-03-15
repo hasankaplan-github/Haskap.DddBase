@@ -1,5 +1,5 @@
 ﻿using Haskap.DddBase.Domain.Providers;
-using Haskap.DddBase.Infra.Providers;
+using Haskap.DddBase.Infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +17,7 @@ public static class DependencyInjection
         services.AddScoped<AuditSaveChangesInterceptor>();
 
         //var connectionString = configuration.GetConnectionString(connectionStringName);
-        services.AddDbContextFactory<AppDbContext>((serviceProvider, options) =>
+        services.AddMyDbContextFactory<IAuditLogDbContext, AppDbContext>((serviceProvider, options) =>
         {
             var tenantConnectionStringProvider = serviceProvider.GetService<ITenantConnectionStringProvider>();
             var connectionString = tenantConnectionStringProvider?.GetCurrentTenantConnectionString(connectionStringName) ?? configuration.GetConnectionString(connectionStringName);
@@ -28,9 +28,7 @@ public static class DependencyInjection
                 optionsBuilder.MigrationsAssembly(migrationAssembly ?? typeof(DependencyInjection).Namespace);
             });
             options.UseSnakeCaseNamingConvention();
-        }, ServiceLifetime.Scoped);
-        services.AddScoped<IMyDbContextFactory<IAuditLogDbContext>, MyDbContextFactory<IAuditLogDbContext, AppDbContext>>();
-        services.AddScoped<IAuditLogDbContext, AppDbContext>();
+        });
 
         return services;
     }
