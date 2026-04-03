@@ -27,6 +27,15 @@
     <Project Path="Modules/Bpm/Domain/Domain.csproj" Id="9259640c-870d-4c00-8add-9b0b6939391e" />
     <Project Path="Modules/Bpm/Infra/Infra.csproj" Id="532550a2-9cbf-41ab-b3b1-2725008a6712" />
   </Folder>
+  <Folder Name="/Modules/CustomMessage/">
+    <Project Path="Modules/CustomMessage/Application.Contracts/Application.Contracts.csproj" Id="d54d146e-2c8e-41fa-9aad-49bcbebc1834" />
+    <Project Path="Modules/CustomMessage/Application.Dtos/Application.Dtos.csproj" Id="64d0a72d-f3ef-4c63-b999-87ece300d3fb" />
+    <Project Path="Modules/CustomMessage/Application/Application.csproj" Id="12b89c11-5784-4e77-b0cc-fd20a66f6ec6" />
+    <Project Path="Modules/CustomMessage/Domain.Shared/Domain.Shared.csproj" Id="edc8ea8b-ec59-46bb-b124-8d2bbfcdde2b" />
+    <Project Path="Modules/CustomMessage/Domain/Domain.csproj" Id="9f32712c-94dd-44b9-8450-5f524adc716d" />
+    <Project Path="Modules/CustomMessage/Module/Module.csproj" Id="effd3508-4bd4-4c6b-bfb8-3d389a4d8660" />
+    <Project Path="Modules/CustomMessage/Presentation/Presentation.csproj" Id="5a5bed5b-8933-4b66-996d-54b28fe7d1d3" />
+  </Folder>
   <Folder Name="/Modules/Email/">
     <Project Path="Modules/Email/Application.Contracts/Application.Contracts.csproj" />
     <Project Path="Modules/Email/Application/Application.csproj" />
