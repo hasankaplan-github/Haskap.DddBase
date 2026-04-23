@@ -65,6 +65,15 @@
     <Project Path="Modules/ModuleManagement/IntegrationEvents/IntegrationEvents.csproj" />
     <Project Path="Modules/ModuleManagement/Module/Module.csproj" />
   </Folder>
+  <Folder Name="/Modules/SpecialDayBase/">
+    <Project Path="Modules/SpecialDayBase/Application.Contracts/Application.Contracts.csproj" Id="e099c195-cea3-4008-8a6b-d271b994443e" />
+    <Project Path="Modules/SpecialDayBase/Application.Dtos/Application.Dtos.csproj" Id="6d0e6635-83b2-4987-ae04-2a7339138585" />
+    <Project Path="Modules/SpecialDayBase/Application/Application.csproj" Id="ce83e620-001d-4ad7-8ec5-89e9ab68d242" />
+    <Project Path="Modules/SpecialDayBase/Domain.Shared/Domain.Shared.csproj" Id="dc439f14-a250-4aa7-9465-ee62b4ea9ebd" />
+    <Project Path="Modules/SpecialDayBase/Domain/Domain.csproj" Id="5f218ff9-3162-421b-a1b7-aa50940cbcb5" />
+    <Project Path="Modules/SpecialDayBase/Infra/Infra.csproj" Id="a7aed4e8-98dd-4379-aeaf-d5ea310f2116" />
+    <Project Path="Modules/SpecialDayBase/Module/Module.csproj" Id="a63cc916-9803-4023-b21d-f54d20e7f983" />
+  </Folder>
   <Folder Name="/Modules/Tenants/">
     <Project Path="Modules/Tenants/Application.Contracts/Application.Contracts.csproj" />
     <Project Path="Modules/Tenants/Application.Dtos/Application.Dtos.csproj" />
@@ -73,6 +82,13 @@
     <Project Path="Modules/Tenants/Infra/Infra.csproj" />
     <Project Path="Modules/Tenants/IntegrationEvents/IntegrationEvents.csproj" />
     <Project Path="Modules/Tenants/Module/Module.csproj" />
+  </Folder>
+  <Folder Name="/Modules/TurkiyeSpecialDay/">
+    <Project Path="Modules/TurkiyeSpecialDay/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/TurkiyeSpecialDay/Domain/Domain.csproj" />
+    <Project Path="Modules/TurkiyeSpecialDay/Infra/Infra.csproj" />
+    <Project Path="Modules/TurkiyeSpecialDay/IntegrationEvents/IntegrationEvents.csproj" />
+    <Project Path="Modules/TurkiyeSpecialDay/Module/Module.csproj" />
   </Folder>
   <Folder Name="/Presentation/">
     <Project Path="Haskap.DddBase.Presentation/Haskap.DddBase.Presentation.csproj" />
