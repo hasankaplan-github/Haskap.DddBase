@@ -27,7 +27,7 @@ public class OneTimeAndOccurrenceBasedSpecialDaySpecificationEvaluator(IServiceS
 
                 if (specialDaySpecification.HasEveDay)
                 {
-                    var eveDay = date.AddDays(-1);
+                    var eveDay = date!.Value.AddDays(-1);
 
                     if (eveDay.Year == year)
                     {
@@ -47,7 +47,7 @@ public class OneTimeAndOccurrenceBasedSpecialDaySpecificationEvaluator(IServiceS
                 {
                     specialDayDtos.Add(new SpecialDayOutputDto
                     {
-                        Date = date,
+                        Date = date!.Value,
                         Group = specialDaySpecification.Group,
                         IsHoliday = specialDaySpecification.IsHoliday,
                         Name = specialDaySpecification.GetLocalizedName().Value
@@ -57,7 +57,7 @@ public class OneTimeAndOccurrenceBasedSpecialDaySpecificationEvaluator(IServiceS
                 {
                     for (var i = 0; i < specialDaySpecification.LengthInDays; i++)
                     {
-                        var day = date.AddDays(i);
+                        var day = date!.Value.AddDays(i);
 
                         if (day.Year != year)
                         {

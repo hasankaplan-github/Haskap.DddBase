@@ -23,7 +23,7 @@ public class CalendarHelper
         return Enumerable.Range(minHijriYear, maxHijriYear - minHijriYear + 1);
     }
 
-    public static DateOnly FindOccurrenceOfDayOfWeek(int year, int month, DayOfWeek day, int occurrenceInAMonth)
+    public static DateOnly? FindOccurrenceOfDayOfWeek(int year, int month, DayOfWeek day, int occurrenceInAMonth)
     {
         var firstDayOfMonth = new DateOnly(year, month, 1);
 
@@ -41,10 +41,24 @@ public class CalendarHelper
 
         if (resultedDay > DateTime.DaysInMonth(year, month))
         {
-            throw new InvalidOperationException();
+            return null;
         }
 
         return new DateOnly(year, month, resultedDay);
+    }
+
+    public static DateOnly FindLastDayOfWeek(int year, int month, DayOfWeek day)
+    {
+        var lastDayOfMonth = new DateOnly(year, month, DateTime.DaysInMonth(year, month));
+
+        var daysNeeded = (int)lastDayOfMonth.DayOfWeek - (int)day;
+
+        if (daysNeeded < 0)
+        {
+            daysNeeded += 7;
+        }
+        var resultedDay = lastDayOfMonth.AddDays(-daysNeeded);
+        return resultedDay;
     }
 
     public static int GetYearCountBetweenTwoDates(DateOnly startDate, DateOnly endDate)
