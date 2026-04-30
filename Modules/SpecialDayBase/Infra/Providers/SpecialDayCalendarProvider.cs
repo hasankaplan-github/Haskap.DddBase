@@ -17,6 +17,8 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
 
     public abstract Country ForCountry { get; }
 
+    public virtual IWeekendProvider? WeekendProvider { get; } = null;
+
     protected SpecialDayCalendarProvider(
         ISpecialDaySpecificationEvaluator fixedAndOccurrenceBasedSpecialDaySpecificationEvaluator,
         ISpecialDaySpecificationEvaluator fixedWithExactDateSpecialDaySpecificationEvaluator,
@@ -87,5 +89,15 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
             return OneTimeAndOccurrenceBasedSpecialDaySpecificationEvaluator.Evaluate(year, specialDaySpecification);
         else //if (specialDaySpecification.IsOneTimeWithExactDate)
             return OneTimeWithExactDateSpecialDaySpecificationEvaluator.Evaluate(year, specialDaySpecification);
+    }
+
+    public bool IsWeekend(DateOnly date)
+    {
+        return WeekendProvider?.IsWeekend(date) ?? false;
+    }
+
+    public bool IsWeekend(DayOfWeek dayOfWeek)
+    {
+        return WeekendProvider?.IsWeekend(dayOfWeek) ?? false;
     }
 }

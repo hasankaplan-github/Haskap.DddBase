@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Modules.SpecialDayBase.Application.Contracts;
 using Modules.SpecialDayBase.Application.Dtos;
+using Modules.SpecialDayBase.Domain.Providers;
 using Modules.SpecialDayBase.Domain.Shared.Consts;
 using Modules.SpecialDayBase.Domain.Shared.Enums;
 using Modules.SpecialDayBase.Domain.SpecialDayAggregate;
@@ -16,6 +17,7 @@ namespace Modules.TurkiyeSpecialDay.Infra.Providers;
 public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITurkiyeSpecialDayCalendarProvider
 {
     public override Country ForCountry => Country.Turkiye;
+    public override IWeekendProvider? WeekendProvider => SpecialDayBase.Infra.Providers.WeekendProvider.Universal;
 
     private readonly ITurkiyeSpecialDayModule _turkiyeSpecialDayModule;
 

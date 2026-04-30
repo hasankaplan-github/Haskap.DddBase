@@ -70,4 +70,34 @@ public class SpecialDayService : UseCaseService, ISpecialDayService
             })
             .ToList();
     }
+
+    public bool IsWeekend(DateTime dayDateTime, IEnumerable<Country> forCountries)
+    {
+        return IsWeekend(dayDateTime.DayOfWeek, forCountries);
+    }
+
+    public bool IsWeekend(DayOfWeek dayOfWeek, IEnumerable<Country> forCountries)
+    {
+        IEnumerable<ISpecialDayCalendarProvider> specialDayCalendarProviders = [];
+
+        if (forCountries.Contains(Country.All))
+        {
+            specialDayCalendarProviders = _serviceProvider.GetServices<ISpecialDayCalendarProvider>();
+        }
+        else
+        {
+            specialDayCalendarProviders = _serviceProvider.GetServices<ISpecialDayCalendarProvider>()
+                .Where(x => forCountries.Contains(x.ForCountry));
+        }
+
+        foreach (var specialDayCalendarProvider in specialDayCalendarProviders)
+        {
+            if (specialDayCalendarProvider.IsWeekend(dayOfWeek))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
