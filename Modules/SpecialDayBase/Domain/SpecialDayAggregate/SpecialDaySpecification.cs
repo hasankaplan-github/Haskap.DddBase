@@ -18,7 +18,7 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
     private List<Name> _names = new();
     public IReadOnlyList<Name> Names => _names.AsReadOnly();
     public bool HasEveDay { get; private set; }
-    public EveDayType EveDayType { get; private set; }
+    public EveDayDuration EveDayDuration { get; private set; }
     public int LengthInDays { get; private set; }
     public bool IsFixed { get; private set; }
     public bool IsOccurrenceBased { get; private set; }
@@ -55,23 +55,23 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
         LengthInDays = lengthInDays;
     }
 
-    private void SetEveDayPreferences(bool hasEveDay, EveDayType eveDayType)
+    private void SetEveDayPreferences(bool hasEveDay, EveDayDuration eveDayDuration)
     {
-        if (hasEveDay && eveDayType == EveDayType.None)
+        if (hasEveDay && eveDayDuration == EveDayDuration.None)
         {
             throw new ArgumentException("Eve day type must be specified if hasEveDay is true.");
         }
 
-        if (!hasEveDay && eveDayType != EveDayType.None)
+        if (!hasEveDay && eveDayDuration != EveDayDuration.None)
         {
             throw new ArgumentException("Eve day type must be None if hasEveDay is false.");
         }
 
         HasEveDay = hasEveDay;
-        EveDayType = eveDayType;
+        EveDayDuration = eveDayDuration;
     }
 
-    public static SpecialDaySpecification CreateFixedWithExactDateSpecialDay(int month, int day, bool isHoliday, string group, bool useHijriCalendar, IList<Name> names, bool hasEveDay = false, EveDayType eveDayType = EveDayType.None, int lengthInDays = 1)
+    public static SpecialDaySpecification CreateFixedWithExactDateSpecialDay(int month, int day, bool isHoliday, string group, bool useHijriCalendar, IList<Name> names, bool hasEveDay = false, EveDayDuration eveDayDuration = EveDayDuration.None, int lengthInDays = 1)
     {
         var specialDaySpecification = new SpecialDaySpecification
         {
@@ -91,12 +91,12 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
 
         specialDaySpecification.SetNames(names);
         specialDaySpecification.SetLength(lengthInDays);
-        specialDaySpecification.SetEveDayPreferences(hasEveDay, eveDayType);
+        specialDaySpecification.SetEveDayPreferences(hasEveDay, eveDayDuration);
 
         return specialDaySpecification;
     }
 
-    public static SpecialDaySpecification CreateFixedAndOccurrenceBasedSpecialDay(int month, DayOfWeek dayOfWeek, SpecialDayOccurrenceInAMonth occurrence, bool isHoliday, string group, IList<Name> names, bool hasEveDay = false, EveDayType eveDayType = EveDayType.None, int lengthInDays = 1)
+    public static SpecialDaySpecification CreateFixedAndOccurrenceBasedSpecialDay(int month, DayOfWeek dayOfWeek, SpecialDayOccurrenceInAMonth occurrence, bool isHoliday, string group, IList<Name> names, bool hasEveDay = false, EveDayDuration eveDayDuration = EveDayDuration.None, int lengthInDays = 1)
     {
         var specialDaySpecification = new SpecialDaySpecification
         {
@@ -116,12 +116,12 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
 
         specialDaySpecification.SetNames(names);
         specialDaySpecification.SetLength(lengthInDays);
-        specialDaySpecification.SetEveDayPreferences(hasEveDay, eveDayType);
+        specialDaySpecification.SetEveDayPreferences(hasEveDay, eveDayDuration);
 
         return specialDaySpecification;
     }
 
-    public static SpecialDaySpecification CreateOneTimeWithExactDateSpecialDay(int year, int month, int day, bool isHoliday, string group, int? yearBelongsTo, bool useHijriCalendar, IList<Name> names, bool hasEveDay = false, EveDayType eveDayType = EveDayType.None, int lengthInDays = 1)
+    public static SpecialDaySpecification CreateOneTimeWithExactDateSpecialDay(int year, int month, int day, bool isHoliday, string group, int? yearBelongsTo, bool useHijriCalendar, IList<Name> names, bool hasEveDay = false, EveDayDuration eveDayDuration = EveDayDuration.None, int lengthInDays = 1)
     {
         var specialDaySpecification = new SpecialDaySpecification
         {
@@ -141,12 +141,12 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
 
         specialDaySpecification.SetNames(names);
         specialDaySpecification.SetLength(lengthInDays);
-        specialDaySpecification.SetEveDayPreferences(hasEveDay, eveDayType);
+        specialDaySpecification.SetEveDayPreferences(hasEveDay, eveDayDuration);
 
         return specialDaySpecification;
     }
 
-    public static SpecialDaySpecification CreateOneTimeAndOccurrenceBasedSpecialDay(int year, int month, DayOfWeek dayOfWeek, SpecialDayOccurrenceInAMonth occurrence, bool isHoliday, string group, int? yearBelongsTo, IList<Name> names, bool hasEveDay = false, EveDayType eveDayType = EveDayType.None, int lengthInDays = 1)
+    public static SpecialDaySpecification CreateOneTimeAndOccurrenceBasedSpecialDay(int year, int month, DayOfWeek dayOfWeek, SpecialDayOccurrenceInAMonth occurrence, bool isHoliday, string group, int? yearBelongsTo, IList<Name> names, bool hasEveDay = false, EveDayDuration eveDayDuration = EveDayDuration.None, int lengthInDays = 1)
     {
         var specialDaySpecification = new SpecialDaySpecification
         {
@@ -166,7 +166,7 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
 
         specialDaySpecification.SetNames(names);
         specialDaySpecification.SetLength(lengthInDays);
-        specialDaySpecification.SetEveDayPreferences(hasEveDay, eveDayType);
+        specialDaySpecification.SetEveDayPreferences(hasEveDay, eveDayDuration);
 
         return specialDaySpecification;
     }

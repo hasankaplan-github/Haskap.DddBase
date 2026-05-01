@@ -43,7 +43,7 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
                                 IsHoliday = specialDaySpecification.IsHoliday,
                                 Name = specialDaySpecification.GetLocalizedName().Value + " " + localizedEveDay,
                                 IsEveDay = true,
-                                EveDayType = specialDaySpecification.EveDayType
+                                EveDayDuration = specialDaySpecification.EveDayDuration
                             });
                         }
                     }
@@ -98,7 +98,7 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
                             IsHoliday = specialDaySpecification.IsHoliday,
                             Name = specialDaySpecification.GetLocalizedName().Value + " " + localizedEveDay,
                             IsEveDay = true,
-                            EveDayType = specialDaySpecification.EveDayType
+                            EveDayDuration = specialDaySpecification.EveDayDuration
                         });
                     }
                     else
@@ -110,7 +110,7 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
                             IsHoliday = specialDaySpecification.IsHoliday,
                             Name = specialDaySpecification.GetLocalizedName().Value + " " + localizedEveDay,
                             IsEveDay = true,
-                            EveDayType = specialDaySpecification.EveDayType
+                            EveDayDuration = specialDaySpecification.EveDayDuration
                         });
                     }
                 }

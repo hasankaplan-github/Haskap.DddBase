@@ -9,4 +9,5 @@ public interface ISpecialDayService : IUseCaseService
     IList<SpecialDayOutputDto> GetSpecialDaysInADay(GetSpecialDaysInDayInputDto inputDto);
     bool IsWeekend(DateTime dayDateTime, IEnumerable<Country> forCountries);
     bool IsWeekend(DayOfWeek dayOfWeek, IEnumerable<Country> forCountries);
+    IList<LongWeekendDayOutputDto> GetLongWeekendDays(DateTime startDateTime, DateTime endDateTime, IEnumerable<Country> forCountries);
 }

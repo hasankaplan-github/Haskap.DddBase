@@ -38,7 +38,7 @@ public class OneTimeAndOccurrenceBasedSpecialDaySpecificationEvaluator(IServiceS
                             IsHoliday = specialDaySpecification.IsHoliday,
                             Name = specialDaySpecification.GetLocalizedName().Value + " " + localizedEveDay,
                             IsEveDay = true,
-                            EveDayType = specialDaySpecification.EveDayType
+                            EveDayDuration = specialDaySpecification.EveDayDuration
                         });
                     }
                 }

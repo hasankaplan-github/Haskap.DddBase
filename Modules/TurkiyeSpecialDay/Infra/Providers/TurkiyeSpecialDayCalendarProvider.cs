@@ -48,7 +48,7 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
             useHijriCalendar: false,
             [new Name("New Year", Locale.DefinedLocales.EnUs), new Name("Yılbaşı Tatili", Locale.DefinedLocales.TrTr)],
             hasEveDay: true,
-            eveDayType: EveDayType.HalfDay);
+            eveDayDuration: EveDayDuration.HalfDay);
 
         return EvaluateSpecialDaySpecification(year, specialDaySpecificaion);
     }
@@ -89,7 +89,7 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
             useHijriCalendar: true,
             [new Name("Eid al-Fitr", Locale.DefinedLocales.EnUs), new Name("Ramazan Bayramı", Locale.DefinedLocales.TrTr)],
             hasEveDay: true,
-            eveDayType: EveDayType.HalfDay,
+            eveDayDuration: EveDayDuration.HalfDay,
             lengthInDays: 3);
 
         return EvaluateSpecialDaySpecification(year, specialDaySpecificaion);
@@ -118,7 +118,7 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
             useHijriCalendar: true,
             [new Name("Eid al-Adha", Locale.DefinedLocales.EnUs), new Name("Kurban Bayramı", Locale.DefinedLocales.TrTr)],
             hasEveDay: true,
-            eveDayType: EveDayType.HalfDay,
+            eveDayDuration: EveDayDuration.HalfDay,
             lengthInDays: 4);
 
         return EvaluateSpecialDaySpecification(year, specialDaySpecificaion);

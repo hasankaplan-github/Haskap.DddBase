@@ -126,4 +126,10 @@
   <data name="SpecialDayGroup:Custom" xml:space="preserve">
     <value>Özel</value>
   </data>
+  <data name="WorkDay" xml:space="preserve">
+    <value>İş Günü</value>
+  </data>
+  <data name="HalfWorkDay" xml:space="preserve">
+    <value>Yarım İş Günü</value>
+  </data>
 </root>

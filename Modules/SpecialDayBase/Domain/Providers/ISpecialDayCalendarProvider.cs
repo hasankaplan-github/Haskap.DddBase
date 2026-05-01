@@ -14,4 +14,5 @@ public interface ISpecialDayCalendarProvider
     string GetLocalizedGroupName(string group);
     bool IsWeekend(DateOnly date);
     bool IsWeekend(DayOfWeek dayOfWeek);
+    IList<LongWeekendDayOutputDto> GetLongWeekendDays(DateOnly startDate, DateOnly endDate);
 }

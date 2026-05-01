@@ -100,4 +100,22 @@ public class SpecialDayService : UseCaseService, ISpecialDayService
 
         return false;
     }
+
+    public IList<LongWeekendDayOutputDto> GetLongWeekendDays(DateTime startDateTime, DateTime endDateTime, IEnumerable<Country> forCountries)
+    {
+        var startDate = DateOnly.FromDateTime(startDateTime);
+        var endDate = DateOnly.FromDateTime(endDateTime);
+
+        if (forCountries.Contains(Country.All))
+        {
+            return _serviceProvider.GetServices<ISpecialDayCalendarProvider>()
+                .SelectMany(x => x.GetLongWeekendDays(startDate, endDate))
+                .ToList();
+        }
+
+        return _serviceProvider.GetServices<ISpecialDayCalendarProvider>()
+            .Where(x => forCountries.Contains(x.ForCountry))
+            .SelectMany(x => x.GetLongWeekendDays(startDate, endDate))
+            .ToList();
+    }
 }

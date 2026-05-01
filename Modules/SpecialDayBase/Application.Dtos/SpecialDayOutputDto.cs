@@ -9,5 +9,5 @@ public class SpecialDayOutputDto
     public string Group { get; set; }
     public string DisplayName { get; set; }
     public bool IsEveDay { get; set; } = false;
-    public EveDayType EveDayType { get; set; } = EveDayType.None;
+    public EveDayDuration EveDayDuration { get; set; } = EveDayDuration.None;
 }

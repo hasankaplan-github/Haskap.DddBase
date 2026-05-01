@@ -1,6 +1,6 @@
 ﻿namespace Modules.SpecialDayBase.Domain.Shared.Enums;
 
-public enum EveDayType
+public enum EveDayDuration
 {
     None,
     HalfDay,
