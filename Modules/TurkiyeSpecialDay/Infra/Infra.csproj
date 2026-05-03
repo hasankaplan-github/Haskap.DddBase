@@ -19,30 +19,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Haskap.DddBase.Domain.Shared\Haskap.DddBase.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Infra.Db.Contexts.EfCoreContext\Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
+    <ProjectReference Include="..\..\AuditLog\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\AuditLog\Infra\Infra.csproj" />
     <ProjectReference Include="..\..\SpecialDayBase\Infra\Infra.csproj" />
     <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Haskap.DddBase.Domain">
-      <HintPath>..\..\..\References\Haskap.DddBase.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="Haskap.DddBase.Infra.Db.Contexts.EfCoreContext">
-      <HintPath>..\..\..\References\Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.dll</HintPath>
-    </Reference>
-    <Reference Include="Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext">
-      <HintPath>..\..\..\References\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.dll</HintPath>
-    </Reference>
-    <Reference Include="Haskap.DddBase.Utilities">
-      <HintPath>..\..\..\References\Haskap.DddBase.Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Modules.AuditLog.Domain">
-      <HintPath>..\..\..\References\Modules.AuditLog.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="Modules.AuditLog.Infra">
-      <HintPath>..\..\..\References\Modules.AuditLog.Infra.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

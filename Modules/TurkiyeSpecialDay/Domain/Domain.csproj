@@ -14,19 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
     <ProjectReference Include="..\..\SpecialDayBase\Domain\Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Haskap.DddBase.Application.Dtos">
-      <HintPath>..\..\..\References\Haskap.DddBase.Application.Dtos.dll</HintPath>
-    </Reference>
-    <Reference Include="Haskap.DddBase.Domain">
-      <HintPath>..\..\..\References\Haskap.DddBase.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="Haskap.DddBase.Utilities">
-      <HintPath>..\..\..\References\Haskap.DddBase.Utilities.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
