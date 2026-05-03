@@ -1,6 +1,6 @@
 ﻿namespace Modules.SpecialDayBase.Domain.Shared.Enums;
 
-public enum LongWeekendDayDuration
+public enum LongWeekendDayWorkDuration
 {
     None,
     FullWorkDay,

@@ -123,15 +123,15 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
                 continue;
             }
 
-            var longWeekendDayDuration = holiday.IsEveDay && holiday.EveDayDuration == EveDayDuration.HalfDay
-                ? LongWeekendDayDuration.HalfWorkDay
-                : LongWeekendDayDuration.None;
+            var longWeekendDayWorkDuration = holiday.IsEveDay && holiday.EveDayDuration == EveDayDuration.HalfDay
+                ? LongWeekendDayWorkDuration.HalfWorkDay
+                : LongWeekendDayWorkDuration.None;
 
             var longWeekendDayDisplayTexts = holidays.Where(x => x.Date == holiday.Date)
                 .Select(x => x.DisplayName)
                 .ToList();
 
-            if(longWeekendDayDuration == LongWeekendDayDuration.HalfWorkDay)
+            if(longWeekendDayWorkDuration == LongWeekendDayWorkDuration.HalfWorkDay)
             {
                 longWeekendDayDisplayTexts.Add(Localizer["HalfWorkDay"]);
             }
@@ -140,11 +140,11 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
 
             if (existingLongWeekendDay is not null)
             {
-                if ((existingLongWeekendDay.Duration == LongWeekendDayDuration.HalfWorkDay && longWeekendDayDuration == LongWeekendDayDuration.None) ||
-                    (existingLongWeekendDay.Duration == LongWeekendDayDuration.FullWorkDay && (longWeekendDayDuration == LongWeekendDayDuration.HalfWorkDay || longWeekendDayDuration == LongWeekendDayDuration.None)))
+                if ((existingLongWeekendDay.WorkDuration == LongWeekendDayWorkDuration.HalfWorkDay && longWeekendDayWorkDuration == LongWeekendDayWorkDuration.None) ||
+                    (existingLongWeekendDay.WorkDuration == LongWeekendDayWorkDuration.FullWorkDay && (longWeekendDayWorkDuration == LongWeekendDayWorkDuration.HalfWorkDay || longWeekendDayWorkDuration == LongWeekendDayWorkDuration.None)))
                 {
                     existingLongWeekendDay.IsHoliday = true;
-                    existingLongWeekendDay.Duration = longWeekendDayDuration;
+                    existingLongWeekendDay.WorkDuration = longWeekendDayWorkDuration;
                     existingLongWeekendDay.DisplayTexts = longWeekendDayDisplayTexts;
                 }
 
@@ -156,7 +156,8 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
             {
                 Date = holiday.Date,
                 IsHoliday = true,
-                Duration = longWeekendDayDuration,
+                IsWeekend = false,
+                WorkDuration = longWeekendDayWorkDuration,
                 DisplayTexts = longWeekendDayDisplayTexts
             });
 
@@ -166,19 +167,18 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
                 var existingLongWeekendDayBefore = longWeekendDays.FirstOrDefault(x => x.Date == longWeekendDayBefore.Date);
                 if (existingLongWeekendDayBefore is not null)
                 {
-                    if ((existingLongWeekendDayBefore.Duration == LongWeekendDayDuration.HalfWorkDay && longWeekendDayBefore.Duration == LongWeekendDayDuration.None) ||
-                        (existingLongWeekendDayBefore.Duration == LongWeekendDayDuration.FullWorkDay && (longWeekendDayBefore.Duration == LongWeekendDayDuration.HalfWorkDay || longWeekendDayBefore.Duration == LongWeekendDayDuration.None)))
+                    if ((existingLongWeekendDayBefore.WorkDuration == LongWeekendDayWorkDuration.HalfWorkDay && longWeekendDayBefore.WorkDuration == LongWeekendDayWorkDuration.None) ||
+                        (existingLongWeekendDayBefore.WorkDuration == LongWeekendDayWorkDuration.FullWorkDay && (longWeekendDayBefore.WorkDuration == LongWeekendDayWorkDuration.HalfWorkDay || longWeekendDayBefore.WorkDuration == LongWeekendDayWorkDuration.None)))
                     {
                         existingLongWeekendDayBefore.IsHoliday = longWeekendDayBefore.IsHoliday;
-                        existingLongWeekendDayBefore.Duration = longWeekendDayBefore.Duration;
+                        existingLongWeekendDayBefore.WorkDuration = longWeekendDayBefore.WorkDuration;
                         existingLongWeekendDayBefore.DisplayTexts = longWeekendDayBefore.DisplayTexts;
                     }
+
                     continue;
                 }
-                else
-                {
-                    longWeekendDays.Add(longWeekendDayBefore);
-                }
+
+                longWeekendDays.Add(longWeekendDayBefore);
             }
 
             var longWeekendDaysAfter = GetLongWeekendDaysAfter(holiday, holidays);
@@ -187,19 +187,18 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
                 var existingLongWeekendDayAfter = longWeekendDays.FirstOrDefault(x => x.Date == longWeekendDayAfter.Date);
                 if (existingLongWeekendDayAfter is not null)
                 {
-                    if ((existingLongWeekendDayAfter.Duration == LongWeekendDayDuration.HalfWorkDay && longWeekendDayAfter.Duration == LongWeekendDayDuration.None) ||
-                        (existingLongWeekendDayAfter.Duration == LongWeekendDayDuration.FullWorkDay && (longWeekendDayAfter.Duration == LongWeekendDayDuration.HalfWorkDay || longWeekendDayAfter.Duration == LongWeekendDayDuration.None)))
+                    if ((existingLongWeekendDayAfter.WorkDuration == LongWeekendDayWorkDuration.HalfWorkDay && longWeekendDayAfter.WorkDuration == LongWeekendDayWorkDuration.None) ||
+                        (existingLongWeekendDayAfter.WorkDuration == LongWeekendDayWorkDuration.FullWorkDay && (longWeekendDayAfter.WorkDuration == LongWeekendDayWorkDuration.HalfWorkDay || longWeekendDayAfter.WorkDuration == LongWeekendDayWorkDuration.None)))
                     {
                         existingLongWeekendDayAfter.IsHoliday = longWeekendDayAfter.IsHoliday;
-                        existingLongWeekendDayAfter.Duration = longWeekendDayAfter.Duration;
+                        existingLongWeekendDayAfter.WorkDuration = longWeekendDayAfter.WorkDuration;
                         existingLongWeekendDayAfter.DisplayTexts = longWeekendDayAfter.DisplayTexts;
                     }
+
                     continue;
                 }
-                else
-                {
-                    longWeekendDays.Add(longWeekendDayAfter);
-                }
+
+                longWeekendDays.Add(longWeekendDayAfter);
             }
         }
 
@@ -221,22 +220,22 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
 
             var isHoliday = existingHolidays.Any();
 
-            var longWeekendDayDuration = LongWeekendDayDuration.None;
+            var longWeekendDayDuration = LongWeekendDayWorkDuration.None;
             if (isHoliday && existingHolidays.All(x => x.IsEveDay && x.EveDayDuration == EveDayDuration.HalfDay))
             {
-                longWeekendDayDuration = LongWeekendDayDuration.HalfWorkDay;
+                longWeekendDayDuration = LongWeekendDayWorkDuration.HalfWorkDay;
             }
             else if (!isHoliday)
             {
-                longWeekendDayDuration = LongWeekendDayDuration.FullWorkDay;
+                longWeekendDayDuration = LongWeekendDayWorkDuration.FullWorkDay;
             }
 
             var longWeekendDayDisplayTexts = existingHolidays.Select(x => x.DisplayName).ToList();
-            if (longWeekendDayDuration == LongWeekendDayDuration.HalfWorkDay)
+            if (longWeekendDayDuration == LongWeekendDayWorkDuration.HalfWorkDay)
             {
                 longWeekendDayDisplayTexts.Add(Localizer["HalfWorkDay"]);
             }
-            else if (longWeekendDayDuration == LongWeekendDayDuration.FullWorkDay)
+            else if (longWeekendDayDuration == LongWeekendDayWorkDuration.FullWorkDay)
             {
                 longWeekendDayDisplayTexts.Add(Localizer["WorkDay"]);
             }
@@ -245,24 +244,43 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
             {
                 Date = previousDayDate,
                 IsHoliday = isHoliday,
-                Duration = longWeekendDayDuration,
+                IsWeekend = false,
+                WorkDuration = longWeekendDayDuration,
                 DisplayTexts = longWeekendDayDisplayTexts
             });
         }
 
 
-        previousDayCount++;
-        var previousHolidayDate = holiday.Date.AddDays(-previousDayCount);
+        var previousHolidayDate = holiday.Date.AddDays(-(++previousDayCount));
         while (IsWeekend(previousHolidayDate) || holidays.Any(x => x.Date == previousHolidayDate))
         {
+            var isWeekend = IsWeekend(previousHolidayDate);
+
+            var previousHolidays = holidays.Where(x => x.Date == previousHolidayDate).ToList();
+
+            var workDuration = LongWeekendDayWorkDuration.None;
+            if (!isWeekend && previousHolidays.All(x => x.IsEveDay && x.EveDayDuration == EveDayDuration.HalfDay))
+            {
+                workDuration = LongWeekendDayWorkDuration.HalfWorkDay;
+            }
+
+            var displayTexts = previousHolidays.Select(x => x.DisplayName).ToList();
+            if (isWeekend)
+            {
+                displayTexts.Add(Localizer["Weekend"]);
+            }
+            else if (workDuration == LongWeekendDayWorkDuration.HalfWorkDay)
+            {
+                displayTexts.Add(Localizer["HalfWorkDay"]);
+            }
+
             longWeekendDays.Add(new LongWeekendDayOutputDto
             {
                 Date = previousHolidayDate,
                 IsHoliday = true,
-                Duration = LongWeekendDayDuration.None,
-                DisplayTexts = holidays.Where(x => x.Date == previousHolidayDate)
-                                         .Select(x => x.DisplayName)
-                                         .ToList()
+                IsWeekend = isWeekend,
+                WorkDuration = workDuration,
+                DisplayTexts = displayTexts
             });
 
             previousHolidayDate = holiday.Date.AddDays(-(++previousDayCount));
@@ -285,22 +303,22 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
 
             var isHoliday = existingHolidays.Any();
 
-            var longWeekendDayDuration = LongWeekendDayDuration.None;
+            var longWeekendDayDuration = LongWeekendDayWorkDuration.None;
             if (isHoliday && existingHolidays.All(x => x.IsEveDay && x.EveDayDuration == EveDayDuration.HalfDay))
             {
-                longWeekendDayDuration = LongWeekendDayDuration.HalfWorkDay;
+                longWeekendDayDuration = LongWeekendDayWorkDuration.HalfWorkDay;
             }
             else if (!isHoliday)
             {
-                longWeekendDayDuration = LongWeekendDayDuration.FullWorkDay;
+                longWeekendDayDuration = LongWeekendDayWorkDuration.FullWorkDay;
             }
 
             var longWeekendDayDisplayTexts = existingHolidays.Select(x => x.DisplayName).ToList();
-            if (longWeekendDayDuration == LongWeekendDayDuration.HalfWorkDay)
+            if (longWeekendDayDuration == LongWeekendDayWorkDuration.HalfWorkDay)
             {
                 longWeekendDayDisplayTexts.Add(Localizer["HalfWorkDay"]);
             }
-            else if (longWeekendDayDuration == LongWeekendDayDuration.FullWorkDay)
+            else if (longWeekendDayDuration == LongWeekendDayWorkDuration.FullWorkDay)
             {
                 longWeekendDayDisplayTexts.Add(Localizer["WorkDay"]);
             }
@@ -309,23 +327,42 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
             {
                 Date = nextDayDate,
                 IsHoliday = isHoliday,
-                Duration = longWeekendDayDuration,
+                IsWeekend = false,
+                WorkDuration = longWeekendDayDuration,
                 DisplayTexts = longWeekendDayDisplayTexts
             });
         }
 
-        nextDayCount++;
-        var nextHolidayDate = holiday.Date.AddDays(nextDayCount);
+        var nextHolidayDate = holiday.Date.AddDays(++nextDayCount);
         while (IsWeekend(nextHolidayDate) || holidays.Any(x => x.Date == nextHolidayDate))
         {
+            var isWeekend = IsWeekend(nextHolidayDate);
+
+            var nextHolidays = holidays.Where(x => x.Date == nextHolidayDate).ToList();
+
+            var workDuration = LongWeekendDayWorkDuration.None;
+            if (!isWeekend && nextHolidays.All(x => x.IsEveDay && x.EveDayDuration == EveDayDuration.HalfDay))
+            {
+                workDuration = LongWeekendDayWorkDuration.HalfWorkDay;
+            }
+
+            var displayTexts = nextHolidays.Select(x => x.DisplayName).ToList();
+            if (isWeekend)
+            {
+                displayTexts.Add(Localizer["Weekend"]);
+            }
+            else if (workDuration == LongWeekendDayWorkDuration.HalfWorkDay)
+            {
+                displayTexts.Add(Localizer["HalfWorkDay"]);
+            }
+
             longWeekendDays.Add(new LongWeekendDayOutputDto
             {
                 Date = nextHolidayDate,
                 IsHoliday = true,
-                Duration = LongWeekendDayDuration.None,
-                DisplayTexts = holidays.Where(x => x.Date == nextHolidayDate)
-                                         .Select(x => x.DisplayName)
-                                         .ToList()
+                IsWeekend = isWeekend,
+                WorkDuration = workDuration,
+                DisplayTexts = displayTexts
             });
             nextHolidayDate = holiday.Date.AddDays(++nextDayCount);
         }

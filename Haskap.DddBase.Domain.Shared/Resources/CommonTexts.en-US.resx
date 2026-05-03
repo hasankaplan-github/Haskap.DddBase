@@ -132,4 +132,7 @@
   <data name="HalfWorkDay" xml:space="preserve">
     <value>Half Work Day</value>
   </data>
+  <data name="Weekend" xml:space="preserve">
+    <value>Weekend</value>
+  </data>
 </root>
