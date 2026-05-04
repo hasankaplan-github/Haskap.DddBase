@@ -66,17 +66,22 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
         return EvaluateSpecialDaySpecification(year, specialDaySpecificaion)[0];
     }
 
-    public SpecialDayOutputDto LabourDay(int year)
+    public SpecialDayOutputDto? LabourDay(int year)
     {
-        var specialDaySpecificaion = SpecialDaySpecification.CreateFixedWithExactDateSpecialDay(
-            month: 5,
-            day: 1,
-            isHoliday: true,
-            group: SpecialDayConsts.Groups.None,
-            useHijriCalendar: false,
-            [new Name("Labour Day", Locale.DefinedLocales.EnUs), new Name("Emek Ve Dayanışma Günü", Locale.DefinedLocales.TrTr)]);
+        if(year >= 2009)
+        {
+            var specialDaySpecificaion = SpecialDaySpecification.CreateFixedWithExactDateSpecialDay(
+                month: 5,
+                day: 1,
+                isHoliday: true,
+                group: SpecialDayConsts.Groups.None,
+                useHijriCalendar: false,
+                [new Name("Labour Day", Locale.DefinedLocales.EnUs), new Name("Emek Ve Dayanışma Günü", Locale.DefinedLocales.TrTr)]);
 
-        return EvaluateSpecialDaySpecification(year, specialDaySpecificaion)[0];
+            return EvaluateSpecialDaySpecification(year, specialDaySpecificaion)[0];
+        }
+        
+        return null;
     }
 
     public IEnumerable<SpecialDayOutputDto> Ramadan(int year)
@@ -124,17 +129,22 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
         return EvaluateSpecialDaySpecification(year, specialDaySpecificaion);
     }
 
-    public SpecialDayOutputDto DemocracyAndNationalUnityDay(int year)
+    public SpecialDayOutputDto? DemocracyAndNationalUnityDay(int year)
     {
-        var specialDaySpecificaion = SpecialDaySpecification.CreateFixedWithExactDateSpecialDay(
-            month: 7,
-            day: 15,
-            isHoliday: true,
-            group: SpecialDayConsts.Groups.None,
-            useHijriCalendar: false,
-            [new Name("Democracy And National Unity Day", Locale.DefinedLocales.EnUs), new Name("Demokrasi ve Milli Birlik Günü", Locale.DefinedLocales.TrTr)]);
+        if (year >= 2017)
+        {
+            var specialDaySpecificaion = SpecialDaySpecification.CreateFixedWithExactDateSpecialDay(
+                month: 7,
+                day: 15,
+                isHoliday: true,
+                group: SpecialDayConsts.Groups.None,
+                useHijriCalendar: false,
+                [new Name("Democracy And National Unity Day", Locale.DefinedLocales.EnUs), new Name("Demokrasi ve Milli Birlik Günü", Locale.DefinedLocales.TrTr)]);
 
-        return EvaluateSpecialDaySpecification(year, specialDaySpecificaion)[0];
+            return EvaluateSpecialDaySpecification(year, specialDaySpecificaion)[0];
+        }
+
+        return null;
     }
 
     public SpecialDayOutputDto VictoryDay(int year)
@@ -227,7 +237,6 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
         List<SpecialDayOutputDto> specialDays = [
             ..NewYear(year),
             NationalSovereigntyAndChildrensDay(year),
-            LabourDay(year),
             ..Ramadan(year),
             YouthAndSportsDay(year),
             ..FeastOfSacrifices(year),
@@ -239,9 +248,16 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
             FathersDay(year)
         ];
 
-        if (year >= 2017)
+        var laborDay= LabourDay(year);
+        if (laborDay is not null)
         {
-            specialDays.Add(DemocracyAndNationalUnityDay(year));
+            specialDays.Add(laborDay);
+        }
+
+        var democracyAndNationalUnityDay = DemocracyAndNationalUnityDay(year);
+        if (democracyAndNationalUnityDay is not null)
+        {
+            specialDays.Add(democracyAndNationalUnityDay);
         }
 
         return specialDays;

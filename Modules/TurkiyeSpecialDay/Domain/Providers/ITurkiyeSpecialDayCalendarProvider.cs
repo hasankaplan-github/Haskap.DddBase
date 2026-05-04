@@ -7,11 +7,11 @@ public interface ITurkiyeSpecialDayCalendarProvider : ISpecialDayCalendarProvide
 {
     IEnumerable<SpecialDayOutputDto> NewYear(int year);
     SpecialDayOutputDto NationalSovereigntyAndChildrensDay(int year);
-    SpecialDayOutputDto LabourDay(int year);
+    SpecialDayOutputDto? LabourDay(int year);
     IEnumerable<SpecialDayOutputDto> Ramadan(int year);
     SpecialDayOutputDto YouthAndSportsDay(int year);
     IEnumerable<SpecialDayOutputDto> FeastOfSacrifices(int year);
-    SpecialDayOutputDto DemocracyAndNationalUnityDay(int year);
+    SpecialDayOutputDto? DemocracyAndNationalUnityDay(int year);
     SpecialDayOutputDto VictoryDay(int year);
     SpecialDayOutputDto RepublicDay(int year);
     SpecialDayOutputDto ValentinesDay(int year);
