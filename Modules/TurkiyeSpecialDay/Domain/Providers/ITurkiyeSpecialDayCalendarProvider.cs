@@ -5,7 +5,7 @@ namespace Modules.TurkiyeSpecialDay.Domain.Providers;
 
 public interface ITurkiyeSpecialDayCalendarProvider : ISpecialDayCalendarProvider
 {
-    IEnumerable<SpecialDayOutputDto> NewYear(int year);
+    SpecialDayOutputDto NewYear(int year);
     SpecialDayOutputDto NationalSovereigntyAndChildrensDay(int year);
     SpecialDayOutputDto? LabourDay(int year);
     IEnumerable<SpecialDayOutputDto> Ramadan(int year);
@@ -13,7 +13,7 @@ public interface ITurkiyeSpecialDayCalendarProvider : ISpecialDayCalendarProvide
     IEnumerable<SpecialDayOutputDto> FeastOfSacrifices(int year);
     SpecialDayOutputDto? DemocracyAndNationalUnityDay(int year);
     SpecialDayOutputDto VictoryDay(int year);
-    SpecialDayOutputDto RepublicDay(int year);
+    IEnumerable<SpecialDayOutputDto> RepublicDay(int year);
     SpecialDayOutputDto ValentinesDay(int year);
     SpecialDayOutputDto MothersDay(int year);
     SpecialDayOutputDto FathersDay(int year);

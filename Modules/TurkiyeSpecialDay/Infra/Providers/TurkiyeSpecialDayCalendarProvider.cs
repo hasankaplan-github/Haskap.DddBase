@@ -38,7 +38,7 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
         _turkiyeSpecialDayModule = turkiyeSpecialDayModule;
     }
 
-    public IEnumerable<SpecialDayOutputDto> NewYear(int year)
+    public SpecialDayOutputDto NewYear(int year)
     {
         var specialDaySpecificaion = SpecialDaySpecification.CreateFixedWithExactDateSpecialDay(
             month: 1,
@@ -46,11 +46,9 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
             isHoliday: true,
             group: SpecialDayConsts.Groups.None,
             useHijriCalendar: false,
-            [new Name("New Year", Locale.DefinedLocales.EnUs), new Name("Yılbaşı Tatili", Locale.DefinedLocales.TrTr)],
-            hasEveDay: true,
-            eveDayDuration: EveDayDuration.HalfDay);
+            [new Name("New Year", Locale.DefinedLocales.EnUs), new Name("Yılbaşı Tatili", Locale.DefinedLocales.TrTr)]);
 
-        return EvaluateSpecialDaySpecification(year, specialDaySpecificaion);
+        return EvaluateSpecialDaySpecification(year, specialDaySpecificaion)[0];
     }
 
     public SpecialDayOutputDto NationalSovereigntyAndChildrensDay(int year)
@@ -160,7 +158,7 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
         return EvaluateSpecialDaySpecification(year, specialDaySpecificaion)[0];
     }
 
-    public SpecialDayOutputDto RepublicDay(int year)
+    public IEnumerable<SpecialDayOutputDto> RepublicDay(int year)
     {
         var specialDaySpecificaion = SpecialDaySpecification.CreateFixedWithExactDateSpecialDay(
             month: 10,
@@ -168,9 +166,11 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
             isHoliday: true,
             group: SpecialDayConsts.Groups.None,
             useHijriCalendar: false,
-            [new Name("Republic Day", Locale.DefinedLocales.EnUs), new Name("Cumhuriyet Bayramı", Locale.DefinedLocales.TrTr)]);
+            [new Name("Republic Day", Locale.DefinedLocales.EnUs), new Name("Cumhuriyet Bayramı", Locale.DefinedLocales.TrTr)],
+            hasEveDay: true,
+            eveDayDuration: EveDayDuration.HalfDay);
 
-        return EvaluateSpecialDaySpecification(year, specialDaySpecificaion)[0];
+        return EvaluateSpecialDaySpecification(year, specialDaySpecificaion);
     }
 
     public SpecialDayOutputDto ValentinesDay(int year)
@@ -235,20 +235,20 @@ public class TurkiyeSpecialDayCalendarProvider : SpecialDayCalendarProvider, ITu
         }
 
         List<SpecialDayOutputDto> specialDays = [
-            ..NewYear(year),
+            NewYear(year),
             NationalSovereigntyAndChildrensDay(year),
             ..Ramadan(year),
             YouthAndSportsDay(year),
             ..FeastOfSacrifices(year),
             VictoryDay(year),
-            RepublicDay(year),
+            ..RepublicDay(year),
             TheCommemorationDayOfAtatürk(year),
             ValentinesDay(year),
             MothersDay(year),
             FathersDay(year)
         ];
 
-        var laborDay= LabourDay(year);
+        var laborDay = LabourDay(year);
         if (laborDay is not null)
         {
             specialDays.Add(laborDay);
