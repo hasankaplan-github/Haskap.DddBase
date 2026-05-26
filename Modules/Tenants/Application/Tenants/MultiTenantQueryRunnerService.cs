@@ -38,26 +38,26 @@ public class MultiTenantQueryRunnerService : UseCaseService, IMultiTenantQueryRu
     {
         var tenants = await _tenantService.GetAllAsync(ct);
         var results = new ConcurrentBag<TResult>();
-        var semaphore = new SemaphoreSlim(1);
+        using var semaphore = new SemaphoreSlim(6);
 
         var tasks = tenants.Select(async tenant =>
         {
             await semaphore.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                _currentTenantProvider.ChangeCurrentTenant(tenant.Id);
+                //_currentTenantProvider.ChangeCurrentTenant(tenant.Id);
 
                 //var db = _dbContextProvider.GetDbContext<TDbContext>();
-                var dbContextFctory = _serviceProvider.GetRequiredService<IMyDbContextFactory<TDbContext>>();
-                await using var db = await dbContextFctory.CreateDbContextAsync(ct);
+                var dbContextFactory = _serviceProvider.GetRequiredService<IMyDbContextFactory<TDbContext>>();
+                await using var db = await dbContextFactory.CreateDbContextAsync(tenant.Id, ct);
 
                 db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 // optional: set a per-tenant command timeout
                 //db.Database.SetCommandTimeout(TimeSpan.FromSeconds(30));
-                IEnumerable<TResult> tenantResult;
+                IList<TResult> tenantResult;
                 try
                 {
-                    tenantResult = await query(db, ct).ConfigureAwait(false);
+                    tenantResult = (await query(db, ct).ConfigureAwait(false)).ToList();
                 }
                 //catch (OperationCanceledException) { throw; }
                 catch (Exception ex)
@@ -66,7 +66,7 @@ public class MultiTenantQueryRunnerService : UseCaseService, IMultiTenantQueryRu
                     throw;
                 }
 
-                _logger.LogInformation("Query succeeded for tenant {TenantId} with {Count} results", tenant.Id, tenantResult.Count());
+                _logger.LogInformation("Query succeeded for tenant {TenantId} with {Count} results", tenant.Id, tenantResult.Count);
 
                 foreach (var item in tenantResult) results.Add(item);
             }
