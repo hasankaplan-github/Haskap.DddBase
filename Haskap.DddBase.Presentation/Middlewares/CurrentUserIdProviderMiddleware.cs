@@ -1,13 +1,7 @@
-﻿using Haskap.DddBase.Domain;
-using Haskap.DddBase.Domain.Providers;
+﻿using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Domain.Shared.Consts;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Haskap.DddBase.Presentation.Middlewares;
 public class CurrentUserIdProviderMiddleware
