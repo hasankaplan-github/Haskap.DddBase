@@ -1,5 +1,4 @@
-﻿using Haskap.DddBase.Domain;
-using System.Net;
+﻿using System.Net;
 
 namespace Haskap.DddBase.Domain.Common.Exceptions;
 public class EmailAddressIsEmptyException : DomainException

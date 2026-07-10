@@ -6,11 +6,6 @@ using Modules.AuditLog.Application.Contracts;
 
 namespace Modules.AuditLog.Infra.Db.Interceptors;
 
-
-/*
-    Buradaki TUserId Guid? şeklinde nullable  olarak verilecek.
-    Entity' de de IAuditable<Guid?> olarak verilecek ve user id ler nullable olmuş olacak.
- */
 public class AuditSaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly ICurrentUserIdProvider? _currentUserIdProvider;

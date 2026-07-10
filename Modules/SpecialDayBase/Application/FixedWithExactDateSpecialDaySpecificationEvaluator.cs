@@ -24,7 +24,7 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
         {
             if (specialDaySpecification.UseHijriCalendar)
             {
-                var hijriCalendar = new UmAlQuraCalendar();
+                var hijriCalendar = new HijriCalendar();
                 var hijriYears = CalendarHelper.GetHijriYears(year);
                 foreach (var hijriYear in hijriYears)
                 {

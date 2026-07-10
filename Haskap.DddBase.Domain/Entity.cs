@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Haskap.DddBase.Domain;
+﻿namespace Haskap.DddBase.Domain;
 
 [Serializable]
 public abstract class Entity<TId> : IEntity<TId>, IEquatable<Entity<TId>>

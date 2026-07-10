@@ -87,7 +87,6 @@
     <Project Path="Modules/TurkiyeSpecialDay/Application.Contracts/Application.Contracts.csproj" />
     <Project Path="Modules/TurkiyeSpecialDay/Domain/Domain.csproj" />
     <Project Path="Modules/TurkiyeSpecialDay/Infra/Infra.csproj" />
-    <Project Path="Modules/TurkiyeSpecialDay/IntegrationEvents/IntegrationEvents.csproj" />
     <Project Path="Modules/TurkiyeSpecialDay/Module/Module.csproj" />
   </Folder>
   <Folder Name="/Presentation/">

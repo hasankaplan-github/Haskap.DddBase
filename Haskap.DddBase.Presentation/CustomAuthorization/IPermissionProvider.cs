@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System.Collections.ObjectModel;
 
 namespace Haskap.DddBase.Presentation.CustomAuthorization;

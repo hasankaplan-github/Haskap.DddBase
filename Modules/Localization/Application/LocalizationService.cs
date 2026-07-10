@@ -11,7 +11,6 @@ using Modules.Localization.Application.Dtos;
 using Modules.Localization.Application.Mappings;
 using Modules.Localization.Domain;
 using Modules.Localization.Domain.SupportedLocaleAggregate;
-using System.Globalization;
 
 namespace Modules.Localization.Application;
 

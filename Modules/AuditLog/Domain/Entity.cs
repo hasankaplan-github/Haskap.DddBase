@@ -1,7 +1,4 @@
 ﻿using Haskap.DddBase.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Modules.AuditLog.Domain;
 

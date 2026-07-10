@@ -10,7 +10,7 @@ public class CalendarHelper
         //return [hijriYear, hijriYear + 1];
 
 
-        var hijriCalendar = new UmAlQuraCalendar();
+        var hijriCalendar = new HijriCalendar();
 
         var minHijriYear = hijriCalendar.GetYear(new DateTime(year, 1, 1));
         var maxHijriYear = hijriCalendar.GetYear(new DateTime(year, 12, 31));
@@ -69,7 +69,7 @@ public class CalendarHelper
 
     public static DateTime HijriToGrogerianDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
     {
-        var hijriCalendar = new UmAlQuraCalendar();
+        var hijriCalendar = new HijriCalendar();
         var dateTime = hijriCalendar.ToDateTime(year, month, day, hour, minute, second, millisecond);
 
         return dateTime;
@@ -77,7 +77,7 @@ public class CalendarHelper
 
     public static DateTime HijriToGrogerianDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int era)
     {
-        var hijriCalendar = new UmAlQuraCalendar();
+        var hijriCalendar = new HijriCalendar();
         var dateTime = hijriCalendar.ToDateTime(year, month, day, hour, minute, second, millisecond, era);
 
         return dateTime;

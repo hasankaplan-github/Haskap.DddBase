@@ -12,7 +12,6 @@ using System.Text.Json;
 
 namespace Modules.AuditLog.Infra.Db.Interceptors;
 
-// burada da TUserId nullable olan Guid? olarak verilecek.
 public class AuditHistoryLogSaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly ICurrentUserIdProvider? _currentUserIdProvider;
