@@ -11,6 +11,11 @@ public class OneTimeAndOccurrenceBasedSpecialDaySpecificationEvaluator(IServiceS
 {
     public IList<SpecialDayOutputDto> Evaluate(int year, SpecialDaySpecification specialDaySpecification)
     {
+        if (!specialDaySpecification.IsOneTimeAndOccurrenceBased)
+        {
+            return [];
+        }
+
         using var scope = ServiceScopeFactory.CreateScope();
         var commonTextsLocalizer = scope.ServiceProvider.GetRequiredService<IStringLocalizer<CommonTexts>>();
 
@@ -19,59 +24,56 @@ public class OneTimeAndOccurrenceBasedSpecialDaySpecificationEvaluator(IServiceS
 
         List<SpecialDayOutputDto> specialDayDtos = [];
 
-        if (specialDaySpecification.IsOneTimeAndOccurrenceBased)
+        if (specialDaySpecification.Year == year)
         {
-            if (specialDaySpecification.Year == year)
+            var date = CalendarHelper.FindOccurrenceOfDayOfWeek(specialDaySpecification.Year!.Value, specialDaySpecification.Month, specialDaySpecification.DayOfWeek!.Value, (int)specialDaySpecification.Occurrence!.Value);
+
+            if (specialDaySpecification.HasEveDay)
             {
-                var date = CalendarHelper.FindOccurrenceOfDayOfWeek(specialDaySpecification.Year!.Value, specialDaySpecification.Month, specialDaySpecification.DayOfWeek!.Value, (int)specialDaySpecification.Occurrence!.Value);
+                var eveDay = date!.Value.AddDays(-1);
 
-                if (specialDaySpecification.HasEveDay)
-                {
-                    var eveDay = date!.Value.AddDays(-1);
-
-                    if (eveDay.Year == year)
-                    {
-                        specialDayDtos.Add(new SpecialDayOutputDto
-                        {
-                            Date = eveDay,
-                            Group = specialDaySpecification.Group,
-                            IsHoliday = specialDaySpecification.IsHoliday,
-                            Name = specialDaySpecification.GetLocalizedName().Value + " " + localizedEveDay,
-                            IsEveDay = true,
-                            EveDayDuration = specialDaySpecification.EveDayDuration
-                        });
-                    }
-                }
-
-                if (specialDaySpecification.LengthInDays == 1)
+                if (eveDay.Year == year)
                 {
                     specialDayDtos.Add(new SpecialDayOutputDto
                     {
-                        Date = date!.Value,
+                        Date = eveDay,
                         Group = specialDaySpecification.Group,
                         IsHoliday = specialDaySpecification.IsHoliday,
-                        Name = specialDaySpecification.GetLocalizedName().Value
+                        Name = specialDaySpecification.GetLocalizedName().Value + " " + localizedEveDay,
+                        IsEveDay = true,
+                        EveDayDuration = specialDaySpecification.EveDayDuration
                     });
                 }
-                else
+            }
+
+            if (specialDaySpecification.LengthInDays == 1)
+            {
+                specialDayDtos.Add(new SpecialDayOutputDto
                 {
-                    for (var i = 0; i < specialDaySpecification.LengthInDays; i++)
+                    Date = date!.Value,
+                    Group = specialDaySpecification.Group,
+                    IsHoliday = specialDaySpecification.IsHoliday,
+                    Name = specialDaySpecification.GetLocalizedName().Value
+                });
+            }
+            else
+            {
+                for (var i = 0; i < specialDaySpecification.LengthInDays; i++)
+                {
+                    var day = date!.Value.AddDays(i);
+
+                    if (day.Year != year)
                     {
-                        var day = date!.Value.AddDays(i);
-
-                        if (day.Year != year)
-                        {
-                            break;
-                        }
-
-                        specialDayDtos.Add(new SpecialDayOutputDto
-                        {
-                            Date = day,
-                            Group = specialDaySpecification.Group,
-                            IsHoliday = specialDaySpecification.IsHoliday,
-                            Name = string.Format("{0} {1}. {2}", specialDaySpecification.GetLocalizedName().Value, i + 1, localizedDay)
-                        });
+                        break;
                     }
+
+                    specialDayDtos.Add(new SpecialDayOutputDto
+                    {
+                        Date = day,
+                        Group = specialDaySpecification.Group,
+                        IsHoliday = specialDaySpecification.IsHoliday,
+                        Name = string.Format("{0} {1}. {2}", specialDaySpecification.GetLocalizedName().Value, i + 1, localizedDay)
+                    });
                 }
             }
         }

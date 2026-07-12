@@ -3,6 +3,31 @@
 namespace Haskap.DddBase.Utilities.Calendar;
 public class CalendarHelper
 {
+    private static readonly Dictionary<(int HijriYear, int HijriMonth), int> s_hijriAdjsutmentsForTurkiye = new()
+    {
+        // Format: { (HijriYear, HijriMonth), Offset }
+        { (1447, 10), -1 }, // 2026 March
+        { (1447, 12), -1 }, // 2026 May
+        { (1449, 12), -1 },  // 2028 May
+        { (1450, 12), -1 },  // 2029 April
+        { (1453, 10), -1 },   // 2032 January
+        { (1453, 12), -1 },   // 2032 March
+        { (1455, 10), -1 },   // 2033 December
+        { (1455, 12), -1 },   // 2034 March
+        { (1456, 10), -1 },   // 2034 December
+        { (1456, 12), -1 },    // 2035 February
+    };
+
+    public static int GetHijriAdjustmentForTurkiyeByHijriYearAndMonth(int hijriYear, int hijriMonth)
+    {
+        if (s_hijriAdjsutmentsForTurkiye.TryGetValue((hijriYear, hijriMonth), out var hijriAdjustment))
+        {
+            return hijriAdjustment;
+        }
+
+        return 0;
+    }
+
     public static IEnumerable<int> GetHijriYears(int year)
     {
         //var diff = year - 621;
