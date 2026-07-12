@@ -10,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj" />
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
+    <ProjectReference Include="..\..\..\Application\Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Domain\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

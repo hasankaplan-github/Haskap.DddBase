@@ -1,19 +1,19 @@
 <Solution>
   <Folder Name="/Application/">
-    <Project Path="Haskap.DddBase.Application.Contracts/Haskap.DddBase.Application.Contracts.csproj" />
-    <Project Path="Haskap.DddBase.Application.Dtos/Haskap.DddBase.Application.Dtos.csproj" />
-    <Project Path="Haskap.DddBase.Application/Haskap.DddBase.Application.csproj" />
+    <Project Path="Application/Haskap.DddBase.Application.Contracts/Haskap.DddBase.Application.Contracts.csproj" />
+    <Project Path="Application/Haskap.DddBase.Application.Dtos/Haskap.DddBase.Application.Dtos.csproj" />
+    <Project Path="Application/Haskap.DddBase.Application/Haskap.DddBase.Application.csproj" />
   </Folder>
   <Folder Name="/Domian/">
-    <Project Path="Haskap.DddBase.Domain.Shared/Haskap.DddBase.Domain.Shared.csproj" />
-    <Project Path="Haskap.DddBase.Domain/Haskap.DddBase.Domain.csproj" />
+    <Project Path="Domain/Haskap.DddBase.Domain.Shared/Haskap.DddBase.Domain.Shared.csproj" />
+    <Project Path="Domain/Haskap.DddBase.Domain/Haskap.DddBase.Domain.csproj" />
   </Folder>
   <Folder Name="/Infrastructure/">
-    <Project Path="Haskap.DddBase.Infra.Db.Contexts.EfCoreContext/Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.csproj" />
-    <Project Path="Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext/Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext.csproj" />
-    <Project Path="Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext/Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj" />
-    <Project Path="Haskap.DddBase.Infra.Db.Contexts.OracleDbContext/Haskap.DddBase.Infra.Db.Contexts.OracleDbContext.csproj" />
-    <Project Path="Haskap.DddBase.Infra/Haskap.DddBase.Infra.csproj" />
+    <Project Path="Infra/Haskap.DddBase.Infra.Db.Contexts.EfCoreContext/Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.csproj" />
+    <Project Path="Infra/Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext/Haskap.DddBase.Infra.Db.Contexts.MsSqlDbContext.csproj" />
+    <Project Path="Infra/Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext/Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj" />
+    <Project Path="Infra/Haskap.DddBase.Infra.Db.Contexts.OracleDbContext/Haskap.DddBase.Infra.Db.Contexts.OracleDbContext.csproj" />
+    <Project Path="Infra/Haskap.DddBase.Infra/Haskap.DddBase.Infra.csproj" />
   </Folder>
   <Folder Name="/Modules/" />
   <Folder Name="/Modules/AuditLog/">
@@ -90,9 +90,9 @@
     <Project Path="Modules/TurkiyeSpecialDay/Module/Module.csproj" />
   </Folder>
   <Folder Name="/Presentation/">
-    <Project Path="Haskap.DddBase.Presentation/Haskap.DddBase.Presentation.csproj" />
+    <Project Path="Presentation/Haskap.DddBase.Presentation/Haskap.DddBase.Presentation.csproj" />
   </Folder>
   <Folder Name="/Utilities/">
-    <Project Path="Haskap.DddBase.Utilities/Haskap.DddBase.Utilities.csproj" />
+    <Project Path="Utilities/Haskap.DddBase.Utilities/Haskap.DddBase.Utilities.csproj" />
   </Folder>
 </Solution>

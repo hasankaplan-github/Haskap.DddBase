@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj" />
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Infra\Haskap.DddBase.Infra.csproj" />
+    <ProjectReference Include="..\..\..\Infra\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj" />
+    <ProjectReference Include="..\..\..\Infra\Haskap.DddBase.Infra\Haskap.DddBase.Infra.csproj" />
     <ProjectReference Include="..\..\AuditLog\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\AuditLog\Infra\Infra.csproj" />
     <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />

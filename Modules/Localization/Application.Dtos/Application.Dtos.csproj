@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
+    <ProjectReference Include="..\..\..\Application\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

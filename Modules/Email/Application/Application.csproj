@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Application\Haskap.DddBase.Application.csproj" />
+    <ProjectReference Include="..\..\..\Application\Haskap.DddBase.Application\Haskap.DddBase.Application.csproj" />
     <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
     <ProjectReference Include="..\Domain.Shared\Domain.Shared.csproj" />
   </ItemGroup>

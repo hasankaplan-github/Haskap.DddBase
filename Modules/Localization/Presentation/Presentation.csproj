@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj" />
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Application\Haskap.DddBase.Application.csproj" />
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Presentation\Haskap.DddBase.Presentation.csproj" />
-    <ProjectReference Include="..\..\..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
+    <ProjectReference Include="..\..\..\Application\Haskap.DddBase.Application.Contracts\Haskap.DddBase.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Application\Haskap.DddBase.Application\Haskap.DddBase.Application.csproj" />
+    <ProjectReference Include="..\..\..\Domain\Haskap.DddBase.Domain\Haskap.DddBase.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Presentation\Haskap.DddBase.Presentation\Haskap.DddBase.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
     <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>

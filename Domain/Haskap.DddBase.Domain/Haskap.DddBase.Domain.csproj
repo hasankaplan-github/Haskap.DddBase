@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <BaseOutputPath>..\Outputs</BaseOutputPath>
+    <BaseOutputPath>..\..\Outputs</BaseOutputPath>
     <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
+    <ProjectReference Include="..\..\Application\Haskap.DddBase.Application.Dtos\Haskap.DddBase.Application.Dtos.csproj" />
     <ProjectReference Include="..\Haskap.DddBase.Domain.Shared\Haskap.DddBase.Domain.Shared.csproj" />
-    <ProjectReference Include="..\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
+    <ProjectReference Include="..\..\Utilities\Haskap.DddBase.Utilities\Haskap.DddBase.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
