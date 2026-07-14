@@ -2,7 +2,7 @@
 using Haskap.DddBase.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Modules.AuditLog.Application.Contracts;
+using Modules.AuditLog.Domain.Shared;
 
 namespace Modules.AuditLog.Infra.Db.Interceptors;
 

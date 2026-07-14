@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.ModuleManagement.Application.Contracts.Module;
-using Modules.ModuleManagement.Application.Module;
+using Modules.ModuleManagement.Application.Contracts;
 
 namespace Modules.ModuleManagement.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddUseCaseServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IModuleService, ModuleService>();
 

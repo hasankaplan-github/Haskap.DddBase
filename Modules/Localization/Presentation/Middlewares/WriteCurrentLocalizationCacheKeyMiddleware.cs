@@ -3,8 +3,8 @@ using Haskap.DddBase.Domain.Common;
 using Haskap.DddBase.Domain.Providers;
 using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Http;
-using Modules.Localization.Application.Contracts;
 using Modules.Localization.Application.Dtos;
+using Modules.Localization.Domain.Shared;
 using System.Threading.Channels;
 
 namespace Modules.Localization.Presentation.Middlewares;

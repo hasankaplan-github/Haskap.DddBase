@@ -1,4 +1,4 @@
-﻿using Modules.Tenants.Application.Dtos.Tenants;
+﻿using Modules.Tenants.Application.Dtos;
 using Modules.Tenants.Domain.TenantAggregate;
 
 namespace Modules.Tenants.Application.Mappings;

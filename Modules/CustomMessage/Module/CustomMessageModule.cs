@@ -3,8 +3,8 @@ using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.CustomMessage.Application;
-using Modules.CustomMessage.Application.Contracts;
-using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.CustomMessage.Domain.Shared;
+using Modules.ModuleManagement.Application.Contracts;
 
 namespace Modules.CustomMessage.Module;
 
@@ -21,7 +21,7 @@ public class CustomMessageModule : BaseModule<CustomMessageModule>, ICustomMessa
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddUseCaseServices(configuration);
+            services.AddApplication(configuration);
 
             return services;
         }

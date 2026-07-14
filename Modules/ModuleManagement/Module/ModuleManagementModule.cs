@@ -3,9 +3,9 @@ using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.ModuleManagement.Application;
-using Modules.ModuleManagement.Application.Contracts;
-using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.ModuleManagement.Domain.Shared;
 using Modules.ModuleManagement.Infra;
+using Modules.ModuleManagement.Application.Contracts;
 
 namespace Modules.ModuleManagement.Module;
 
@@ -22,7 +22,7 @@ public class ModuleManagementModule : BaseModule<ModuleManagementModule>, IModul
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddUseCaseServices(configuration);
+            services.AddApplication(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             return services;
         }

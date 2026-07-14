@@ -3,8 +3,8 @@ using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Email.Application;
-using Modules.Email.Application.Contracts;
-using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.Email.Domain.Shared;
+using Modules.ModuleManagement.Application.Contracts;
 
 namespace Modules.Email.Module;
 public class EmailModule : BaseModule<EmailModule>, IEmailModule
@@ -19,7 +19,7 @@ public class EmailModule : BaseModule<EmailModule>, IEmailModule
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddUseCaseServices(configuration);
+            services.AddApplication(configuration);
             //services.AddInfra(configuration, connectionStringName, migrationAssembly);
             //services.AddPresentation(configuration);
             return services;

@@ -6,8 +6,8 @@ using Haskap.DddBase.Utilities.Guids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Modules.AuditLog.Application.Contracts;
 using Modules.AuditLog.Domain.AuditHistoryLogAggregate;
+using Modules.AuditLog.Domain.Shared;
 using System.Text.Json;
 
 namespace Modules.AuditLog.Infra.Db.Interceptors;

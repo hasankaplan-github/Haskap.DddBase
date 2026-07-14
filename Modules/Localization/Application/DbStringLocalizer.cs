@@ -5,7 +5,7 @@ using Haskap.DddBase.Domain.Common;
 using Haskap.DddBase.Domain.Providers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
-using Modules.Localization.Application.Contracts;
+using Modules.Localization.Domain.Shared;
 using Modules.Localization.Domain;
 using System.Globalization;
 

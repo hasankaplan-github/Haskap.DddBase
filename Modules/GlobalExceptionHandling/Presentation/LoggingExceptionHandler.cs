@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Modules.GlobalExceptionHandling.Application.Contracts;
+using Modules.GlobalExceptionHandling.Domain.Shared;
 using System.Text.Json;
 
 namespace Modules.GlobalExceptionHandling.Presentation;

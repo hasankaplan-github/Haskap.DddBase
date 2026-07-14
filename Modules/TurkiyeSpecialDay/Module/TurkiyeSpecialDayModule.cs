@@ -2,9 +2,9 @@
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.ModuleManagement.Application.Contracts.Module;
 using Modules.TurkiyeSpecialDay.Infra;
-using Modules.TurkiyeSpecialDay.Application.Contracts;
+using Modules.TurkiyeSpecialDay.Domain.Shared;
+using Modules.ModuleManagement.Application.Contracts;
 
 namespace Modules.TurkiyeSpecialDay.Module;
 public class TurkiyeSpecialDayModule : BaseModule<TurkiyeSpecialDayModule>, ITurkiyeSpecialDayModule

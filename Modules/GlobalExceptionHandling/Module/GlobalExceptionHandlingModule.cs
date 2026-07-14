@@ -2,8 +2,8 @@
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.GlobalExceptionHandling.Application.Contracts;
-using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.GlobalExceptionHandling.Domain.Shared;
+using Modules.ModuleManagement.Application.Contracts;
 
 namespace Modules.GlobalExceptionHandling.Module;
 

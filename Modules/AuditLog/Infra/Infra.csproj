@@ -18,7 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infra\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext\Haskap.DddBase.Infra.Db.Contexts.NpgsqlDbContext.csproj" />
     <ProjectReference Include="..\..\..\Infra\Haskap.DddBase.Infra\Haskap.DddBase.Infra.csproj" />
-    <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
+    <ProjectReference Include="..\Domain.Shared\Domain.Shared.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
