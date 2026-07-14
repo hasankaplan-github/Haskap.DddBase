@@ -17,7 +17,7 @@
   </Folder>
   <Folder Name="/Modules/" />
   <Folder Name="/Modules/AuditLog/">
-    <Project Path="Modules/AuditLog/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/AuditLog/Domain.Shared/Domain.Shared.csproj" Id="35b330f6-98c8-45c7-9f74-f9c0402629de" />
     <Project Path="Modules/AuditLog/Domain/Domain.csproj" />
     <Project Path="Modules/AuditLog/Infra/Infra.csproj" />
     <Project Path="Modules/AuditLog/Module/Module.csproj" />
@@ -43,7 +43,7 @@
     <Project Path="Modules/Email/Module/Module.csproj" />
   </Folder>
   <Folder Name="/Modules/GlobalExceptionHandling/">
-    <Project Path="Modules/GlobalExceptionHandling/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/GlobalExceptionHandling/Domain.Shared/Domain.Shared.csproj" Id="4f0c1296-3055-4c8e-9086-bc5306bef193" />
     <Project Path="Modules/GlobalExceptionHandling/Module/Module.csproj" />
     <Project Path="Modules/GlobalExceptionHandling/Presentation/Presentation.csproj" />
   </Folder>
@@ -51,6 +51,7 @@
     <Project Path="Modules/Localization/Application.Contracts/Application.Contracts.csproj" />
     <Project Path="Modules/Localization/Application.Dtos/Application.Dtos.csproj" Id="1bed8227-5a38-4035-857f-00afd9bef724" />
     <Project Path="Modules/Localization/Application/Application.csproj" Id="15e82d3e-699e-4ccb-a0bf-fb207f59a9a7" />
+    <Project Path="Modules/Localization/Domain.Shared/Domain.Shared.csproj" Id="922db703-4dcd-434e-bccd-52e1f5f4a727" />
     <Project Path="Modules/Localization/Domain/Domain.csproj" />
     <Project Path="Modules/Localization/Infra/Infra.csproj" />
     <Project Path="Modules/Localization/Module/Module.csproj" />
@@ -60,6 +61,7 @@
     <Project Path="Modules/ModuleManagement/Application.Contracts/Application.Contracts.csproj" />
     <Project Path="Modules/ModuleManagement/Application.Dtos/Application.Dtos.csproj" />
     <Project Path="Modules/ModuleManagement/Application/Application.csproj" />
+    <Project Path="Modules/ModuleManagement/Domain.Shared/Domain.Shared.csproj" Id="ee37ca7d-9203-4e4f-9cc4-b4e3192b529e" />
     <Project Path="Modules/ModuleManagement/Domain/Domain.csproj" />
     <Project Path="Modules/ModuleManagement/Infra/Infra.csproj" />
     <Project Path="Modules/ModuleManagement/IntegrationEvents/IntegrationEvents.csproj" />
@@ -78,13 +80,14 @@
     <Project Path="Modules/Tenants/Application.Contracts/Application.Contracts.csproj" />
     <Project Path="Modules/Tenants/Application.Dtos/Application.Dtos.csproj" />
     <Project Path="Modules/Tenants/Application/Application.csproj" />
+    <Project Path="Modules/Tenants/Domain.Shared/Domain.Shared.csproj" Id="1249d994-7235-4e01-8c17-d2eb5379d2bf" />
     <Project Path="Modules/Tenants/Domain/Domain.csproj" />
     <Project Path="Modules/Tenants/Infra/Infra.csproj" />
     <Project Path="Modules/Tenants/IntegrationEvents/IntegrationEvents.csproj" />
     <Project Path="Modules/Tenants/Module/Module.csproj" />
   </Folder>
   <Folder Name="/Modules/TurkiyeSpecialDay/">
-    <Project Path="Modules/TurkiyeSpecialDay/Application.Contracts/Application.Contracts.csproj" />
+    <Project Path="Modules/TurkiyeSpecialDay/Domain.Shared/Domain.Shared.csproj" Id="8239cb4e-2997-4a43-9005-a1051932caf3" />
     <Project Path="Modules/TurkiyeSpecialDay/Domain/Domain.csproj" />
     <Project Path="Modules/TurkiyeSpecialDay/Infra/Infra.csproj" />
     <Project Path="Modules/TurkiyeSpecialDay/Module/Module.csproj" />

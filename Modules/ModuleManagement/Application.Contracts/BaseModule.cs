@@ -5,7 +5,7 @@ using Haskap.DddBase.Utilities.Module;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Modules.ModuleManagement.Application.Contracts.Module;
+namespace Modules.ModuleManagement.Application.Contracts;
 
 public abstract class BaseModule<TModule> : IModule
     where TModule : class, IModule

@@ -1,7 +1,7 @@
 ﻿using Haskap.DddBase.Application.Contracts;
 using Haskap.DddBase.Domain;
 
-namespace Modules.Tenants.Application.Contracts.Tenants;
+namespace Modules.Tenants.Application.Contracts;
 
 public interface IMultiTenantQueryRunnerService : IUseCaseService
 {

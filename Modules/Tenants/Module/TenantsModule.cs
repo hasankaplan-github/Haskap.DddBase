@@ -3,9 +3,9 @@ using Haskap.DddBase.Infra.Events;
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.ModuleManagement.Application.Contracts;
 using Modules.Tenants.Application;
-using Modules.Tenants.Application.Contracts;
+using Modules.Tenants.Domain.Shared;
 using Modules.Tenants.Infra;
 
 namespace Modules.Tenants.Module;
@@ -23,7 +23,7 @@ public class TenantsModule : BaseModule<TenantsModule>, ITenantsModule
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddUseCaseServices(configuration);
+            services.AddApplication(configuration);
             services.AddInfra(configuration, connectionStringName, migrationAssembly);
             services.RegisterHandlersFromAssembly(typeof(Application.DependencyInjection).Assembly);
 

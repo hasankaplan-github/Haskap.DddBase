@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using Modules.ModuleManagement.Application.Contracts.Module;
+using Modules.ModuleManagement.Application.Contracts;
 using Modules.ModuleManagement.Application.Dtos.Module;
 using Modules.ModuleManagement.Domain;
 using Modules.ModuleManagement.Domain.ModuleAggregate;
 using Modules.ModuleManagement.IntegrationEvents;
 
-namespace Modules.ModuleManagement.Application.Module;
+namespace Modules.ModuleManagement.Application;
 
 public class ModuleService : UseCaseService, IModuleService
 {

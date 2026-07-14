@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <BaseOutputPath>..\..\..\Outputs</BaseOutputPath>
-    <AssemblyName>Modules.SpecialDayBase.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Modules.SpecialDayBase.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Modules.Tenants.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Modules.Tenants.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

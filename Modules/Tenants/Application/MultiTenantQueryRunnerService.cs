@@ -4,10 +4,10 @@ using Haskap.DddBase.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Modules.Tenants.Application.Contracts.Tenants;
+using Modules.Tenants.Application.Contracts;
 using System.Collections.Concurrent;
 
-namespace Modules.Tenants.Application.Tenants;
+namespace Modules.Tenants.Application;
 
 public class MultiTenantQueryRunnerService : UseCaseService, IMultiTenantQueryRunnerService
 {

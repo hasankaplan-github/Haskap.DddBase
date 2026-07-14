@@ -1,6 +1,6 @@
 ﻿using Haskap.DddBase.Utilities.Module;
 
-namespace Modules.ModuleManagement.Application.Contracts;
+namespace Modules.ModuleManagement.Domain.Shared;
 public interface IModuleManagementModule : IModule
 {
 }

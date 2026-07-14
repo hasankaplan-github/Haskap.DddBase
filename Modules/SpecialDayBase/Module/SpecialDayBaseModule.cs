@@ -2,9 +2,9 @@
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Modules.ModuleManagement.Application.Contracts.Module;
-using Modules.SpecialDayBase.Application.Contracts;
+using Modules.ModuleManagement.Application.Contracts;
 using Modules.SpecialDayBase.Application;
+using Modules.SpecialDayBase.Domain.Shared;
 
 namespace Modules.SpecialDayBase.Module;
 
@@ -21,7 +21,7 @@ public class SpecialDayBaseModule : BaseModule<SpecialDayBaseModule>, ISpecialDa
     {
         public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration, string connectionStringName, string? migrationAssembly)
         {
-            services.AddUseCaseServices(configuration);
+            services.AddApplication(configuration);
 
             return services;
         }

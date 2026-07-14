@@ -1,5 +1,6 @@
 ﻿using Haskap.DddBase.Domain.Events;
 using Modules.Localization.Application.Contracts;
+using Modules.Localization.Domain.Shared;
 using Modules.ModuleManagement.IntegrationEvents;
 
 namespace Modules.Localization.Application;

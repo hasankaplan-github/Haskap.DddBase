@@ -10,7 +10,7 @@ using Modules.SpecialDayBase.Domain.Shared.Consts;
 using Modules.SpecialDayBase.Domain.Shared.Enums;
 using Modules.SpecialDayBase.Domain.SpecialDayAggregate;
 using Modules.SpecialDayBase.Infra.Providers;
-using Modules.TurkiyeSpecialDay.Application.Contracts;
+using Modules.TurkiyeSpecialDay.Domain.Shared;
 using Modules.TurkiyeSpecialDay.Domain.Providers;
 
 namespace Modules.TurkiyeSpecialDay.Infra.Providers;

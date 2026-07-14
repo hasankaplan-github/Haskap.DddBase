@@ -2,7 +2,7 @@
 using Haskap.DddBase.Domain.Shared;
 using Haskap.DddBase.Domain.Shared.Enums;
 using Microsoft.Extensions.Configuration;
-using Modules.Tenants.Application.Contracts.Tenants;
+using Modules.Tenants.Application.Contracts;
 
 namespace Modules.Tenants.Infra.Providers;
 

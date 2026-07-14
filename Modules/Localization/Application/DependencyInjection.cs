@@ -8,7 +8,7 @@ using System.Threading.Channels;
 namespace Modules.Localization.Application;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddUseCaseServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IDbStringLocalizer, DbStringLocalizer>();
         services.AddTransient<ICommonStringLocalizer, CommonStringLocalizer>();

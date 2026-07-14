@@ -1,7 +1,7 @@
 ﻿using Haskap.DddBase.Utilities.Module;
 using Modules.ModuleManagement.Application.Dtos.Module;
 
-namespace Modules.ModuleManagement.Application.Contracts.Module;
+namespace Modules.ModuleManagement.Application.Contracts;
 public interface IModuleService
 {
     Task<bool> IsEnabledAsync<TModule>(Guid? tenantId, CancellationToken cancellationToken)

@@ -1,7 +1,7 @@
 ﻿using Haskap.DddBase.Domain.Common;
 using Haskap.DddBase.Presentation;
 using Microsoft.AspNetCore.Http;
-using Modules.Localization.Application.Contracts;
+using Modules.Localization.Domain.Shared;
 using System.Globalization;
 
 namespace Modules.Localization.Presentation.Middlewares;

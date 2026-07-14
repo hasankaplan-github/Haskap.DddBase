@@ -1,6 +1,6 @@
 ﻿using Haskap.DddBase.Utilities.Module;
 
-namespace Modules.TurkiyeSpecialDay.Application.Contracts;
+namespace Modules.TurkiyeSpecialDay.Domain.Shared;
 public interface ITurkiyeSpecialDayModule : IModule
 {
 }

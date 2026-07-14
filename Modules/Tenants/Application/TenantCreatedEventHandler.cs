@@ -6,7 +6,7 @@ using Haskap.DddBase.Utilities.Module;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Tenants.Domain.TenantAggregate.Events;
 
-namespace Modules.Tenants.Application.Tenants;
+namespace Modules.Tenants.Application;
 
 public class TenantCreatedEventHandler : IEventHandler<TenantCreatedDomainEvent>
 {
