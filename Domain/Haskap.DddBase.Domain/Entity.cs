@@ -35,3 +35,17 @@ public abstract class Entity<TId> : IEntity<TId>, IEquatable<Entity<TId>>
         return Id.GetHashCode() * 7;
     }
 }
+
+public abstract class Entity : Entity<Guid>, IEntity
+{
+    protected Entity()
+    {
+
+    }
+
+    protected Entity(Guid id)
+        : base(id)
+    {
+
+    }
+}
