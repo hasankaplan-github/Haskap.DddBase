@@ -347,6 +347,7 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
             }
 
             var displayTexts = nextHolidays.Select(x => x.DisplayName).ToList();
+
             if (isWeekend)
             {
                 displayTexts.Add(Localizer["Weekend"]);
@@ -364,7 +365,28 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
                 WorkDuration = workDuration,
                 DisplayTexts = displayTexts
             });
+
             nextHolidayDate = holiday.Date.AddDays(++nextDayCount);
+        }
+
+        // tatil önceki haftaiçinde başlamış ve sonraki haftaiçinde bitmişse,
+        // sonraki haftasonuna kadar veya bir sonraki tatile kadar longweekend olarak işaretle
+        var previousHolidayDate = holiday.Date.AddDays(nextDayCount - 1);
+        if (!IsWeekend(previousHolidayDate))
+        {
+            while(!IsWeekend(nextHolidayDate) && !holidays.Any(x => x.Date == nextHolidayDate))
+            {
+                longWeekendDays.Add(new LongWeekendDayOutputDto
+                {
+                    Date = nextHolidayDate,
+                    IsHoliday = false,
+                    IsWeekend = false,
+                    WorkDuration = LongWeekendDayWorkDuration.FullWorkDay,
+                    DisplayTexts = [Localizer["WorkDay"]]
+                });
+
+                nextHolidayDate = holiday.Date.AddDays(++nextDayCount);
+            }
         }
 
         return longWeekendDays;
