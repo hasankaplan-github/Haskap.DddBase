@@ -1,3 +1,4 @@
+using Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Modules.AuditLog.Domain.AuditHistoryLogAggregate;

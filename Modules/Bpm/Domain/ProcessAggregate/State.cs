@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Modules.Bpm.Domain.Shared.Enums;
+using Haskap.DddBase.Domain;
 
 namespace Modules.Bpm.Domain.ProcessAggregate;
 

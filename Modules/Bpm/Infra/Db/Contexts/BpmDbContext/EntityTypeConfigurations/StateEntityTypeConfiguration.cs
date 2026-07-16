@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Modules.Bpm.Domain.ProcessAggregate;
+using Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations;
 
 namespace Modules.Bpm.Infra.Db.Contexts.BpmDbContext.EntityTypeConfigurations;
 

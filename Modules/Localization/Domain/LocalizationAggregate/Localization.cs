@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Haskap.DddBase.Domain.Common;
+using Haskap.DddBase.Domain;
 
 namespace Modules.Localization.Domain.LocalizationAggregate;
 

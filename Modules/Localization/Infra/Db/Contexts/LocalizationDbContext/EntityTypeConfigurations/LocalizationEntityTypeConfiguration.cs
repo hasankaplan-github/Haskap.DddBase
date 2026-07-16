@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations;
 
 namespace Modules.Localization.Infra.Db.Contexts.LocalizationDbContext.EntityTypeConfigurations;
 

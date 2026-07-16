@@ -1,4 +1,6 @@
-﻿namespace Modules.Bpm.Domain.ProcessAggregate;
+﻿using Haskap.DddBase.Domain;
+
+namespace Modules.Bpm.Domain.ProcessAggregate;
 
 public class PathRole : Entity
 {

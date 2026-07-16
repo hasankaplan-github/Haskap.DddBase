@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Modules.Tenants.Domain.TenantAggregate;
+using Haskap.DddBase.Infra.Db.Contexts.EfCoreContext.EntityTypeConfigurations;
 
 namespace Modules.Tenants.Infra.Db.Contexts.TenantsDbContext.EntityTypeConfigurations;
 
