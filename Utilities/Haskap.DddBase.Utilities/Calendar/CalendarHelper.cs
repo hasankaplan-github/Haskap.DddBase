@@ -3,30 +3,31 @@
 namespace Haskap.DddBase.Utilities.Calendar;
 public class CalendarHelper
 {
-    private static readonly Dictionary<(int HijriYear, int HijriMonth), int> s_hijriAdjsutmentsForTurkiye = new()
+    public static readonly Dictionary<(int HijriYear, int HijriMonth), int> HijriAdjsutmentsForTurkiye = new()
     {
         // Format: { (HijriYear, HijriMonth), Offset }
         { (1447, 10), -1 }, // 2026 March
         { (1447, 12), -1 }, // 2026 May
+        { (1448, 10), 0 },
+        { (1448, 12), 0 },
+        { (1449, 10), 0 },
         { (1449, 12), -1 },  // 2028 May
+        { (1450, 10), 0 },
         { (1450, 12), -1 },  // 2029 April
+        { (1451, 10), 0 },
+        { (1451, 12), 0 },
+        { (1452, 10), 0 },
+        { (1452, 12), 0 },
         { (1453, 10), -1 },   // 2032 January
         { (1453, 12), -1 },   // 2032 March
+        { (1454, 10), 0 },
+        { (1454, 12), 0 },
         { (1455, 10), -1 },   // 2033 December
         { (1455, 12), -1 },   // 2034 March
         { (1456, 10), -1 },   // 2034 December
         { (1456, 12), -1 },    // 2035 February
+        { (1457, 10), 0 },
     };
-
-    public static int GetHijriAdjustmentForTurkiyeByHijriYearAndMonth(int hijriYear, int hijriMonth)
-    {
-        if (s_hijriAdjsutmentsForTurkiye.TryGetValue((hijriYear, hijriMonth), out var hijriAdjustment))
-        {
-            return hijriAdjustment;
-        }
-
-        return 0;
-    }
 
     public static IEnumerable<int> GetHijriYears(int year)
     {
@@ -90,21 +91,5 @@ public class CalendarHelper
     public static int GetMonthCountBetweenTwoDates(DateOnly startDate, DateOnly endDate)
     {
         return ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month + 1;
-    }
-
-    public static DateTime HijriToGrogerianDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
-    {
-        var hijriCalendar = new HijriCalendar();
-        var dateTime = hijriCalendar.ToDateTime(year, month, day, hour, minute, second, millisecond);
-
-        return dateTime;
-    }
-
-    public static DateTime HijriToGrogerianDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int era)
-    {
-        var hijriCalendar = new HijriCalendar();
-        var dateTime = hijriCalendar.ToDateTime(year, month, day, hour, minute, second, millisecond, era);
-
-        return dateTime;
     }
 }

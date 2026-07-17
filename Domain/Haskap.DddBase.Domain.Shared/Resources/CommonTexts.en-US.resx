@@ -135,4 +135,7 @@
   <data name="Weekend" xml:space="preserve">
     <value>Weekend</value>
   </data>
+  <data name="RequiresVerification" xml:space="preserve">
+    <value>Requires Verification</value>
+  </data>
 </root>

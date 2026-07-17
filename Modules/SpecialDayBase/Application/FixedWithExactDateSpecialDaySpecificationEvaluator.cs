@@ -22,6 +22,8 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
 
         var localizedEveDay = commonTextsLocalizer["EveDay"];
         var localizedDay = commonTextsLocalizer["Day"];
+        var localizedRequiresVerification = $"({commonTextsLocalizer["RequiresVerification"]})";
+        var requiresVerificationText = string.Empty;
 
         List<SpecialDayOutputDto> specialDayDtos = [];
 
@@ -31,7 +33,17 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
             var hijriYears = CalendarHelper.GetHijriYears(year);
             foreach (var hijriYear in hijriYears)
             {
-                hijriCalendar.HijriAdjustment = CalendarHelper.GetHijriAdjustmentForTurkiyeByHijriYearAndMonth(hijriYear, specialDaySpecification.Month);
+                if (CalendarHelper.HijriAdjsutmentsForTurkiye.TryGetValue((hijriYear, specialDaySpecification.Month), out var hijriAdjustment))
+                {
+                    hijriCalendar.HijriAdjustment = hijriAdjustment;
+                    requiresVerificationText = string.Empty;
+                }
+                else
+                {
+                    hijriCalendar.HijriAdjustment = 0;
+                    requiresVerificationText = localizedRequiresVerification;
+                }
+
                 var dateTime = hijriCalendar.ToDateTime(hijriYear, specialDaySpecification.Month, specialDaySpecification.Day!.Value, 0, 0, 0, 0);
 
                 if (specialDaySpecification.HasEveDay)
@@ -45,7 +57,7 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
                             Date = eveDay,
                             Group = specialDaySpecification.Group,
                             IsHoliday = specialDaySpecification.IsHoliday,
-                            Name = specialDaySpecification.GetLocalizedName().Value + " " + localizedEveDay,
+                            Name = $"{specialDaySpecification.GetLocalizedName().Value} {localizedEveDay} {requiresVerificationText}",
                             IsEveDay = true,
                             EveDayDuration = specialDaySpecification.EveDayDuration
                         });
@@ -64,7 +76,7 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
                         Date = DateOnly.FromDateTime(dateTime),
                         Group = specialDaySpecification.Group,
                         IsHoliday = specialDaySpecification.IsHoliday,
-                        Name = specialDaySpecification.GetLocalizedName().Value
+                        Name = $"{specialDaySpecification.GetLocalizedName().Value} {requiresVerificationText}"
                     });
                 }
                 else
@@ -80,7 +92,7 @@ public class FixedWithExactDateSpecialDaySpecificationEvaluator(IServiceScopeFac
                                 Date = day,
                                 Group = specialDaySpecification.Group,
                                 IsHoliday = specialDaySpecification.IsHoliday,
-                                Name = string.Format("{0} {1}. {2}", specialDaySpecification.GetLocalizedName().Value, i + 1, localizedDay)
+                                Name = $"{specialDaySpecification.GetLocalizedName().Value} {i + 1}. {localizedDay} {requiresVerificationText}"
                             });
                         }
                     }

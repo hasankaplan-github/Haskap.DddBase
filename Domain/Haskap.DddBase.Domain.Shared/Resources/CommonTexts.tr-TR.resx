@@ -135,4 +135,7 @@
   <data name="Weekend" xml:space="preserve">
     <value>Haftasonu</value>
   </data>
+  <data name="RequiresVerification" xml:space="preserve">
+    <value>Doğrulama Gerektirir</value>
+  </data>
 </root>
