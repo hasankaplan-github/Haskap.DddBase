@@ -15,8 +15,8 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
     public int? Day { get; private set; } = null;
     public DayOfWeek? DayOfWeek { get; private set; } = null;
     public SpecialDayOccurrenceInAMonth? Occurrence { get; private set; } = null;
-    private List<Name> _names = new();
     public IReadOnlyList<Name> Names => _names.AsReadOnly();
+    private List<Name> _names = [];
     public bool HasEveDay { get; private set; }
     public EveDayDuration EveDayDuration { get; private set; }
     public int LengthInDays { get; private set; }
@@ -27,7 +27,13 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
     public int? YearBelongsTo { get; private set; }
     public bool UseHijriCalendar { get; private set; }
     public Guid? TenantId { get; set; }
-    
+
+
+    public bool IsFixedAndOccurrenceBased => IsFixed && IsOccurrenceBased;
+    public bool IsFixedWithExactDate => IsFixed && !IsOccurrenceBased;
+    public bool IsOneTimeAndOccurrenceBased => !IsFixed && IsOccurrenceBased;
+    public bool IsOneTimeWithExactDate => !IsFixed && !IsOccurrenceBased;
+
 
     private SpecialDaySpecification()
     {
@@ -177,9 +183,4 @@ public class SpecialDaySpecification : AggregateRoot, IHasMultiTenant
             ?? Names.Where(x => x.Locale == Locale.Default).FirstOrDefault()
             ?? Names.First();
     }
-
-    public bool IsFixedAndOccurrenceBased => IsFixed && IsOccurrenceBased;
-    public bool IsFixedWithExactDate => IsFixed && !IsOccurrenceBased;
-    public bool IsOneTimeAndOccurrenceBased => !IsFixed && IsOccurrenceBased;
-    public bool IsOneTimeWithExactDate => !IsFixed && !IsOccurrenceBased;
 }
