@@ -161,7 +161,7 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
                 DisplayTexts = longWeekendDayDisplayTexts
             });
 
-            var longWeekendDaysBefore = GetLongWeekendDaysBefore(holiday, holidays);
+            var longWeekendDaysBefore = GetLongWeekendDaysBefore(holiday.Date, holidays);
             foreach (var longWeekendDayBefore in longWeekendDaysBefore)
             {
                 var existingLongWeekendDayBefore = longWeekendDays.FirstOrDefault(x => x.Date == longWeekendDayBefore.Date);
@@ -181,7 +181,7 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
                 longWeekendDays.Add(longWeekendDayBefore);
             }
 
-            var longWeekendDaysAfter = GetLongWeekendDaysAfter(holiday, holidays);
+            var longWeekendDaysAfter = GetLongWeekendDaysAfter(holiday.Date, holidays);
             foreach (var longWeekendDayAfter in longWeekendDaysAfter)
             {
                 var existingLongWeekendDayAfter = longWeekendDays.FirstOrDefault(x => x.Date == longWeekendDayAfter.Date);
@@ -207,15 +207,15 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
         return longWeekendDays;
     }
 
-    private List<LongWeekendDayOutputDto> GetLongWeekendDaysBefore(SpecialDayOutputDto holiday, IList<SpecialDayOutputDto> holidays)
+    private List<LongWeekendDayOutputDto> GetLongWeekendDaysBefore(DateOnly holidayDate, IList<SpecialDayOutputDto> holidays)
     {
         var longWeekendDays = new List<LongWeekendDayOutputDto>();
 
-        var previousDayCount = (int)holiday.Date.DayOfWeek - ((int)WeekendProvider!.FirstWeekendDay + 1);
+        var previousDayCount = (int)holidayDate.DayOfWeek - ((int)WeekendProvider!.FirstWeekendDay + 1);
 
         for (int i = 1; i <= previousDayCount; i++)
         {
-            var previousDayDate = holiday.Date.AddDays(-i);
+            var previousDayDate = holidayDate.AddDays(-i);
             var existingHolidays = holidays.Where(x => x.Date == previousDayDate).ToList();
 
             var isHoliday = existingHolidays.Any();
@@ -251,7 +251,7 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
         }
 
 
-        var previousHolidayDate = holiday.Date.AddDays(-(++previousDayCount));
+        var previousHolidayDate = holidayDate.AddDays(-(++previousDayCount));
         while (IsWeekend(previousHolidayDate) || holidays.Any(x => x.Date == previousHolidayDate))
         {
             var isWeekend = IsWeekend(previousHolidayDate);
@@ -283,22 +283,22 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
                 DisplayTexts = displayTexts
             });
 
-            previousHolidayDate = holiday.Date.AddDays(-(++previousDayCount));
+            previousHolidayDate = holidayDate.AddDays(-(++previousDayCount));
         }
 
         return longWeekendDays;
     }
 
-    private List<LongWeekendDayOutputDto> GetLongWeekendDaysAfter(SpecialDayOutputDto holiday, IList<SpecialDayOutputDto> holidays)
+    private List<LongWeekendDayOutputDto> GetLongWeekendDaysAfter(DateOnly holidayDate, IList<SpecialDayOutputDto> holidays)
     {
         var longWeekendDays = new List<LongWeekendDayOutputDto>();
 
-        var nextDayCount = (int)WeekendProvider!.LastWeekendDay - ((int)holiday.Date.DayOfWeek + 1);
+        var nextDayCount = (int)WeekendProvider!.LastWeekendDay - ((int)holidayDate.DayOfWeek + 1);
         nextDayCount = nextDayCount < 0 ? nextDayCount + 7 : nextDayCount;
 
         for (int i = 1; i <= nextDayCount; i++)
         {
-            var nextDayDate = holiday.Date.AddDays(i);
+            var nextDayDate = holidayDate.AddDays(i);
             var existingHolidays = holidays.Where(x => x.Date == nextDayDate).ToList();
 
             var isHoliday = existingHolidays.Any();
@@ -333,7 +333,7 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
             });
         }
 
-        var nextHolidayDate = holiday.Date.AddDays(++nextDayCount);
+        var nextHolidayDate = holidayDate.AddDays(++nextDayCount);
         while (IsWeekend(nextHolidayDate) || holidays.Any(x => x.Date == nextHolidayDate))
         {
             var isWeekend = IsWeekend(nextHolidayDate);
@@ -366,27 +366,15 @@ public abstract class SpecialDayCalendarProvider : ISpecialDayCalendarProvider
                 DisplayTexts = displayTexts
             });
 
-            nextHolidayDate = holiday.Date.AddDays(++nextDayCount);
+            nextHolidayDate = holidayDate.AddDays(++nextDayCount);
         }
 
         // tatil önceki haftaiçinde başlamış ve sonraki haftaiçinde bitmişse,
         // sonraki haftasonuna kadar veya bir sonraki tatile kadar longweekend olarak işaretle
-        var previousHolidayDate = holiday.Date.AddDays(nextDayCount - 1);
-        if (!IsWeekend(previousHolidayDate))
+        var lastDayOfHoliday = holidayDate.AddDays(nextDayCount - 1); // tatilin son günü
+        if (!IsWeekend(lastDayOfHoliday)) // tatilin son günü haftaiçine denk gelmişse
         {
-            while(!IsWeekend(nextHolidayDate) && !holidays.Any(x => x.Date == nextHolidayDate))
-            {
-                longWeekendDays.Add(new LongWeekendDayOutputDto
-                {
-                    Date = nextHolidayDate,
-                    IsHoliday = false,
-                    IsWeekend = false,
-                    WorkDuration = LongWeekendDayWorkDuration.FullWorkDay,
-                    DisplayTexts = [Localizer["WorkDay"]]
-                });
-
-                nextHolidayDate = holiday.Date.AddDays(++nextDayCount);
-            }
+            longWeekendDays.AddRange(GetLongWeekendDaysAfter(lastDayOfHoliday, holidays));
         }
 
         return longWeekendDays;
