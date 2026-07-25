@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Haskap.DddBase.Presentation;
 
-public static class HttpContextExtensions
+public static class FindTenantIdExtensions
 {
     public static Guid? FindTenantId(this HttpContext? httpContext)
     {

@@ -2,7 +2,7 @@
 using System.Security.Claims;
 
 namespace Haskap.DddBase.Presentation;
-public static class ClaimsPrincipalExtensions
+public static class FindUserIdExtensions
 {
     public static bool TryFindUserId(this ClaimsPrincipal? user, out Guid userId)
     {

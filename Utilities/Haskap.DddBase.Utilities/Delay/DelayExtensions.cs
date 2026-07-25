@@ -1,9 +1,15 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Haskap.DddBase.Utilities.ExtensionMethods;
+namespace Haskap.DddBase.Utilities.Delay;
 
-public static class TimeSpanExtensionMethods
+public static class DelayExtensions
 {
+    public static TimeSpan SecondsDelay(this int seconds)
+    {
+        return TimeSpan.FromSeconds(seconds);
+        // usage: await 2.SecondsDelay();
+    }
+
     public static TaskAwaiter GetAwaiter(this TimeSpan timeSpan, CancellationToken cancellationToken = default)
     {
         return Task.Delay(timeSpan, cancellationToken).GetAwaiter();
