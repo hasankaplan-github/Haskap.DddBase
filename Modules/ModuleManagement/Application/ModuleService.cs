@@ -1,6 +1,7 @@
 ﻿using Haskap.DddBase.Application;
 using Haskap.DddBase.Domain.Events;
 using Haskap.DddBase.Domain.Providers;
+using Haskap.DddBase.Domain.Shared;
 using Haskap.DddBase.Utilities.Guids;
 using Haskap.DddBase.Utilities.Module;
 using Microsoft.EntityFrameworkCore;
@@ -86,12 +87,24 @@ public class ModuleService : UseCaseService, IModuleService
             cacheEntry.AddExpirationToken(new CancellationChangeToken(tenantCts!.Token));
             cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
-            //var moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
-            await using var moduleManagementDbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-            var enabledModules = await moduleManagementDbContext.EnabledModule
-                .Where(x => x.TenantId == tenantId)
-                .Select(x => x.Name)
-                .ToListAsync(cancellationToken);
+            List<string> enabledModules = [];
+
+            if (AppConfig.UseInMemoryModuleManagementStore)
+            {
+                enabledModules = AppConfig.InMemoryEnabledModules
+                    .Where(x => x.TenantId == _currentTenantProvider.CurrentTenantId)
+                    .Select(x => x.Name)
+                    .ToList();
+            }
+            else
+            {
+                //var moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
+                await using var moduleManagementDbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+                enabledModules = await moduleManagementDbContext.EnabledModule
+                    .Where(x => x.TenantId == tenantId)
+                    .Select(x => x.Name)
+                    .ToListAsync(cancellationToken);
+            }
 
             var registeredModuleNames = GetModuleNamesRegisteredInSystem();
 
@@ -112,6 +125,42 @@ public class ModuleService : UseCaseService, IModuleService
         DetectInvalidModuleNamesAndThrowIfAny([.. input.CheckedModuleNames ?? Enumerable.Empty<string>(), .. input.UncheckedModuleNames ?? Enumerable.Empty<string>()]);
 
         using var _ = _currentTenantProvider.ChangeCurrentTenant(input.TenantId);
+
+        if (AppConfig.UseInMemoryModuleManagementStore)
+        {
+            await UpdateInMemoryEnabledModulesAsync(input, cancellationToken);
+        }
+        else
+        {
+            await UpdateInDbEnabledModulesAsync(input, cancellationToken);
+        }
+
+        var cacheKey = _baseCacheKeyProvider.GetTenantCancellationTokenSourceCacheKey(input.TenantId);
+        var existingTenantCts = _memoryCache.Get<CancellationTokenSource>(cacheKey);
+        existingTenantCts?.Cancel();
+
+        var tenantCts = new CancellationTokenSource();
+        _memoryCache.Set(cacheKey, tenantCts, new CancellationChangeToken(tenantCts.Token));
+
+        await _eventPublisher.PublishAsync(new EnabledModulesUpdatedIntegrationEvent(
+            input.TenantId,
+            input.UncheckedModuleNames,
+            input.CheckedModuleNames), cancellationToken);
+
+        void DetectInvalidModuleNamesAndThrowIfAny(List<string> updatedModuleNames)
+        {
+            var validModuleNames = GetModuleNamesRegisteredInSystem();
+            var hasInvalidModuleName = updatedModuleNames.Any(x => !validModuleNames.Contains(x));
+
+            if (hasInvalidModuleName)
+            {
+                throw new InvalidOperationException("Invalid module name detected.");
+            }
+        }
+    }
+
+    public async Task UpdateInDbEnabledModulesAsync(UpdateEnabledModulesInputDto input, CancellationToken cancellationToken)
+    {
         //var moduleManagementDbContext = _dbContextProvider.GetDbContext<IModuleManagementDbContext>();
         await using var moduleManagementDbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         using var transaction = await moduleManagementDbContext.Database.BeginTransactionAsync(cancellationToken);
@@ -132,18 +181,6 @@ public class ModuleService : UseCaseService, IModuleService
                 await moduleManagementDbContext.SaveChangesAsync(cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
-
-                var cacheKey = _baseCacheKeyProvider.GetTenantCancellationTokenSourceCacheKey(input.TenantId);
-                var existingTenantCts = _memoryCache.Get<CancellationTokenSource>(cacheKey);
-                existingTenantCts?.Cancel();
-
-                var tenantCts = new CancellationTokenSource();
-                _memoryCache.Set(cacheKey, tenantCts, new CancellationChangeToken(tenantCts.Token));
-
-                await _eventPublisher.PublishAsync(new EnabledModulesUpdatedIntegrationEvent(
-                    input.TenantId,
-                    input.UncheckedModuleNames,
-                    input.CheckedModuleNames), cancellationToken);
             }
         }
         catch (Exception)
@@ -151,17 +188,21 @@ public class ModuleService : UseCaseService, IModuleService
             await transaction.RollbackAsync(cancellationToken);
             throw;
         }
+    }
 
+    public async Task UpdateInMemoryEnabledModulesAsync(UpdateEnabledModulesInputDto input, CancellationToken cancellationToken)
+    {
+        var enabledModules = AppConfig.InMemoryEnabledModules
+            .Where(x => x.TenantId == _currentTenantProvider.CurrentTenantId)
+            .Select(x => new EnabledModule(id: Guid.Empty, name: x.Name) { TenantId = x.TenantId })
+            .ToList();
 
-        void DetectInvalidModuleNamesAndThrowIfAny(List<string> updatedModuleNames)
+        var isUpdated = UpdateEnabledModules(enabledModules, input.UncheckedModuleNames, input.CheckedModuleNames);
+
+        if (isUpdated)
         {
-            var validModuleNames = GetModuleNamesRegisteredInSystem();
-            var hasInvalidModuleName = updatedModuleNames.Any(x => !validModuleNames.Contains(x));
-
-            if (hasInvalidModuleName)
-            {
-                throw new InvalidOperationException("Invalid module name detected.");
-            }
+            AppConfig.InMemoryEnabledModules.RemoveAll(x => x.TenantId == _currentTenantProvider.CurrentTenantId);
+            AppConfig.InMemoryEnabledModules.AddRange(enabledModules.Select(x => (x.Name, x.TenantId)));
         }
     }
 

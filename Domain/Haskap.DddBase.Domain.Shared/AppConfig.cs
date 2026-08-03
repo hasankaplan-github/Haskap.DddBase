@@ -7,4 +7,6 @@ public static class AppConfig
     public static MultiTenancyType MultiTenancyType { get; set; } = MultiTenancyType.SharedDb;
     public static bool IsMultiTenant { get; set; } = false;
     public static IList<Type> LocalizationResourceTypes { get; set; } = [typeof(CommonTexts), typeof(ExceptionMessages)];
+    public static bool UseInMemoryModuleManagementStore { get; set; } = false;
+    public static List<(string Name, Guid? TenantId)> InMemoryEnabledModules { get; set; } = [];
 }
